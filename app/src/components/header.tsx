@@ -1,4 +1,4 @@
-import "../styles/header.css";
+import "../styles/header.scss";
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 import { FaSolidMagnifyingGlass } from "solid-icons/fa";
