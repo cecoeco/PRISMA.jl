@@ -115,28 +115,6 @@ function Header() {
                 </div>
             </div>
 
-            <div class="github-container">
-                <a
-                    class="github-repo-link"
-                    href="https://github.com/cecoeco/PRISMA.jl"
-                    target="_blank"
-                >
-                    <button class="github-repo-button">
-                        <FaBrandsGithub class="github-repo-icon" />
-                        <label class="github-repo-text">Star</label>
-                    </button>
-                </a>
-                <a
-                    class="github-stars-link"
-                    href="https://github.com/cecoeco/PRISMA.jl/stargazers"
-                    target="_blank"
-                >
-                    <button class="github-stars-button">
-                        <label class="github-stars-text">0</label>
-                    </button>
-                </a>
-            </div>
-
             <div class="theme-button-container">
                 <button
                     class="theme-button"
