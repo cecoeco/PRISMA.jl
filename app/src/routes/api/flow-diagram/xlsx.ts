@@ -1,3 +1,5 @@
+import XLSX from 'xlsx';
+
 interface FlowDiagramRow {
     node_id: number;
     node_tooltip: string;
@@ -261,18 +263,20 @@ const flowDiagramData: FlowDiagramRow[] = flow_diagram_df();
 
 export async function GET() {
     try {
-        const header = Object.keys(flowDiagramData[0]).join(',');
-        const rows = flowDiagramData.map(row => Object.values(row).join(','));
-        const csvData = `${header}\n${rows.join('\n')}`;
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(flowDiagramData);
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Flow Diagram');
         
-        return new Response(csvData, {
+        const xlsxData = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+        
+        return new Response(xlsxData, {
             headers: {
-                'Content-Type': 'text/csv',
-                'Content-Disposition': 'attachment; filename="flow_diagram.csv"'
+                'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition': 'attachment; filename="flow_diagram.xlsx"'
             }
         });
     } catch (error) {
-        console.error('Error generating CSV:', error);
+        console.error('Error generating XLSX:', error);
         return new Response(null, { status: 500 });
     }
 }

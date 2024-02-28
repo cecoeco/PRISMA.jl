@@ -10,10 +10,29 @@ function FlowDiagram() {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'data.csv';
+            link.download = 'flow_diagram.csv';
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         } catch (error) {
             console.error('Error downloading CSV:', error);
+        }
+    };
+
+    const downloadXLSX = async () => {
+        try {
+            const response = await fetch('/api/flow-diagram/xlsx');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'flow_diagram.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading XLSX:', error);
         }
     };
 
@@ -43,7 +62,8 @@ function FlowDiagram() {
                 <div class="upload-spreadsheet-options">
                     <div>
                         <button onClick={downloadCSV}>Download CSV</button>
-                        <button>Upload CSV</button>
+                        <button onClick={downloadXLSX}>Download XLSX</button>
+                        <button>Upload Spreadsheet</button>
                     </div>
                 </div>
                 <div>
