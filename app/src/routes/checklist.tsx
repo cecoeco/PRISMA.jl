@@ -2,7 +2,7 @@ import { Title } from "@solidjs/meta";
 
 function Checklist() {
 	return (
-		<div class="checklist">
+		<main class="checklist">
 			<Title>Checklist</Title>
 			<table>
 				<thead>
@@ -449,7 +449,7 @@ function Checklist() {
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</main>
 	);
 }
 

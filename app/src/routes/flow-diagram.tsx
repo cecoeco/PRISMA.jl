@@ -35,8 +35,30 @@ function FlowDiagram() {
             console.error('Error downloading XLSX:', error);
         }
     };
-
-    const [transparentBackground, setTransparentBackground] = createSignal(false);
+    
+    const uploadSpreadsheet = async (): Promise<void> => {
+        try {
+            const fileInput: HTMLInputElement | null = document.querySelector('input[type="file"]');
+            if (!fileInput) {
+                throw new Error("File input element not found");
+            }
+            const file: File | undefined = fileInput.files?.[0];
+            if (!file) {
+                throw new Error("No file selected");
+            }
+            const formData: FormData = new FormData();
+            formData.append('file', file);
+            await fetch('/api/flow-diagram/svg', {
+                method: 'POST',
+                body: formData
+            });
+            fileInput.value = '';
+        } catch (error) {
+            console.error('Error uploading data:', error);
+        }
+    };
+    
+    const [backgroundColor, setBackgroundColor] = createSignal(false);
     const [previousStudies, setPreviousStudies] = createSignal(true);
     const [otherMethods, setOtherMethods] = createSignal(true);
     const [grayBoxes, setGrayBoxes] = createSignal(true);
@@ -56,14 +78,15 @@ function FlowDiagram() {
     const [textColor, setTextColor] = createSignal("#000000");
 
     return (
-        <div class="flow-diagram">
+        <main class="flow-diagram">
             <Title>Flow Diagram</Title>
             <div>
                 <div class="upload-spreadsheet-options">
                     <div>
                         <button onClick={downloadCSV}>Download CSV</button>
                         <button onClick={downloadXLSX}>Download XLSX</button>
-                        <button>Upload Spreadsheet</button>
+                        <input type="file"></input>
+                        <button onClick={uploadSpreadsheet}>Upload Spreadsheet</button>
                     </div>
                 </div>
                 <div>
@@ -341,7 +364,7 @@ function FlowDiagram() {
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 

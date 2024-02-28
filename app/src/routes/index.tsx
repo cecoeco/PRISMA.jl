@@ -2,9 +2,9 @@ import { Title } from "@solidjs/meta";
 
 function Home() {
     return (
-        <div class="home">
+        <main class="home">
             <Title>Home</Title>
-        </div>
+        </main>
     );
 }
 

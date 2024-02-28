@@ -51,11 +51,11 @@ function Citation() {
     return (
         <>
             <Title>Citation</Title>
-            <div class="citation">
+            <main class="citation">
                 <button onClick={downloadBib}>Download BibTeX</button>
                 <button onClick={downloadEnl}>Download EndNote</button>
                 <button onClick={downloadRIS}>Download RIS</button>
-            </div>
+            </main>
         </>
     );
 }

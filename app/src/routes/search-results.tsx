@@ -2,9 +2,9 @@ import { Title } from "@solidjs/meta";
 
 function SearchResults() {
     return (
-        <div class="search-results">
+        <main class="search-results">
             <Title>Search Results</Title>
-        </div>
+        </main>
     );
 }
 
