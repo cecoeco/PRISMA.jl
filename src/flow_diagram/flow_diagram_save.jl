@@ -6,7 +6,7 @@ function flow_diagram_save(
     figure::Makie.Figure=flow_diagram(),
     name::String="figure",
     save_location::String=Base.pwd(),
-    save_format::String="png"
+    save_format::String="svg"
 )
     supported_formats = ["png", "jpg", "svg", "pdf", "html"]
     if !(save_format in supported_formats)
@@ -17,5 +17,3 @@ function flow_diagram_save(
 
     return Base.joinpath(save_location, "$name.$save_format")
 end
-
-flow_diagram_save()
