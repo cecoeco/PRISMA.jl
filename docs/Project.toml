@@ -1,0 +1,7 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+PRISMA = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
+
+[compat]
+Documenter = "0.26"
+PRISMA = "0.1.0"

@@ -1,7 +1,11 @@
 name = "PRISMA"
 uuid = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
-authors = ["Ceco E. Maples"]
-version = "0.0.1"
+keywords = ["meta-analysis", "systematic review", "research", "PRISMA"]
+license = "MIT"
+desc = "Generate checklists and flow diagrams for systematic reviews and meta-analyses based on the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) statement."
+authors = "Ceco E. Maples <mapleselijah9@gmail.com>"
+repo = "https://github.com/cecoeco/PRISMA.jl.git"
+version = "0.1.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -13,3 +17,12 @@ Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
 RPRMakie = "22d9f318-5e34-4b44-b769-6e3734a732a6"
 WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
