@@ -1,8 +1,10 @@
-<div align="center">
-    <b><h1>PRISMA.jl</h1></b>
+<div style="display: flex; align-items: center;">
+    <div>
+        <h1>PRISMA.jl</h1>
+        <p>PRISMA.jl is a Julia package with a web-based UI that generates checklists and flow diagrams for systematic reviews and meta-analyses based on the most recent <b>P</b>referred <b>R</b>eporting <b>I</b>tems for <b>S</b>ystematic <b>R</b>eviews and <b>M</b>eta-<b>A</b>nalyses (PRISMA) statement (<a href="https://doi.org/10.1186/s13643-021-01626-4">Page et al., 2021</a>).</p>
+    </div>
+    <img src="docs/src/assets/svg/favicon.svg" alt="logo" width="120" style="padding-right: 50px;">
 </div>
-
-PRISMA.jl is a Julia package with a web-based UI that generates checklists and flow diagrams for systematic reviews and meta-analyses based on the most recent <b>P</b>referred <b>R</b>eporting <b>I</b>tems for <b>S</b>ystematic <b>R</b>eviews and <b>M</b>eta-<b>A</b>nalyses (PRISMA) statement ([Page et al., 2021](https://doi.org/10.1186/s13643-021-01626-4)).
 
 ## Getting Started
 
@@ -27,11 +29,11 @@ data = PRISMA.flow_diagram_csv()
 df = PRISMA.flow_diagram_read(data)
 
 # 5. The flow_diagram() function turns data frames into 
-# flow diagrams that show the results a meta-analysis or systematic review.
+# flow diagrams that show the results of a meta-analysis or systematic review.
 figure = PRISMA.flow_diagram(df)
 
 # 6. The flow_diagram_save() function saves the figure and saves 
-# it in a format supported by Makie.jl, png is the default.
+# it in formats supported by Makie.jl, png is the default.
 PRISMA.flow_diagram_save(figure) 
 ```
 

@@ -1,3 +1,4 @@
+import "../scss/checklist.scss"
 import { Title } from "@solidjs/meta";
 
 function Checklist() {

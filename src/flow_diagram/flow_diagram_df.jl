@@ -1,9 +1,7 @@
 using DataFrames
 
 function flow_diagram_df()
-    flow_diagram_columns::Vector{String} = [
-        "node_id","node_tooltip","node_text","num"
-    ]
+    flow_diagram_columns::Vector{String} = ["node_id","node_tooltip","node_text","num"]
     flow_diagram_rows::Vector{Tuple{Int64,String,String,Union{Int64,Missing}}} = [
         (1,"Previous studies","Previous studies",missing),
         (2,"Identification of new studies via databases and registers","Identification of new studies via databases and registers",missing),

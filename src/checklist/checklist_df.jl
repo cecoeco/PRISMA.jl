@@ -1,10 +1,7 @@
 using DataFrames
 
 function checklist_df()
-    checklist_columns::Vector{String} = [
-        "Section and Topic", "Item #", "Checklist Item", "Location where item is reported"
-    ]
-
+    checklist_columns::Vector{String} = ["Section and Topic", "Item #", "Checklist Item", "Location where item is reported"]
     checklist_rows::Vector{Tuple{Union{String,Missing},Union{String,Missing},Union{String,Missing},Union{String,Missing}}} = [
         ("TITLE", missing, missing, missing),
         ("Title", "1", "Identify the report as a systematic review", missing),
@@ -56,9 +53,7 @@ function checklist_df()
         ("Competing interests", "26", "Identify the report as a systematic review", missing),
         ("Availability of data, code and other materials", "27", "Report which of the following are publicly available and where they can be found: template data collection forms; data extracted from included studies; data used for all analyses; analytic code; any other materials used in the review.", missing)
     ]
-
     _checklist_df_::DataFrame = DataFrames.DataFrame(checklist_rows) |>
         (df -> DataFrames.rename(df, Base.Symbol.(checklist_columns)))
     return _checklist_df_
-
 end
