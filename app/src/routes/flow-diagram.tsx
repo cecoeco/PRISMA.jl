@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import { Title } from "@solidjs/meta";
+import jsPDF from 'jspdf';
 
 function FlowDiagram() {
     const downloadCSV = async () => {
@@ -36,21 +37,6 @@ function FlowDiagram() {
         }
     };
     
-    const [svgData, setSvgData] = createSignal('');
-    const uploadSpreadsheet = async () => {
-        try {
-            const formData = new FormData();
-            const response = await fetch('/api/flow-diagram/svg', {
-                method: 'POST',
-                body: formData
-            });
-            const svg = await response.text();
-            setSvgData(svg);
-        } catch (error) {
-            console.error('Error uploading spreadsheet:', error);
-        }
-    };
-    
     const [backgroundColor, setBackgroundColor] = createSignal(false);
     const [previousStudies, setPreviousStudies] = createSignal(true);
     const [otherMethods, setOtherMethods] = createSignal(true);
@@ -70,6 +56,124 @@ function FlowDiagram() {
     const [textSize, setTextSize] = createSignal("10");
     const [textColor, setTextColor] = createSignal("#000000");
     const [formatNumbers, setFormatNumbers] = createSignal(true);
+
+    const [svgData, setSvgData] = createSignal('');
+    const uploadSpreadsheet = async () => {
+        try {
+            const formData = new FormData();
+            const response = await fetch('/api/flow-diagram/svg', {
+                method: 'POST',
+                body: formData
+            });
+            const svg = await response.text();
+            setSvgData(svg);
+        } catch (error) {
+            console.error('Error uploading spreadsheet:', error);
+        }
+    };
+
+    const downloadSVG = () => {
+        const svgElement: SVGSVGElement | null = document.querySelector('.figure-container svg');
+        if (!svgElement) return;
+        
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'flow_diagram.svg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const downloadJPG = () => {
+        const svgElement: SVGSVGElement | null = document.querySelector('.figure-container svg');
+        if (!svgElement) return;
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+
+        const canvas = document.createElement('canvas');
+        const svgSize = svgElement.getBoundingClientRect();
+        canvas.width = svgSize.width;
+        canvas.height = svgSize.height;
+
+        const img = new Image();
+        img.onload = function () {
+            const ctx = canvas.getContext('2d');
+            ctx?.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL('image/jpeg');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'flow_diagram.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    };
+
+    const downloadPNG = () => {
+        const svgElement = document.querySelector('.figure-container svg') as SVGElement | null;
+        if (!svgElement) return;
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+
+        const canvas = document.createElement('canvas');
+        const svgSize = svgElement.getBoundingClientRect();
+        canvas.width = svgSize.width;
+        canvas.height = svgSize.height;
+
+        const img = new Image();
+        img.onload = function () {
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'flow_diagram.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    };
+
+    const downloadPDF = () => {
+        const svgElement = document.querySelector('.figure-container svg') as SVGElement | null;
+        if (!svgElement) return;
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+
+        const canvas = document.createElement('canvas');
+        const svgSize = svgElement.getBoundingClientRect();
+        canvas.width = svgSize.width;
+        canvas.height = svgSize.height;
+
+        const img = new Image();
+        img.onload = function () {
+            const pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);
+            pdf.addImage(img, 0, 0, canvas.width, canvas.height);
+            pdf.save('flow_diagram.pdf');
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    };
+
+    const downloadHTML = () => {
+        const svgElement = document.querySelector('.figure-container svg') as SVGElement | null;
+        if (!svgElement) return;
+
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'flow_diagram.html';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     return (
         <>
@@ -351,11 +455,11 @@ function FlowDiagram() {
                         </div>
                         <div>
                             <h3>Download</h3>
-                            <button>SVG</button>
-                            <button>JPG</button>
-                            <button>PNG</button>
-                            <button>PDF</button>
-                            <button>HTML</button>
+                                <button onClick={downloadSVG}>SVG</button>
+                                <button onClick={downloadJPG}>JPG</button>
+                                <button onClick={downloadPNG}>PNG</button>
+                                <button onClick={downloadPDF}>PDF</button>
+                                <button onClick={downloadHTML}>HTML</button>
                         </div>
                     </div>
                 </div>

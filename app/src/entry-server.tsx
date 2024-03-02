@@ -11,7 +11,7 @@ export default createHandler(() => (
                     <meta name="description" content="Generate checklists and flow diagrams for systematic reviews and meta-analyses." />
                     <meta name="author" content="Ceco E Maples" />
                     <meta name="keywords" content="PRISMA, systematic review, meta-analysis, checklist, flow diagram" />
-                    <link rel="icon" type="image/svg+xml" href="../public/svg/favicon.svg" />
+                    <link rel="icon" type="image/svg+xml" href="/svg/favicon.svg" />
                     {assets}
                 </head>
                 <body id="app">

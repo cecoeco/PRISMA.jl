@@ -1,8 +1,6 @@
 import "../scss/header.scss";
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
-import { BsSun } from "solid-icons/bs";
-import { BsMoon } from "solid-icons/bs";
 
 const Link = (props: any) => (
     <A
@@ -33,6 +31,15 @@ function Header() {
                         >
                             Home
                         </Link>
+                    </li>
+                    <li class="navbar-item">
+                        <a
+                            class="navbar-item-link"
+                            href="https://github.com/cecoeco/PRISMA.jl"
+                            target="_blank"
+                        >
+                            Documentation
+                        </a>
                     </li>
                     <li class="navbar-item">
                         <Link
@@ -93,9 +100,17 @@ function Header() {
                     onClick={toggleTheme}
                 >
                     {isLightTheme() ? (
-                        <BsSun class="theme-button-icon" />
+                        <img
+                            class="theme-button-icon"
+                            src="/svg/sun.svg"
+                            alt="sun icon for light mode"
+                        />
                     ) : (
-                        <BsMoon class="theme-button-icon" />
+                        <img
+                            class="theme-button-icon"
+                            src="/svg/moon.svg" 
+                            alt="moon icon for dark mode"
+                        />
                     )}
                 </button>
             </div>

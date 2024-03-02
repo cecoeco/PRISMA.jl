@@ -1,30 +1,30 @@
-using Pkg
-Pkg.add("PRISMA")
+using Pkg; Pkg.add("PRISMA")
+
 using PRISMA
 
 function flow_diagram_svg(
-    file_path::String,
-    format_numbers::Bool,
-    background_color::String,
-    grayboxes::Bool,
-    grayboxes_color::String,
-    top_nodes::Bool,
-    top_nodes_border::Bool,
-    top_nodes_color::String,
-    side_nodes::Bool,
-    side_nodes_border::Int,
-    side_nodes_color::String,
-    previous_studies::Bool,
-    other_methods::Bool,
-    node_border_width::Int,
-    node_border_color::String,
-    font::Int,
-    font_color::String,
-    font_size::Int,
-    arrow_color::String,
-    arrow_head::String,
-    arrow_head_size::Int,
-    arrow_width::Int
+    file_path::String=ARGS[1],
+    format_numbers::Bool=parse(Bool, ARGS[2]),
+    background_color::String=ARGS[3],
+    grayboxes::Bool=parse(Bool, ARGS[4]),
+    grayboxes_color::String=ARGS[5],
+    top_nodes::Bool=parse(Bool, ARGS[6]),
+    top_nodes_border::Bool=parse(Bool, ARGS[7]),
+    top_nodes_color::String=ARGS[8],
+    side_nodes::Bool=parse(Bool, ARGS[9]),
+    side_nodes_border::Int=parse(Int, ARGS[10]),
+    side_nodes_color::String=ARGS[11],
+    previous_studies::Bool=parse(Bool, ARGS[12]),
+    other_methods::Bool=parse(Bool, ARGS[13]),
+    node_border_width::Int=parse(Int, ARGS[14]),
+    node_border_color::String=ARGS[15],
+    font::Int=parse(Int, ARGS[16]),
+    font_color::String=ARGS[17],
+    font_size::Int=parse(Int, ARGS[18]),
+    arrow_color::String=ARGS[19],
+    arrow_head::String=ARGS[20],
+    arrow_head_size::Int=parse(Int, ARGS[21]),
+    arrow_width::Int=parse(Int, ARGS[22])
 )
     data_frame = PRISMA.flow_diagram_read(file_path)
     figure = PRISMA.flow_diagram(
@@ -51,35 +51,9 @@ function flow_diagram_svg(
         arrow_head_size=arrow_head_size,
         arrow_width=arrow_width
     )
-    flow_diagram_svg = PRISMA.flow_diagram_save(figure=figure, save_format="svg")
-    return flow_diagram_svg
+    flow_diagram_path = PRISMA.flow_diagram_save(figure=figure)
+    return flow_diagram_path
 end
 
-file_path = ARGS[1]
-
-println(
-    flow_diagram_svg(
-        file_path,
-        parse(Bool, ARGS[2]),
-        ARGS[3],
-        parse(Bool, ARGS[4]),
-        ARGS[5],
-        parse(Bool, ARGS[6]),
-        parse(Bool, ARGS[7]),
-        ARGS[8],
-        parse(Bool, ARGS[9]),
-        parse(Int, ARGS[10]),
-        ARGS[11],
-        parse(Bool, ARGS[12]),
-        parse(Bool, ARGS[13]),
-        parse(Int, ARGS[14]),
-        ARGS[15],
-        parse(Int, ARGS[16]),
-        ARGS[17],
-        parse(Int, ARGS[18]),
-        ARGS[19],
-        ARGS[20],
-        parse(Int, ARGS[21]),
-        parse(Int, ARGS[22])
-    )
-)
+svg = flow_diagram_svg()
+println(svg)

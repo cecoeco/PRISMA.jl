@@ -137,6 +137,7 @@ header {
     align-items: center;
     height: 100%;
     width: 100%;
+    color: #444;
     cursor: inherit;
 
     &:hover {
@@ -161,12 +162,11 @@ header {
     color: #444;
     background-color: inherit;
     border: none;
-    height: 50%;
+    height: 100%;
     width: 100%;
     cursor: pointer;
 }
 
 .theme-button-icon {
-    font-size: 1.5rem;
-    font-weight: bold;
+    height: 40%;
 }
