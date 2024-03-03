@@ -1,11 +1,8 @@
-
 <div align="center">
-<img src="docs/src/assets/svg/favicon.svg" alt="logo" width="110">
-<b><h1>PRISMA.jl</h1></b>
+<img src="docs/src/assets/svg/favicon.svg" alt="logo" width="130"><b><h1>PRISMA.jl</h1></b>
 </div>
 
 PRISMA.jl is a Julia package with a web-based UI that generates checklists and flow diagrams for systematic reviews and meta-analyses based on the most recent <b>P</b>referred <b>R</b>eporting <b>I</b>tems for <b>S</b>ystematic <b>R</b>eviews and <b>M</b>eta-<b>A</b>nalyses (PRISMA) statement ([Page et al., 2021](https://doi.org/10.1186/s13643-021-01626-4)).
-
 
 ## Getting Started
 

@@ -36,7 +36,24 @@ function FlowDiagram() {
             console.error('Error downloading XLSX:', error);
         }
     };
-    
+
+    const downloadJSON = async () => {
+        try {
+            const response = await fetch('api/flow-diagram/json');
+            const jsonData = await response.json();
+            const blob = new Blob([JSON.stringify(jsonData)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'flow_diagram.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading JSON:', error);
+        }
+    };
+
     const [backgroundColor, setBackgroundColor] = createSignal(false);
     const [previousStudies, setPreviousStudies] = createSignal(true);
     const [otherMethods, setOtherMethods] = createSignal(true);
@@ -183,6 +200,7 @@ function FlowDiagram() {
                     <div class="upload-spreadsheet-options">
                         <div>
                             <button onClick={downloadCSV}>Download CSV</button>
+                            <button onClick={downloadJSON}>Download JSON</button>
                             <button onClick={downloadXLSX}>Download XLSX</button>
                             <input type="file"></input>
                             <button onClick={uploadSpreadsheet}>Upload Spreadsheet</button>

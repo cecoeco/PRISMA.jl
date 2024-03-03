@@ -1,6 +1,6 @@
-using PRISMA
 using Test
+using PRISMA
+using DataFrames
 
-@testset "PRISMA" begin
-    
-end
+include("checklist.jl")
+include("flow_diagram.jl")

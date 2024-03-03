@@ -1,8 +1,8 @@
 using DataFrames
 
 function flow_diagram_df()
-    flow_diagram_columns::Vector{String} = ["node_id","node_tooltip","node_text","num"]
-    flow_diagram_rows::Vector{Tuple{Int64,String,String,Union{Int64,Missing}}} = [
+    names::Vector{String} = ["node_id","node_tooltip","node_text","num"]
+    rows::Vector{Tuple{Int64,String,String,Union{Int64,Missing}}} = [
         (1,"Previous studies","Previous studies",missing),
         (2,"Identification of new studies via databases and registers","Identification of new studies via databases and registers",missing),
         (3,"Identification of new studies via other methods","Identification of new studies via other methods",missing),
@@ -45,7 +45,6 @@ function flow_diagram_df()
         (22,"Reports exluded (via other methods)","Reason 2",000),
         (22,"Reports exluded (via other methods)","Reason 3",000)
     ]
-    _flow_diagram_df_::DataFrame = DataFrames.DataFrame(flow_diagram_rows) |>
-        (df -> DataFrames.rename(df, Base.Symbol.(flow_diagram_columns)))
-    return _flow_diagram_df_
+    df::DataFrame = DataFrames.DataFrame(rows, names)
+    return df
 end

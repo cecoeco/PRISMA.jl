@@ -1,14 +1,18 @@
 using JSON3
+using DataStructures
 
 include("checklist_df.jl")
 
 function checklist_json(save_location::String=Base.pwd(), filename::String="checklist")
-    df = checklist_df()
-    checklist_dictionary = Base.Dict{String,Any}()
-    for col in Base.names(df)
-        checklist_dictionary[col] = df[!, col]
-    end
-    JSON3.write("$save_location/$filename.json", checklist_dictionary)
-    Base.println("DataFrame successfully written to $save_location/$filename.json")
-    return "$save_location/$filename.json"
+    df::DataFrame = checklist_df()
+    path::String = Base.joinpath(save_location, "$filename.json")
+    dictionary::OrderedDict = DataStructures.OrderedDict(
+        "Section and Topic" => df[!, "Section and Topic"],
+        "Item #" => df[!, "Item #"],
+        "Checklist Item" => df[!, "Checklist Item"],
+        "Location where item is reported" => df[!, "Location where item is reported"]
+    )
+    JSON3.write(path, dictionary)
+    Base.println("DataFrame successfully written to" * path)
+    return path
 end

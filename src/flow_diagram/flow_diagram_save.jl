@@ -14,6 +14,5 @@ function flow_diagram_save(
     end
     Makie.save(Base.joinpath(save_location, "$name.$save_format"), figure)
     Base.println("Figure successfully saved to $(Base.joinpath(save_location, "$name.$save_format"))")
-
     return Base.joinpath(save_location, "$name.$save_format")
 end

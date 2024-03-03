@@ -1,4 +1,4 @@
-using Pkg; Pkg.add("PRISMA")
+using Pkg; Pkg.add(url="https://github.com/cecoeco/PRISMA.jl", rev="master")
 
 using PRISMA
 

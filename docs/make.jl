@@ -1,4 +1,5 @@
-using Documenter, PRISMA
+using Documenter
+using PRISMA
 
 makedocs(;
     modules=[PRISMA],
