@@ -1,13 +1,60 @@
-using Makie
-using CairoMakie
-using GLMakie
-using WGLMakie
-using RPRMakie
+"""
+    flow_diagram(
+        data::DataFrame=flow_diagram_df(),
+        format_numbers::Bool=true,
+        backend::String="CairoMakie",
+        background_color="#fff",
+        grayboxes::Bool=true,
+        grayboxes_color="#f0f0f0",
+        top_nodes::Bool=true,
+        top_nodes_border=false,
+        top_nodes_color="#ffc000",
+        side_nodes::Bool=true,
+        side_nodes_border=false,
+        side_nodes_color="#95cbff",
+        previous_studies::Bool=true,
+        other_methods::Bool=true,
+        node_border_width::Number=1,
+        node_border_color="#000",
+        font::String="Arial",
+        font_color="black",
+        font_size::Number=10,
+        arrow_color="black",
+        arrow_head=:utriangle,
+        arrow_head_size::Number=12,
+        arrow_width::Number=1
+    )
 
-include("flow_diagram_df.jl")
-include("../utils/formatting.jl")
-include("../utils/percentages.jl")
+Generates a flow diagram.
 
+# Arguments
+- `data::DataFrame`: The flow diagram dataframe.
+- `format_numbers::Bool`: Whether to format numbers in the dataframe.
+- `backend::String`: The backend to use for the flow diagram.
+- `background_color::String`: The background color of the flow diagram.
+- `grayboxes::Bool`: Whether to show gray boxes in the flow diagram.
+- `grayboxes_color::String`: The color of the gray boxes in the flow diagram.
+- `top_nodes::Bool`: Whether to show the top nodes in the flow diagram.
+- `top_nodes_border::Bool`: Whether to show the top nodes border in the flow diagram.
+- `top_nodes_color::String`: The color of the top nodes in the flow diagram.
+- `side_nodes::Bool`: Whether to show the side nodes in the flow diagram.
+- `side_nodes_border::Bool`: Whether to show the side nodes border in the flow diagram.
+- `side_nodes_color::String`: The color of the side nodes in the flow diagram.
+- `previous_studies::Bool`: Whether to show the previous studies in the flow diagram.
+- `other_methods::Bool`: Whether to show the other methods in the flow diagram.
+- `node_border_width::Number`: The width of the border of the nodes in the flow diagram.
+- `node_border_color::String`: The color of the border of the nodes in the flow diagram.
+- `font::String`: The font to use for the flow diagram.
+- `font_color::String`: The color of the font in the flow diagram.
+- `font_size::Number`: The size of the font in the flow diagram.
+- `arrow_color::String`: The color of the arrows in the flow diagram.
+- `arrow_head::Symbol`: The arrow head to use for the arrows in the flow diagram.
+- `arrow_head_size::Number`: The size of the arrow head in the flow diagram.
+- `arrow_width::Number`: The width of the arrow in the flow diagram.
+
+# Returns
+- `Makie.Figure`: The flow diagram figure.
+"""
 function flow_diagram(
     data::DataFrame=flow_diagram_df(),
     format_numbers::Bool=true,

@@ -1,7 +1,23 @@
-using Makie
+"""
+    flow_diagram_save(figure::Makie.Figure=flow_diagram(), name::String="figure", save_location::String=Base.pwd(), save_format::String="svg")
 
-include("flow_diagram.jl")
+Saves the flow diagram figure.
 
+# Arguments
+- `figure::Makie.Figure`: The flow diagram figure.
+- `name::String`: The name of the figure.
+- `save_location::String`: The directory to save the figure.
+- `save_format::String`: The format to save the figure as.
+
+# Returns
+- `String`: The path to the saved figure.
+
+# Examples
+```jldoctest
+julia> flow_diagram_save()
+"figure.svg"
+````
+"""
 function flow_diagram_save(
     figure::Makie.Figure=flow_diagram(),
     name::String="figure",

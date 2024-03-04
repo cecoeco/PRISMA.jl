@@ -1,17 +1,23 @@
-using DataFrames
-using CSV
-using XLSX
-using JSON3
+"""
+    flow_diagram_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing, format_numbers::Bool=false)
 
-include("../utils/formatting.jl")
+Reads the flow diagram dataframe from a CSV, XLSX, or JSON file.
 
+# Arguments
+- `file::String`: The path to the CSV, XLSX, or JSON file.
+- `excel_sheetname::Union{Nothing,String}`: The name of the sheet in the XLSX file.
+- `format_numbers::Bool`: Whether to format numbers in the dataframe.
+
+# Returns
+- `DataFrame`: The flow diagram dataframe.
+"""
 function flow_diagram_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing, format_numbers::Bool=false)
-    ext = Base.lowercase(Base.splitext(file)[2])
+    ext::String = Base.lowercase(Base.splitext(file)[2])
     if ext == ".csv"
         df = CSV.read(file, DataFrame)
         Base.println("DataFrame successfully read from $file")
     elseif ext == ".xlsx"
-        if isnothing(excel_sheetname)
+        if Base.isnothing(excel_sheetname)
             df = XLSX.readtable(file, "flow_diagram") |> DataFrame
         else
             df = XLSX.readtable(file, excel_sheetname) |> DataFrame
@@ -23,7 +29,7 @@ function flow_diagram_read(file::String="", excel_sheetname::Union{Nothing,Strin
     else
         Base.throw(Base.ArgumentError("Unsupported file format: $ext"))
     end
-    if format_numbers
+    if format_numbers == true
         df = format_dataframe(df)
     end
     return df

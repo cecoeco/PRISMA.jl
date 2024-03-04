@@ -1,5 +1,8 @@
-using DataFrames
+"""
+    flow_diagram_df()
 
+Returns the flow diagram dataframe.
+"""
 function flow_diagram_df()
     names::Vector{String} = ["node_id","node_tooltip","node_text","num"]
     rows::Vector{Tuple{Int64,String,String,Union{Int64,Missing}}} = [

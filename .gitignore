@@ -49,3 +49,6 @@ Manifest.toml
 
 # For MacOS
 .DS_Store
+
+# SCSS compilation
+*.css

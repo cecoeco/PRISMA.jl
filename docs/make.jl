@@ -1,20 +1,15 @@
 using Documenter
 using PRISMA
 
-makedocs(;
+Documenter.makedocs(;
     modules=[PRISMA],
     format=Documenter.HTML(),
-    pages=[
-        "Home" => "index.md",
-        "Guide" => "guide.md",
-        "API" => "api.md",
-    ],
+    pages=["index.md"],
     repo="https://github.com/cecoeco/PRISMA.jl",
     sitename="PRISMA.jl",
-    authors="Ceco E. Maples",
-    assets=[],
+    authors="Ceco E. Maples"
 )
 
-deploydocs(;
-    repo="github.com/cecoeco/PRISMA.jl",
+Documenter.deploydocs(;
+    repo="github.com/cecoeco/PRISMA.jl.git",
 )

@@ -1,7 +1,22 @@
-using XLSX
+"""
+    checklist_xlsx(save_location::String=Base.pwd(), filename::String="checklist", sheetname::String="checklist")
 
-include("checklist_df.jl")
+Writes the checklist dataframe to an XLSX file.
 
+# Arguments
+- `save_location::String`: The directory to save the XLSX file.
+- `filename::String`: The name of the XLSX file.
+- `sheetname::String`: The name of the sheet in the XLSX file.
+
+# Returns
+- `String`: The path to the XLSX file.
+
+# Examples
+```jldoctest
+julia> checklist_xlsx()
+"checklist.xlsx"
+```
+"""
 function checklist_xlsx(save_location::String=Base.pwd(), filename::String="checklist", sheetname::String="checklist")
     df::DataFrame = checklist_df()
     path::String = Base.joinpath(save_location, "$filename.xlsx")

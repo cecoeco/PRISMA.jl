@@ -1,15 +1,22 @@
-using DataFrames
-using CSV
-using XLSX
-using JSON3
+"""
+    checklist_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing)
 
-function checklist_read(file="", excel_sheetname::Union{Nothing,String}=nothing)
-    ext = Base.lowercase(Base.splitext(file)[2])
+Reads the checklist dataframe from a CSV, XLSX, or JSON file.
+
+# Arguments
+- `file::String`: The path to the CSV, XLSX, or JSON file.
+- `excel_sheetname::Union{Nothing,String}`: The name of the sheet in the XLSX file.
+
+# Returns
+- `DataFrame`: The checklist dataframe.
+"""
+function checklist_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing)
+    ext::String = Base.lowercase(Base.splitext(file)[2])
     if ext == ".csv"
         df = CSV.read(file, DataFrame)
         Base.println("DataFrame successfully read from $file")
     elseif ext == ".xlsx"
-        if isnothing(excel_sheetname)
+        if Base.isnothing(excel_sheetname)
             df = XLSX.readtable(file, "checklist") |> DataFrame
         else
             df = XLSX.readtable(file, excel_sheetname) |> DataFrame

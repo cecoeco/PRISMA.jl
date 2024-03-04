@@ -26,8 +26,8 @@ function flow_diagram_svg(
     arrow_head_size::Int=parse(Int, ARGS[21]),
     arrow_width::Int=parse(Int, ARGS[22])
 )
-    data_frame = PRISMA.flow_diagram_read(file_path)
-    figure = PRISMA.flow_diagram(
+    data_frame::DataFrame = PRISMA.flow_diagram_read(file_path)
+    figure::Makie.Figure = PRISMA.flow_diagram(
         data=data_frame,
         format_numbers=format_numbers,
         transparent_background=background_color,
@@ -51,9 +51,9 @@ function flow_diagram_svg(
         arrow_head_size=arrow_head_size,
         arrow_width=arrow_width
     )
-    flow_diagram_path = PRISMA.flow_diagram_save(figure=figure)
+    flow_diagram_path::String = PRISMA.flow_diagram_save(figure=figure)
     return flow_diagram_path
 end
 
-svg = flow_diagram_svg()
+svg::String = flow_diagram_svg()
 println(svg)

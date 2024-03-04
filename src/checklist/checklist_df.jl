@@ -1,5 +1,8 @@
-using DataFrames
+"""
+    checklist_df()
 
+Returns the checklist dataframe.
+"""
 function checklist_df()
     names::Vector{String} = ["Section and Topic", "Item #", "Checklist Item", "Location where item is reported"]
     rows::Vector{Tuple{Union{String,Missing},Union{String,Missing},Union{String,Missing},Union{String,Missing}}} = [
