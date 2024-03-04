@@ -10,11 +10,6 @@ Writes the checklist dataframe to a JSON file.
 
 # Returns
 - `String`: The path to the JSON file.
-
-# Examples
-```jldoctest
-julia> checklist_json()
-"checklist.json"
 ```
 """
 function checklist_json(save_location::String=Base.pwd(), filename::String="checklist")

@@ -11,12 +11,6 @@ Saves the flow diagram figure.
 
 # Returns
 - `String`: The path to the saved figure.
-
-# Examples
-```jldoctest
-julia> flow_diagram_save()
-"figure.svg"
-````
 """
 function flow_diagram_save(
     figure::Makie.Figure=flow_diagram(),

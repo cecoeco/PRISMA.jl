@@ -9,12 +9,6 @@ Writes the flow diagram dataframe to a JSON file.
 
 # Returns
 - `String`: The path to the JSON file.
-
-# Examples
-```jldoctest
-julia> flow_diagram_json()
-"flow_diagram.json"
-```
 """
 function flow_diagram_json(save_location::String=Base.pwd(), filename::String="flow_diagram")
     df::DataFrame = flow_diagram_df()

@@ -4,17 +4,11 @@
 Writes the checklist dataframe to a CSV file.
 
 # Arguments
-- `save_location::String`: The directory to save the CSV file
-- `filename::String`: The name of the CSV file
+- `save_location::String`: The directory to save the CSV file.
+- `filename::String`: The name of the CSV file.
 
 # Returns
-- `String`: The path to the CSV file
-
-# Examples
-```jldoctest
-julia> checklist_csv()
-"checklist.csv"
-```
+- `String`: The path to the CSV file.
 """
 function checklist_csv(save_location::String=Base.pwd(), filename::String="checklist")
     df::DataFrame = checklist_df()

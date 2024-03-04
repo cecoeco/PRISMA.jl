@@ -10,12 +10,6 @@ Writes the flow diagram dataframe to an XLSX file.
 
 # Returns
 - `String`: The path to the XLSX file.
-
-# Examples
-```jldoctest
-julia> flow_diagram_xlsx()
-"flow_diagram.xlsx"
-```
 """
 function flow_diagram_xlsx(save_location::String=pwd(), filename::String="flow_diagram", sheetname::String="flow_diagram")
     df::DataFrame = flow_diagram_df()

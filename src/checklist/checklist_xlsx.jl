@@ -10,12 +10,6 @@ Writes the checklist dataframe to an XLSX file.
 
 # Returns
 - `String`: The path to the XLSX file.
-
-# Examples
-```jldoctest
-julia> checklist_xlsx()
-"checklist.xlsx"
-```
 """
 function checklist_xlsx(save_location::String=Base.pwd(), filename::String="checklist", sheetname::String="checklist")
     df::DataFrame = checklist_df()

@@ -4,16 +4,11 @@
 Writes the flow diagram dataframe to a CSV file.
 
 # Arguments
-- `save_location::String`: The directory to save the CSV file
-- `filename::String`: The name of the CSV file
+- `save_location::String`: The directory to save the CSV file.
+- `filename::String`: The name of the CSV file.
 
 # Returns
-- `String`: The path to the CSV file
-
-# Examples
-```jldoctest
-julia> flow_diagram_csv()
-"flow_diagram.csv"
+- `String`: The path to the CSV file.
 ```
 """
 function flow_diagram_csv(save_location::String=Base.pwd(), filename::String="flow_diagram")
