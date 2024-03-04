@@ -9,7 +9,6 @@ Writes the flow diagram dataframe to a CSV file.
 
 # Returns
 - `String`: The path to the CSV file.
-```
 """
 function flow_diagram_csv(save_location::String=Base.pwd(), filename::String="flow_diagram")
     df::DataFrame = flow_diagram_df()

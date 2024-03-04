@@ -94,7 +94,7 @@ function flow_diagram(
     end
 
     if format_numbers
-        data = format_dataframe(data)
+        data = format_df(data)
     end
     
     canvas_height::Number = 850

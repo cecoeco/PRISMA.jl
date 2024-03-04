@@ -4,10 +4,10 @@ using PRISMA
 Documenter.makedocs(;
     modules=[PRISMA],
     format=Documenter.HTML(),
-    pages=["index.md"],
     repo="https://github.com/cecoeco/PRISMA.jl",
     sitename="PRISMA.jl",
-    authors="Ceco E. Maples"
+    authors="Ceco E. Maples",
+    doctest=false,
 )
 
 Documenter.deploydocs(;

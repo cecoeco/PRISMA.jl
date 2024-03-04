@@ -30,7 +30,7 @@ function flow_diagram_read(file::String="", excel_sheetname::Union{Nothing,Strin
         Base.throw(Base.ArgumentError("Unsupported file format: $ext"))
     end
     if format_numbers == true
-        df = format_dataframe(df)
+        df = format_df(df)
     end
     return df
 end
