@@ -1,0 +1,147 @@
+header {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 60px;
+    max-height: 60px;
+    color: #444;
+    border-bottom: #ddd 1px solid;
+    font-weight: 500;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    font-size: 1.5rem;
+    text-align: left;
+    font-weight: bold;
+    user-select: none;
+}
+
+.navbar {
+    display: flex;
+    width: 50%;
+    height: 100%;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.navbar-links a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: #444;
+    font-size: 1.15rem;
+    text-decoration: none;
+
+    &:hover {
+        color: #0088ff;
+    }
+}
+
+.navbar-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    &:hover {
+        color: #0088ff;
+    }
+}
+
+.navbar-item-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.github-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 12.5%;
+
+    & a {
+        color: #222;
+    }
+
+    & a:hover {
+        color: #222;
+    }
+}
+
+.github-link {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+    background-color: #eee;
+    background-image: -webkit-linear-gradient(180deg, #fafbfc, #eff3f6 90%);
+    background-image: linear-gradient(180deg, #fafbfc, #eff3f6 90%);
+    background-repeat: no-repeat;
+    border: 1px solid #d5d5d5;
+    border-radius: 4px;
+
+    &:hover {
+        border-color: #aaa;
+        background-image: linear-gradient(180deg, #f0f3f6, #e6ebf1 90%);
+    }
+}
+
+.github-logo {
+    height: 60%;
+    margin-right: 5%;
+}
+
+.github-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.theme-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: fit-content;
+}
+
+.theme-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #444;
+    background-color: inherit;
+    border: none;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.theme-button-icon {
+    height: 40%;
+}

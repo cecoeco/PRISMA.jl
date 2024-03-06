@@ -8,8 +8,8 @@ Open the PRISMA web application.
 - `resources::Bool=false`: Whether to open the resources page.
 """
 function open(os::Union{String, Nothing}=nothing, resources::Bool=false)
-    app_url::String = "https://prisma-jl.onrender.com"
-    documentation_url::String = "tba"
+    app_url::String = "https://prismajl.onrender.com"
+    documentation_url::String = "https://cecoeco.github.io/PRISMA.jl"
     statement_url::String = "https://prisma-statement.org"
 
     if os === nothing

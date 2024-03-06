@@ -1,8 +1,8 @@
 <div align="center">
-<img src="docs/src/assets/svg/favicon.svg" alt="logo" width="130"><b><h1>PRISMA.jl</h1></b>
+<img src="docs/src/assets/logo.svg" alt="logo" width="130"><b><h1>PRISMA.jl</h1></b>
 </div>
 
-PRISMA.jl is a Julia-based software package that generates checklists and flow diagrams for systematic reviews and meta-analyses based on [the <b>P</b>referred <b>R</b>eporting <b>I</b>tems for <b>S</b>ystematic <b>R</b>eviews and <b>M</b>eta-<b>A</b>nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4) Its companion web application can also be used by researchers with little to no programming experience looking to report their results from their systematic reviews and meta-analyses with transparency and efficiency: [Link coming soon.]()
+PRISMA.jl is a Julia-based software package that generates checklists and flow diagrams for systematic reviews and meta-analyses based on [the <b>P</b>referred <b>R</b>eporting <b>I</b>tems for <b>S</b>ystematic <b>R</b>eviews and <b>M</b>eta-<b>A</b>nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4) Its companion web application can also be used by researchers with little to no programming experience looking to report the results from their systematic reviews and meta-analyses with transparency and efficiency: [Link coming soon.]()
 
 ## Getting Started
 
@@ -12,8 +12,7 @@ This simple example shows how a few functions in this package can be used togeth
 
 ```Julia
 # 1. Install the PRIMSA.jl package.
-using Pkg
-Pkg.add("PRISMA") 
+using Pkg; Pkg.add("PRISMA") 
 
 # 2. Load the PRISMA package.
 using PRISMA
@@ -37,10 +36,10 @@ PRISMA.flow_diagram_save(figure)
 ```
 
 Result:
-![flow diagram](docs/src/assets/svg/figure.svg)
+![flow diagram](docs/src/assets/figure.svg)
 
-## License :balance_scale:
+## License
 
-Copyright © 2024. Ceco E. Maples
+Copyright © 2024 Ceco Elijah Maples
 
-This work is licensed under the [MIT License](https://opensource.org/license/mit/).
+This work is licensed under the [MIT License](https://opensource.org/license/mit/) - see the [`LICENSE`](LICENSE.md) file for details.

@@ -1,30 +1,3 @@
-"""
-Generate checklists and flow diagrams based on the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) statement.
-
-Checklist:
-- `PRISMA.checklist_df`: Returns a `DataFrame` of the checklist.
-- `PRISMA.checklist_csv`: Writes the checklist to a CSV file.
-- `PRISMA.checklist_json`: Writes the checklist to a JSON file.
-- `PRISMA.checklist_xlsx`: Writes the checklist to an Excel file.
-- `PRISMA.checklist_read`: Reads the checklist from a CSV, JSON, or Excel file.
-
-Flow Diagram:
-- `PRISMA.flow_diagram_df`: Returns a `DataFrame` of the flow diagram.
-- `PRISMA.flow_diagram_csv`: Writes the flow diagram to a CSV file.
-- `PRISMA.flow_diagram_json`: Writes the flow diagram to a JSON file.
-- `PRISMA.flow_diagram_xlsx`: Writes the flow diagram to an Excel file.
-- `PRISMA.flow_diagram_read`: Reads the flow diagram from a CSV, JSON, or Excel file.
-- `PRISMA.flow_diagram`: Generates the flow diagram.
-- `PRISMA.flow_diagram_save`: Saves the flow diagram to an image file.
-
-Utils:
-- `PRISMA.format_number`: Formats a number of to a string with commas in the thousands.
-- `PRISMA.format_df`: Formats numbers in a `DataFrame` to strings with commas in the thousands.
-- `PRISMA.open`: Open the web application for PRISMA.jl.
-- `PRISMA.percentage`: Symbolic representation of a percentage.
-- `PRISMA.percentages`: Symbolic representation of a vector of percentages.
-
-"""
 module PRISMA
 
 using CSV
