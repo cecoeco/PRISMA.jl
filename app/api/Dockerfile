@@ -1,4 +1,4 @@
-FROM julia:1.10
+FROM --platform=linux/amd64 julia:latest
 
 WORKDIR /api
 COPY Project.toml Manifest.toml ./
