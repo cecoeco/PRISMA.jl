@@ -1,28 +1,63 @@
 import "../assets/scss/FlowDiagram.scss";
-import { createSignal } from "solid-js";
 
 function FlowDiagram() {
     function getCSV() {
-        console.log("julia scripts/csv.jl");
+        fetch("http://127.0.0.1:8080/csv")
+            .then((response) => response.text())
+            .then((csvData) => {
+                console.log(csvData);
+            })
+            .catch((error) => {
+                console.error("Error fetching the CSV:", error);
+            });
+    }
+
+    function getJSON() {
+        fetch("http://127.0.0.1:8080/json")
+            .then((response) => response.json())
+            .then((jsonData) => {
+                console.log(jsonData);
+            })
+            .catch((error) => {
+                console.error("Error fetching the JSON:", error);
+            });
+    }
+
+    function getXLSX() {
+        fetch("http://127.0.0.1:8080/xlsx")
+            .then((response) => response.blob())
+            .then((xlsxData) => {
+                console.log(xlsxData);
+            })
+            .catch((error) => {
+                console.error("Error fetching the XLSX:", error);
+            });
+    }
+
+    function uploadSpreadsheet() {
+
     }
 
     return (
         <>
-            <main class="flow-diagram">
+            <div class="flow-diagram">
                 <div class="options">
                     <div class="upload-spreadsheet-options">
                         <div>
                             <button
+                                onClick={getCSV}
                                 class="download-spreadsheet-button"
                             >
                                 Download CSV
                             </button>
                             <button
+                                onClick={getJSON}
                                 class="download-spreadsheet-button"
                             >
                                 Download JSON
                             </button>
                             <button
+                                onClick={getXLSX}
                                 class="download-spreadsheet-button"
                             >
                                 Download XLSX
@@ -33,6 +68,7 @@ function FlowDiagram() {
                                 accept=".csv, .json, .xlsx"
                             />
                             <button
+                                onClick={uploadSpreadsheet}
                                 class="upload-spreadsheet-button"
                             >
                                 Upload Spreadsheet
@@ -313,18 +349,18 @@ function FlowDiagram() {
                         </div>
                         <div>
                             <h3>Download</h3>
-                                <button>SVG</button>
-                                <button>JPG</button>
-                                <button>PNG</button>
-                                <button>PDF</button>
-                                <button>HTML</button>
+                            <button>SVG</button>
+                            <button>JPG</button>
+                            <button>PNG</button>
+                            <button>PDF</button>
+                            <button>HTML</button>
                         </div>
                     </div>
                 </div>
                 <div class="figure-container">
                     <svg></svg>
                 </div>
-            </main>
+            </div>
         </>
     );
 }

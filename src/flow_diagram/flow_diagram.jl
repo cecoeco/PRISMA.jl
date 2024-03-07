@@ -1,5 +1,5 @@
 """
-    flow_diagram(
+    flow_diagram(;
         data::DataFrame=flow_diagram_df(),
         format_numbers::Bool=true,
         backend::String="CairoMakie",
@@ -55,7 +55,7 @@ Generates a flow diagram.
 # Returns
 - `Makie.Figure`: The flow diagram figure.
 """
-function flow_diagram(
+function flow_diagram(;
     data::DataFrame=flow_diagram_df(),
     format_numbers::Bool=true,
     backend::String="CairoMakie",

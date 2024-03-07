@@ -1,5 +1,5 @@
 """
-    checklist_csv(save_location::String=Base.pwd(), filename::String="checklist")
+    checklist_csv(; save_location::String=Base.pwd(), filename::String="checklist")
 
 Writes the checklist dataframe to a CSV file.
 
@@ -10,7 +10,7 @@ Writes the checklist dataframe to a CSV file.
 # Returns
 - `String`: The path to the CSV file.
 """
-function checklist_csv(save_location::String=Base.pwd(), filename::String="checklist")
+function checklist_csv(; save_location::String=Base.pwd(), filename::String="checklist")
     df::DataFrame = checklist_df()
     path::String = Base.joinpath(save_location, "$filename.csv")
     CSV.write(path, df)

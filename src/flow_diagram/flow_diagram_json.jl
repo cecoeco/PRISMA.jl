@@ -1,5 +1,5 @@
 """
-    flow_diagram_json(save_location::String=Base.pwd(), filename::String="flow_diagram")
+    flow_diagram_json(; save_location::String=Base.pwd(), filename::String="flow_diagram")
 
 Writes the flow diagram dataframe to a JSON file.
 
@@ -10,7 +10,7 @@ Writes the flow diagram dataframe to a JSON file.
 # Returns
 - `String`: The path to the JSON file.
 """
-function flow_diagram_json(save_location::String=Base.pwd(), filename::String="flow_diagram")
+function flow_diagram_json(; save_location::String=Base.pwd(), filename::String="flow_diagram")
     df::DataFrame = flow_diagram_df()
     path::String = Base.joinpath(save_location, "$filename.json")
     dictionary::OrderedDict = DataStructures.OrderedDict(

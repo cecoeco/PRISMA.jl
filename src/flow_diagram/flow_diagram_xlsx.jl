@@ -1,5 +1,5 @@
 """
-    flow_diagram_xlsx(save_location::String=pwd(), filename::String="flow_diagram", sheetname::String="flow_diagram")
+    flow_diagram_xlsx(; save_location::String=pwd(), filename::String="flow_diagram", sheetname::String="flow_diagram")
 
 Writes the flow diagram dataframe to an XLSX file.
 
@@ -11,7 +11,7 @@ Writes the flow diagram dataframe to an XLSX file.
 # Returns
 - `String`: The path to the XLSX file.
 """
-function flow_diagram_xlsx(save_location::String=pwd(), filename::String="flow_diagram", sheetname::String="flow_diagram")
+function flow_diagram_xlsx(; save_location::String=pwd(), filename::String="flow_diagram", sheetname::String="flow_diagram")
     df::DataFrame = flow_diagram_df()
     path::String = Base.joinpath(save_location, "$filename.xlsx")
     XLSX.writetable(path, sheetname => df)

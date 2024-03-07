@@ -1,5 +1,5 @@
-using DocumenterCitations
 using Documenter
+using DocumenterCitations
 using PRISMA
 
 bib_filepath = Base.joinpath(Base.dirname(@__FILE__), "src/assets/references.bib")
@@ -7,12 +7,14 @@ bib = DocumenterCitations.CitationBibliography(bib_filepath, style=:authoryear)
 
 Documenter.makedocs(
     modules=[PRISMA],
-    format=Documenter.HTML(assets=[
-        Base.joinpath(Base.dirname(@__FILE__), "src/assets/bib.css"),
-        Base.joinpath(Base.dirname(@__FILE__), "src/assets/favicon.ico")
-    ]),
+    format=Documenter.HTML(
+        assets=[
+            "src/assets/bib.css", 
+            "src/assets/favicon.ico"
+        ]
+    ),
     sitename="PRISMA.jl",
-    authors="Ceco E. Maples",
+    authors="Ceco Elijah Maples",
     pages=[
         "Home" => "index.md",
         "Manual" => [

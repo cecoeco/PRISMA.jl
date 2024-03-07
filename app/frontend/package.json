@@ -6,12 +6,11 @@
         "build": "vite build",
         "serve": "vite preview"
     },
-    "license": "MIT",
     "dependencies": {
         "@solidjs/router": "^0.12.5",
         "sass": "^1.71.1",
-        "solid-js": "^1.8.15",
+        "solid-js": "^1.8.11",
         "vite": "^5.1.5",
-        "vite-plugin-solid": "^2.10.1"
+        "vite-plugin-solid": "^2.8.2"
     }
 }

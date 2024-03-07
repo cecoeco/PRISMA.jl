@@ -49,7 +49,7 @@ function Header() {
                         </Link>
                     </li>
                     <li class="navbar-item">
-                        <Link class="navbar-item-link" href="/flow-diagram">
+                        <Link class="navbar-item-link" href="/flow_diagram">
                             Flow Diagram
                         </Link>
                     </li>

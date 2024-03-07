@@ -1,5 +1,5 @@
 """
-    flow_diagram_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing, format_numbers::Bool=false)
+    flow_diagram_read(; file::String="", excel_sheetname::Union{Nothing,String}=nothing, format_numbers::Bool=false)
 
 Reads the flow diagram dataframe from a CSV, XLSX, or JSON file.
 
@@ -11,7 +11,7 @@ Reads the flow diagram dataframe from a CSV, XLSX, or JSON file.
 # Returns
 - `DataFrame`: The flow diagram dataframe.
 """
-function flow_diagram_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing, format_numbers::Bool=false)
+function flow_diagram_read(; file::String="", excel_sheetname::Union{Nothing,String}=nothing, format_numbers::Bool=false)
     ext::String = Base.lowercase(Base.splitext(file)[2])
     if ext == ".csv"
         df = CSV.read(file, DataFrame)

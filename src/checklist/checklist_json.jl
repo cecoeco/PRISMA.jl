@@ -1,6 +1,6 @@
 using JSON3
 """
-    checklist_json(save_location::String=Base.pwd(), filename::String="checklist")
+    checklist_json(; save_location::String=Base.pwd(), filename::String="checklist")
 
 Writes the checklist dataframe to a JSON file.
 
@@ -12,7 +12,7 @@ Writes the checklist dataframe to a JSON file.
 - `String`: The path to the JSON file.
 ```
 """
-function checklist_json(save_location::String=Base.pwd(), filename::String="checklist")
+function checklist_json(; save_location::String=Base.pwd(), filename::String="checklist")
     df::DataFrame = checklist_df()
     path::String = Base.joinpath(save_location, "$filename.json")
     dictionary::OrderedDict = DataStructures.OrderedDict(

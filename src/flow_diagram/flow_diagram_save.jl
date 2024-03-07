@@ -1,5 +1,5 @@
 """
-    flow_diagram_save(figure::Makie.Figure=flow_diagram(), name::String="figure", save_location::String=Base.pwd(), save_format::String="svg")
+    flow_diagram_save(; figure::Makie.Figure=flow_diagram(), name::String="figure", save_location::String=Base.pwd(), save_format::String="svg")
 
 Saves the flow diagram figure.
 
@@ -12,7 +12,7 @@ Saves the flow diagram figure.
 # Returns
 - `String`: The path to the saved figure.
 """
-function flow_diagram_save(
+function flow_diagram_save(;
     figure::Makie.Figure=flow_diagram(),
     name::String="figure",
     save_location::String=Base.pwd(),

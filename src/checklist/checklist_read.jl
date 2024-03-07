@@ -1,5 +1,5 @@
 """
-    checklist_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing)
+    checklist_read(; file::String="", excel_sheetname::Union{Nothing,String}=nothing)
 
 Reads the checklist dataframe from a CSV, XLSX, or JSON file.
 
@@ -10,7 +10,7 @@ Reads the checklist dataframe from a CSV, XLSX, or JSON file.
 # Returns
 - `DataFrame`: The checklist dataframe.
 """
-function checklist_read(file::String="", excel_sheetname::Union{Nothing,String}=nothing)
+function checklist_read(; file::String="", excel_sheetname::Union{Nothing,String}=nothing)
     ext::String = Base.lowercase(Base.splitext(file)[2])
     if ext == ".csv"
         df = CSV.read(file, DataFrame)

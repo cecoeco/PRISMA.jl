@@ -18,7 +18,7 @@ function Citation() {
 
     return (
         <>
-            <main class="citation">
+            <div class="citation">
                 <h3>BibTeX</h3>
                 <div class="code-container">
                     <pre class="code">{bibContent}</pre>
@@ -82,7 +82,7 @@ function Citation() {
                         <img class="copy-button-icon" src="/svg/copy.svg" alt="copy" />
                     </button>
                 </div>
-            </main>
+            </div>
         </>
     );
 }
