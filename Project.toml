@@ -19,6 +19,18 @@ XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
 julia = "1"
+CSV = "0.10"
+CairoMakie = "0.11"
+DataFrames = "1"
+DataStructures = "0.18"
+GLMakie = "0.9"
+HTTP = "1"
+JSON3 = "1"
+Makie = "0.20"
+Oxygen = "1"
+RPRMakie = "0.6"
+WGLMakie = "0.9"
+XLSX = "0.10"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
