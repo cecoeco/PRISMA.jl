@@ -1,0 +1,16 @@
+{
+    "name": "prisma.jl",
+    "scripts": {
+        "start": "vite",
+        "dev": "vite",
+        "build": "vite build",
+        "serve": "vite preview"
+    },
+    "dependencies": {
+        "@solidjs/router": "^0.12.5",
+        "sass": "^1.71.1",
+        "solid-js": "^1.8.11",
+        "vite": "^5.1.5",
+        "vite-plugin-solid": "^2.8.2"
+    }
+}

@@ -16,7 +16,7 @@ function FlowDiagram() {
 
     async function getCSV() {
         try {
-            await fetch("/api/csv")
+            await fetch("https://api-8ysv.onrender.com/csv")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch CSV");
@@ -42,7 +42,7 @@ function FlowDiagram() {
 
     async function getJSON() {
         try {
-            await fetch("/api/json")
+            await fetch("https://api-8ysv.onrender.com/json")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch JSON");
@@ -68,7 +68,7 @@ function FlowDiagram() {
 
     async function getXLSX() {
         try {
-            await fetch("/api/xlsx")
+            await fetch("https://api-8ysv.onrender.com/xlsx")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch XLSX");

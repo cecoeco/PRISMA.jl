@@ -19,7 +19,8 @@
 }
 
 html,
-body {
+body,
+#root {
     display: flex;
     width: 100%;
     height: 100%;
@@ -77,20 +78,4 @@ a {
     &:hover {
         color: none;
     }
-}
-
-#app {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
-
-.app-content {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    padding: 0 5%;
 }
