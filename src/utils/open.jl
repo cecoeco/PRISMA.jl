@@ -7,7 +7,7 @@ Open the PRISMA web application.
 - `os::Union{String, Nothing}=nothing`: The operating system to use. If `nothing`, the default value is used.
 - `resources::Bool=false`: Whether to open the resources page.
 """
-function open(os::Union{String, Nothing}=nothing, resources::Bool=false)
+function open(; os::Union{String, Nothing}=nothing, resources::Bool=false)
     app_url::String = "https://prismajl.onrender.com"
     documentation_url::String = "https://cecoeco.github.io/PRISMA.jl"
     statement_url::String = "https://prisma-statement.org"

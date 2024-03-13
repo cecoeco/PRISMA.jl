@@ -1,4 +1,3 @@
-using JSON3
 """
     checklist_json(; save_location::String=Base.pwd(), filename::String="checklist")
 

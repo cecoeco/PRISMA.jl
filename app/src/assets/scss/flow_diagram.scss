@@ -1,0 +1,146 @@
+.flow-diagram {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-height: 650px;
+    width: 100%;
+}
+
+.top-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flow-diagram-edit-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flow-diagram-edit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    height: 25px;
+    width: 25px;
+    border-radius: 2px;
+    background-color: #fafafa;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: #dddddd44;
+    }
+
+    &:active {
+        background-color: #88888844;
+    }
+}
+
+.flow-diagram-edit-button-svg {
+    height: 65%;
+    width: 65%;
+}
+
+.options {
+    height: 100%;
+    width: 25%;
+    padding: 20px;
+    background-color: #fafafa;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    overflow: auto;
+}
+
+.flow-diagram h3 {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.flow-diagram h3 {
+    font-size: 1.25rem;
+}
+
+.flow-diagram h4 {
+    font-size: 1rem;
+}
+
+.figure-container {
+    height: 100%;
+    width: 60%;
+}
+
+.upload-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.spreadsheet-button {
+    margin-right: 5px;
+}
+
+.spreadsheet-button,
+.upload-button,
+.clear-button,
+.download-button {
+    border: none;
+    border-radius: 2px;
+    color: #333;
+    background-color: #fafafa;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 5px 10px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #dddddd44;
+    }
+
+    &:active {
+        background-color: #88888844;
+    }
+}
+
+.download-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: fit-content;
+}
+
+.download-button {
+    margin-right: 5px;
+}
+
+.upload-input {
+    display: none;
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 100%;
+    border-radius: 2px;
+    border: 1px dashed #cccccc;
+    cursor: pointer;
+}
+
+.upload-text {
+    color: #777;
+    font-size: 0.75rem;
+    font-weight: bold;
+}

@@ -13,16 +13,22 @@ Saves the flow diagram figure.
 - `String`: The path to the saved figure.
 """
 function flow_diagram_save(;
-    figure::Makie.Figure=flow_diagram(),
+    figure=flow_diagram(),
     name::String="figure",
     save_location::String=Base.pwd(),
     save_format::String="svg"
 )
+    if save_format == "jpeg" return save_format = "jpg" end
     supported_formats = ["png", "jpg", "svg", "pdf", "html"]
-    if !(save_format in supported_formats)
-        Base.error("Unsupported save format: $save_format. Supported formats are: $(join(supported_formats, ", "))")
+    if !(save_format in supported_formats) 
+        return Base.error("Unsupported save format: $save_format. Supported formats are: $(Base.join(supported_formats, ", "))") 
     end
-    Makie.save(Base.joinpath(save_location, "$name.$save_format"), figure)
-    Base.println("Figure successfully saved to $(Base.joinpath(save_location, "$name.$save_format"))")
-    return Base.joinpath(save_location, "$name.$save_format")
+    path = Base.joinpath(save_location, "$name.$save_format")
+    if Base.typeof(figure) == Makie.Figure 
+        return Makie.save(path, figure) 
+    else 
+        return Base.save(path, figure) 
+    end
+    Base.println("Figure successfully saved to $(path)")
+    return path
 end

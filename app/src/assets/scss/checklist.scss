@@ -1,0 +1,108 @@
+.checklist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 700px;
+}
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 85%;
+    width: 80%;
+    height: 80%;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    overflow: auto;
+}
+
+.table {
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #dddddd;
+}
+
+th,
+td {
+    padding: 0.2rem;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+tr:hover {
+    outline: 1.5px solid #0088ff;
+}
+
+.export-buttons {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 50px;
+    width: 80%;
+}
+
+.export-button {
+    margin: 5px;
+    border: none;
+    border-radius: 2px;
+    background-color: #0088ff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 5px 10px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0066cc;
+    }
+
+    &:active {
+        background-color: #005599;
+    }
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 50px;
+    width: 80%;
+}
+
+.edit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 7.5px;
+    height: 30px;
+    width: 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: #dddddd44;
+    }
+
+    &:active {
+        background-color: #88888844;
+    }
+}
+
+.edit-button-svg {
+    height: 65%;
+    width: 65%;
+}

@@ -27,9 +27,14 @@ include("flow_diagram/flow_diagram_save.jl")
 
 include("utils/format_number.jl")
 include("utils/format_df.jl")
-include("utils/open.jl")
+
 include("utils/percentage.jl")
 include("utils/percentages.jl")
+
+include("utils/open.jl")
+include("utils/docs.jl")
+include("utils/statement.jl")
+include("utils/app.jl")
 
 export checklist_df
 export checklist_csv
@@ -47,8 +52,13 @@ export flow_diagram_save
 
 export format_number
 export format_df
-export open
+
 export percentage
 export percentages
+
+export open
+export docs
+export statement
+export app
 
 end

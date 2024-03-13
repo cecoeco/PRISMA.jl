@@ -1,0 +1,96 @@
+:root {
+    font-family: "Helvetica", sans-serif;
+    font-optical-sizing: auto;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+
+    width: 100%;
+    height: 100%;
+
+    color: #333;
+    background-color: #fff;
+}
+
+html,
+body {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+h1,
+h2 {
+    font-size: 2.5rem;
+}
+
+h3,
+h4 {
+    font-size: 2rem;
+}
+
+h5,
+h6 {
+    font-size: 1.5rem;
+}
+
+p,
+label,
+input,
+textarea {
+    font-size: 1rem;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+small,
+sub,
+sup {
+    font-size: 0.75rem;
+}
+
+a {
+    color: #0088ff;
+    text-decoration: underline;
+
+    &:hover {
+        color: none;
+    }
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.app-content {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 0 5%;
+}
