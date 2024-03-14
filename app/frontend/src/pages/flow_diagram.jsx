@@ -16,7 +16,7 @@ function FlowDiagram() {
 
     async function getCSV() {
         try {
-            await fetch("https://api-8ysv.onrender.com/csv")
+            await fetch("http://0.0.0.0:5050/csv")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch CSV");
@@ -42,7 +42,7 @@ function FlowDiagram() {
 
     async function getJSON() {
         try {
-            await fetch("https://api-8ysv.onrender.com/json")
+            await fetch("http://0.0.0.0:5050/json")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch JSON");
@@ -68,7 +68,7 @@ function FlowDiagram() {
 
     async function getXLSX() {
         try {
-            await fetch("https://api-8ysv.onrender.com/xlsx")
+            await fetch("http://0.0.0.0:5050/xlsx")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch XLSX");
@@ -93,17 +93,30 @@ function FlowDiagram() {
         }
     }
 
-    const [uploadedFile, setUploadedFile] = createSignal(null);
-    function handleUpload(event) {
+    let uploadedFile = null;
+
+    function uploadSpreadsheet(event) {
         const file = event.target.files[0];
-        setUploadedFile(file);
+        uploadedFile = file;
         console.log("Uploaded file:", file);
-    }
-    function removeSpreadsheet() {
-
-    }
-    function uploadSpreadsheet() {
-
+        const formData = new FormData();
+        formData.append("file", file);
+        fetch("http://example.com/upload", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to upload file");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Server response:", data);
+            })
+            .catch((error) => {
+                console.error("Error uploading file:", error);
+            });
     }
 
     return (
@@ -146,7 +159,7 @@ function FlowDiagram() {
                     </div>
                     <div class="upload-spreadsheet">
                         <h3>Upload Spreadsheet</h3>
-                        <h4>Download spreadsheet template:</h4>
+                        <h4>Download Template:</h4>
                         <div class="upload-buttons">
                             <button
                                 onClick={getCSV}
@@ -171,7 +184,7 @@ function FlowDiagram() {
                             <p class="upload-text">
                                 Drag and drop or click to upload files.
                                 <input
-                                    onChange={handleUpload}
+                                    onChange={uploadSpreadsheet}
                                     class="upload-input"
                                     type="file"
                                     accept=".csv, .json, .xlsx"
