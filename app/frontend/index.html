@@ -33,11 +33,47 @@
         type="image/x-icon" 
         href="src/assets/favicon.ico" 
     />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXX"></script>
+    <script>
+        /**
+         * Represents the global dataLayer object.
+         * @type {Array}
+         */
+        window.dataLayer = window.dataLayer || [];
+
+        /**
+         * A function to push arguments to the dataLayer.
+         * @param {...*} arguments - Arguments to be pushed to the dataLayer.
+         */
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        // Initializes the 'js' command in the dataLayer.
+        gtag('js', new Date());
+
+        /**
+         * Configures Google Analytics tracking IDs in the dataLayer.
+         * @param {string} trackingId - The tracking ID to be configured.
+         */
+        function configureTracking(trackingId) {
+            gtag('config', trackingId);
+        }
+
+        // Configures the first Google Analytics tracking ID.
+        configureTracking('GT-XXXXXX');
+
+        // Configures the second Google Analytics tracking ID.
+        configureTracking('DC-ZZZZZZ');
+    </script>
 </head>
 
 <body>
     <div id="root">
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <noscript>
+            You need to enable JavaScript to run PRISMA.jl.
+        </noscript>
         <script 
             src="src/index.jsx" 
             type="module">
