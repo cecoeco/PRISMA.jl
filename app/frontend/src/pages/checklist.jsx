@@ -3,7 +3,6 @@ import "../assets/scss/checklist.scss";
 function Checklist() {
     function Undo() {
     }
-
     function Redo() {
     }
     function Copy() {

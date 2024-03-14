@@ -3,20 +3,17 @@ import { createSignal } from "solid-js";
 import "../assets/scss/flow_diagram.scss";
 
 function FlowDiagram() {
-    function Clear() {
-
-    }
-    function Undo() {
-
-    }
-
-    function Redo() {
-
-    }
+    function Clear() { }
+    function Undo() { }
+    function Redo() { }
 
     async function getCSV() {
         try {
-            await fetch("http://0.0.0.0:5050/csv")
+            await fetch("https://2xiq6-gqaaa-aaaad-qgb3q-cai.ic.fleek.co/csv", {
+                method: "GET",
+                headers: { "Content-Type": "text/csv", },
+                mode: "no-cors",
+            })
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch CSV");
@@ -42,7 +39,11 @@ function FlowDiagram() {
 
     async function getJSON() {
         try {
-            await fetch("http://0.0.0.0:5050/json")
+            await fetch("https://tight-limit-4709.on.fleek.co/json", {
+                method: "GET",
+                headers: { "Content-Type": "application/json", },
+                mode: "no-cors",
+            })
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch JSON");
@@ -68,7 +69,12 @@ function FlowDiagram() {
 
     async function getXLSX() {
         try {
-            await fetch("http://0.0.0.0:5050/xlsx")
+            await fetch("https://tight-limit-4709.on.fleek.co/xlsx",
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", },
+                    mode: "no-cors",
+                })
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch XLSX");
@@ -76,8 +82,9 @@ function FlowDiagram() {
                     return response.text();
                 })
                 .then((xlsxData) => {
-                    const blob = new Blob([xlsxData],
-                        { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                    const blob = new Blob([xlsxData], {
+                        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    });
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement("a");
                     link.href = url;
@@ -94,7 +101,6 @@ function FlowDiagram() {
     }
 
     let uploadedFile = null;
-
     function uploadSpreadsheet(event) {
         const file = event.target.files[0];
         uploadedFile = file;
@@ -125,18 +131,12 @@ function FlowDiagram() {
                 <div class="options">
                     <div class="top-buttons">
                         <div>
-                            <button
-                                class="clear-button"
-                                onClick={Clear}
-                            >
+                            <button class="clear-button" onClick={Clear}>
                                 Clear
                             </button>
                         </div>
                         <div class="flow-diagram-edit-buttons">
-                            <button
-                                class="flow-diagram-edit-button"
-                                onClick={Undo}
-                            >
+                            <button class="flow-diagram-edit-button" onClick={Undo}>
                                 <img
                                     draggable="false"
                                     class="flow-diagram-edit-button-svg"
@@ -144,10 +144,7 @@ function FlowDiagram() {
                                     alt="undo"
                                 />
                             </button>
-                            <button
-                                class="flow-diagram-edit-button"
-                                onClick={Redo}
-                            >
+                            <button class="flow-diagram-edit-button" onClick={Redo}>
                                 <img
                                     draggable="false"
                                     class="flow-diagram-edit-button-svg"
@@ -161,22 +158,13 @@ function FlowDiagram() {
                         <h3>Upload Spreadsheet</h3>
                         <h4>Download Template:</h4>
                         <div class="upload-buttons">
-                            <button
-                                onClick={getCSV}
-                                class="spreadsheet-button"
-                            >
+                            <button onClick={getCSV} class="spreadsheet-button">
                                 CSV
                             </button>
-                            <button
-                                onClick={getJSON}
-                                class="spreadsheet-button"
-                            >
+                            <button onClick={getJSON} class="spreadsheet-button">
                                 JSON
                             </button>
-                            <button
-                                onClick={getXLSX}
-                                class="spreadsheet-button"
-                            >
+                            <button onClick={getXLSX} class="spreadsheet-button">
                                 XLSX
                             </button>
                         </div>
