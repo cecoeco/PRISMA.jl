@@ -1,3 +1,11 @@
+[data-theme="light"] {
+    --settings-background-color: #fafafa;
+}
+
+[data-theme="dark"] {
+    --settings-background-color: #232334;
+}
+
 .flow-diagram {
     display: flex;
     flex-direction: row;
@@ -6,54 +14,88 @@
     width: 100%;
 }
 
-.top-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.flow-diagram-edit-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.flow-diagram-edit-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 5px;
-    height: 25px;
-    width: 25px;
-    border-radius: 2px;
-    background-color: #fafafa;
+.settings {
+    height: 95%;
+    min-width: 20%;
+    width: 25%;
+    max-width: 45%;
+    border-radius: 6px;
+    padding: 20px;
+    background-color: var(--settings-background-color);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    cursor: pointer;
-    border: none;
+    resize: horizontal;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--webkit-scrollbar-track-background-color);
+        border-radius: 0 6px 0 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--webkit-scrollbar-thumb-background-color);
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--webkit-scrollbar-thumb-hover-background-color);
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        background: var(--webkit-scrollbar-thumb-active-background-color);
+    }
+}
+
+.settings * {
+    display: flex;
+    flex-direction: column;
+}
+
+#flow-diagram-data,
+#flow-diagram-urls,
+#flow-diagram-tooltips {
+    margin-bottom: 35px;
+}
+
+.settings select,
+.settings input {
+    margin: 2.5px 0;
+    padding: 2px 4px;
+    border-radius: 6px;
+    color: var(--text-color);
+    background-color: var(--input-background-color);
+    border: 1px solid var(--input-border-color);
 
     &:hover {
-        background-color: #dddddd44;
+        border-color: #0088ff;
     }
 
-    &:active {
-        background-color: #88888844;
+    &:focus {
+        border-color: #0088ff;
+        border: 1px solid #0088ff;
+        box-shadow: 0 0 0 3px #0088ff44;
     }
 }
 
-.flow-diagram-edit-button-svg {
-    height: 65%;
-    width: 65%;
+.settings input[type="color"] {
+    height: 35px;
+    width: 120px;
+    border-radius: 6px;
 }
 
-.options {
-    height: 100%;
-    width: 25%;
-    padding: 20px;
-    background-color: #fafafa;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    overflow: auto;
+.settings input[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--input-border-color);
+}
+
+.settings input[type="color"]::-moz-color-swatch {
+    border: 1px solid var(--input-border-color);
+}
+
+.reset-button {
+    padding: 5px 10px;
 }
 
 .flow-diagram h3 {
@@ -70,77 +112,67 @@
     font-size: 1rem;
 }
 
-.figure-container {
-    height: 100%;
-    width: 60%;
-}
-
-.upload-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
-
-.spreadsheet-button {
-    margin-right: 5px;
-}
-
-.spreadsheet-button,
-.upload-button,
-.clear-button,
+.reset-button,
 .download-button {
-    border: none;
-    border-radius: 2px;
-    color: #333;
-    background-color: #fafafa;
-    font-size: 0.75rem;
+    color: #ffffff;
     font-weight: bold;
+    background: -moz-linear-gradient(24deg,
+            rgba(0, 136, 255, 1) 0%,
+            rgba(67, 168, 255, 1) 100%);
+    background: -webkit-linear-gradient(24deg,
+            rgba(0, 136, 255, 1) 0%,
+            rgba(67, 168, 255, 1) 100%);
+    background: linear-gradient(24deg,
+            rgba(0, 136, 255, 1) 0%,
+            rgba(67, 168, 255, 1) 100%);
+    border: none;
+    border-radius: 6px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    padding: 5px 10px;
     cursor: pointer;
 
     &:hover {
-        background-color: #dddddd44;
+        background: -moz-linear-gradient(24deg,
+                rgb(0, 125, 240) 0%,
+                rgba(0, 136, 255, 1) 100%);
+        background: -webkit-linear-gradient(24deg,
+                rgb(0, 125, 240) 0%,
+                rgba(0, 136, 255, 1) 100%);
+        background: linear-gradient(24deg,
+                rgb(0, 125, 240) 0%,
+                rgba(0, 136, 255, 1) 100%);
     }
 
     &:active {
-        background-color: #88888844;
+        background: -moz-linear-gradient(24deg,
+                rgb(0, 117, 219) 0%,
+                rgba(0, 125, 240, 1) 100%);
+        background: -webkit-linear-gradient(24deg,
+                rgb(0, 117, 219) 0%,
+                rgba(0, 125, 240, 1) 100%);
+        background: linear-gradient(24deg,
+                rgb(0, 117, 219) 0%,
+                rgba(0, 125, 240, 1) 100%);
     }
 }
 
-.download-buttons {
+.download-button {
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
-    height: fit-content;
-    width: fit-content;
-}
-
-.download-button {
-    margin-right: 5px;
-}
-
-.upload-input {
-    display: none;
-}
-
-.upload {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 150px;
     width: 100%;
-    border-radius: 2px;
-    border: 1px dashed #cccccc;
-    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    padding: 10px 0;
+    border-radius: 6px;
 }
 
-.upload-text {
-    color: #777;
-    font-size: 0.75rem;
-    font-weight: bold;
+.download-button-icon {
+    height: 25px;
+    margin: 0 5px;
+}
+
+.figure-container {
+    height: 100%;
+    width: 60%;
 }

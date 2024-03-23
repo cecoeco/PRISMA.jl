@@ -7,7 +7,7 @@ footer {
     width: 95%;
     padding-left: 2.5%;
     padding-right: 2.5%;
-    color: #333;
+    color: var(--text-color);
 }
 
 .footer-text-container {
@@ -20,5 +20,5 @@ footer {
 
 .footer-link {
     margin-left: 5px;
-    color: #0088ff;
+    color: var(--link-color);
 }

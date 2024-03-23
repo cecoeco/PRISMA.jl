@@ -1,15 +1,19 @@
+[data-theme="light"] {
+    --404-text-color: #aaaaaa;
+}
+
+[data-theme="dark"] {
+    --404-text-color: #5a5a87;
+    ;
+}
+
 .notfound {
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: #888;
 }
 
-.title {
-    font-size: 3rem;
-    font-weight: 200;
-}
-
-.message {
-    font-size: 1.5rem;
+.notfound-message {
+    font-size: 2rem;
+    color: var(--404-text-color);
 }

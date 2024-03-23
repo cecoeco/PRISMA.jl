@@ -5,26 +5,18 @@ version = "0.0.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
-Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
-RPRMakie = "22d9f318-5e34-4b44-b769-6e3734a732a6"
-WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
+NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
 CSV = "0.10"
-CairoMakie = "0.11"
 DataFrames = "1"
 DataStructures = "0.18"
-GLMakie = "0.9"
 JSON3 = "1"
-Makie = "0.20"
-RPRMakie = "0.6"
-WGLMakie = "0.9"
+NodeJS = "2"
 XLSX = "0.10"
 julia = "1"
 

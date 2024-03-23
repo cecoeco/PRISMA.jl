@@ -1,3 +1,29 @@
+[data-theme="light"] {
+    --code-container-color: #555555;
+    --code-container-backgroung-color: #fafafa;
+    --entry-type-color: #d20090;
+    --cite-key-color: #ff0066;
+    --field-color: #555555;
+    --field-value-color: #555555;
+    --bracket-color: #ff7700;
+    --comma-color: #ff7700;
+    --equal-color: #ff7700;
+    --url-color: #555555;
+}
+
+[data-theme="dark"] {
+    --code-container-color: #dddddd;
+    --code-container-backgroung-color: #232334;
+    --entry-type-color: #9090ff;
+    --cite-key-color: #fffaaa;
+    --field-color: #dddddd;
+    --field-value-color: #dddddd;
+    --bracket-color: #ff88b8;
+    --comma-color: #ff88b8;
+    --equal-color: #ff88b8;
+    --url-color: #dddddd;
+}
+
 .citation {
     display: flex;
     flex-direction: column;
@@ -8,15 +34,16 @@
 
 .citation-title {
     font-size: 1rem;
+    color: var(--text-color);
 }
 
 .code-container {
     display: flex;
     flex-direction: row;
     align-items: left;
-    color: #555;
-    background-color: #fafafa;
-    border-radius: 2px;
+    color: var(--code-container-color);
+    background-color: var(--code-container-backgroung-color);
+    border-radius: 6px;
     width: 50%;
     min-height: 45px;
     padding: 10px;
@@ -32,6 +59,11 @@
     height: 100%;
     padding-left: 5px;
     overflow-x: auto;
+    color: var(--code-container-color);
+
+    &:hover {
+        color: var(--code-container-color);
+    }
 }
 
 .copy-button {
@@ -40,15 +72,11 @@
     width: fit-content;
     height: fit-content;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     padding: 5px;
     background-color: inherit;
     transition: background-color 250ms ease-in-out;
     cursor: pointer;
-
-    &:hover {
-        background-color: #bbbbbb44;
-    }
 }
 
 .check-button {
@@ -57,7 +85,7 @@
     width: fit-content;
     height: fit-content;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     padding: 5px;
     background-color: inherit;
     transition: background-color 250ms ease-in-out;
@@ -75,26 +103,34 @@
 }
 
 .entry-type {
-    color: #d20090;
+    color: var(--entry-type-color);
     font-weight: bold;
 }
 
 .cite-key {
-    color: #555;
+    color: var(--cite-key-color);
 }
 
-.field,
+.field {
+    color: var(--field-color);
+}
+
 .field-value {
-    color: #555;
+    color: var(--field-value-color);
 }
 
-.bracket,
-.comma,
+.bracket {
+    color: var(--bracket-color);
+}
+
+.comma {
+    color: var(--comma-color);
+}
+
 .equal {
-    color: #1100ff;
+    color: var(--equal-color);
 }
 
 .url {
-    color: #900000;
-    text-decoration: underline;
+    color: var(--url-color);
 }

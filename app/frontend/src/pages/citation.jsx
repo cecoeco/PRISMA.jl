@@ -5,7 +5,7 @@ import "../assets/scss/citation.scss";
  * This component renders different citation formats, such as BibTeX, AMA,
  * APA, Chicago, IEEE, and MLA, along with copy buttons to copy the citation
  * text to the clipboard.
- *
+ * @function Citation
  * @returns {JSX.Element} The rendered Citation component.
  */
 function Citation() {
@@ -68,12 +68,20 @@ function Citation() {
                     <span class="comma">,</span>
                     <br />
                     <span>{'  '}</span>
-                    <span class="field">howpublished</span
-                    ><span class="equal"> = </span>
+                    <span class="field">howpublished</span>
+                    <span class="equal"> = </span>
                     <span class="bracket">{'{'}</span>
                     <span class="field-value">\url</span>
                     <span class="bracket">{'{'}</span>
-                    <span class="url">https://github.com/cecoeco/PRISMA.jl</span>
+                    <span class="url">
+                        <a
+                            class="url"
+                            href="https://github.com/cecoeco/PRISMA.jl"
+                            target="_blank"
+                        >
+                            https://github.com/cecoeco/PRISMA.jl
+                        </a>
+                    </span>
                     <span class="bracket">{'}'}</span>
                     <span class="bracket">{'}'}</span>
                     <span class="comma">,</span>
@@ -109,8 +117,14 @@ function Citation() {
                     id="ama"
                     class="code"
                 >
-                    [1] Ceco E. Maples. PRISMA.jl. 2024. Available from:
-                    https://github.com/cecoeco/PRISMA.jl
+                    [1] Ceco E. Maples. PRISMA.jl. 2024. Available from: 
+                    <a
+                        class="url"
+                        href="https://github.com/cecoeco/PRISMA.jl"
+                        target="_blank"
+                    >
+                        https://github.com/cecoeco/PRISMA.jl
+                    </a>
                 </pre>
                 <button
                     class="copy-button"
@@ -133,8 +147,14 @@ function Citation() {
                     id="apa"
                     class="code"
                 >
-                    Maples, C. E. (2024). PRISMA.jl. [Software]. Retrieved from
-                    https://github.com/cecoeco/PRISMA.jl
+                    Maples, C. E. (2024). PRISMA.jl. [Software]. Retrieved from 
+                    <a
+                        class="url"
+                        href="https://github.com/cecoeco/PRISMA.jl"
+                        target="_blank"
+                    >
+                        https://github.com/cecoeco/PRISMA.jl
+                    </a>
                 </pre>
                 <button
                     class="copy-button"
@@ -157,8 +177,14 @@ function Citation() {
                     id="chicago"
                     class="code"
                 >
-                    Maples, Ceco E. 2024. PRISMA.jl.
-                    https://github.com/cecoeco/PRISMA.jl
+                    Maples, Ceco E. 2024. PRISMA.jl. 
+                    <a
+                        class="url"
+                        href="https://github.com/cecoeco/PRISMA.jl"
+                        target="_blank"
+                    >
+                        https://github.com/cecoeco/PRISMA.jl
+                    </a>
                 </pre>
                 <button
                     class="copy-button"
@@ -181,8 +207,14 @@ function Citation() {
                     id="ieee"
                     class="code"
                 >
-                    C. E. Maples, “PRISMA.jl,” 2024. [Online]. Available:
-                    https://github.com/cecoeco/PRISMA.jl
+                    C. E. Maples, “PRISMA.jl,” 2024. [Online]. Available: 
+                    <a
+                        class="url"
+                        href="https://github.com/cecoeco/PRISMA.jl"
+                        target="_blank"
+                    >
+                        https://github.com/cecoeco/PRISMA.jl
+                    </a>
                 </pre>
                 <button
                     class="copy-button"
@@ -205,8 +237,14 @@ function Citation() {
                     id="mla"
                     class="code"
                 >
-                    Maples, Ceco E. PRISMA.jl. 2024. Web.
-                    https://github.com/cecoeco/PRISMA.jl
+                    Maples, Ceco E. PRISMA.jl. 2024. Web. 
+                    <a
+                        class="url"
+                        href="https://github.com/cecoeco/PRISMA.jl"
+                        target="_blank"
+                    >
+                        https://github.com/cecoeco/PRISMA.jl
+                    </a>
                 </pre>
                 <button
                     class="copy-button"

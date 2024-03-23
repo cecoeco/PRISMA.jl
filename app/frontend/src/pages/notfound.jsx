@@ -4,14 +4,14 @@ import "../assets/scss/notfound.scss";
  *
  * This component displays a message indicating that the requested page
  * could not be found.
- *
+ * @function NotFound
  * @return {JSX.Element} The rendered NotFound component
  */
 function NotFound() {
     return (
         <div class="notfound">
-            <h1 class="title">404 Error</h1>
-            <p class="message">Page not found</p>
+            <p class="notfound-message">404 Error</p>
+            <p class="notfound-message">Page not found</p>
         </div>
     );
 }

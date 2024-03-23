@@ -15,6 +15,9 @@ function Footer() {
                 <a
                     class="footer-text footer-link"
                     href="https://opensource.org/license/MIT/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="MIT License"
                 >
                     MIT License.
                 </a>

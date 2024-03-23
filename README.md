@@ -4,7 +4,7 @@
 <div>
   </br>
   <p align="center"><img src="docs/src/assets/logo.svg" width="130"></p>
-  <p align="center"><strong>systematic reviews and meta-analyses made simple.</strong></p>
+  <p align="center"><strong>Interactive visualizations for evidence syntheses.</strong></p>
   <p align="center">
     <a href='https://cecoeco.github.io/PRISMA.jl/stable/'><img src='https://img.shields.io/badge/docs-stable-blue.svg' alt='Documentation Stable' /></a>
     <a href='https://www.contributor-covenant.org'><img src='https://img.shields.io/badge/Contributor%20Covenant-v2.1%20adopted-ff69b4.svg' alt='Contributor Covenant'></a>
@@ -38,15 +38,15 @@ data = PRISMA.flow_diagram_csv()
 
 # The flow_diagram_read() function reads the csv saved as 'data' 
 # and turns it into a dataframe and assigns it to 'df'.
-df = PRISMA.flow_diagram_read(data)
+df = PRISMA.flow_diagram_read(file=data)
 
 # The flow_diagram() function turns data frames into 
 # flow diagrams that show the results of a meta-analysis or systematic review.
-figure = PRISMA.flow_diagram(df)
+figure = PRISMA.flow_diagram(data=df)
 
 # The flow_diagram_save() function saves the figure and saves 
 # it in formats supported by Makie.jl, png is the default.
-PRISMA.flow_diagram_save(figure) 
+PRISMA.flow_diagram_save(figure=figure) 
 ```
 
 Result:

@@ -6,4 +6,4 @@ RUN julia --project -e 'using Pkg; Pkg.instantiate()'
 COPY src/ ./src/
 EXPOSE 5050
 
-ENTRYPOINT [ "julia", "--project", "src/app.jl" ]
+ENTRYPOINT [ "julia", "--project", "src/App.jl" ]

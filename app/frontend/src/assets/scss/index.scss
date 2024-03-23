@@ -1,5 +1,7 @@
+@charset "utf-8";
+
 :root {
-    font-family: "Helvetica", sans-serif;
+    font-family: "Helvetica Neue", "Helvetica", sans-serif;
     font-optical-sizing: auto;
     font-feature-settings: 'liga' 1, 'calt' 1;
     font-size: 16px;
@@ -14,8 +16,38 @@
     width: 100%;
     height: 100%;
 
-    color: #333;
-    background-color: #fff;
+    color: var(--text-color);
+    background-color: var(--main-background-color);
+}
+
+[data-theme="light"] {
+    --text-color: #14141e;
+    --fill-color: #14141e;
+    --background-color: #ffffff;
+    --main-background-color: #f8fcff;
+    --link-color: #0088ff;
+    --placeholder-color: #bbbbbb;
+    --webkit-scrollbar-track-background-color: #fafafa;
+    --webkit-scrollbar-thumb-background-color: #eeeeee;
+    --webkit-scrollbar-thumb-hover-background-color: #dddddd;
+    --webkit-scrollbar-thumb-active-background-color: #cccccc;
+    --input-border-color: #dddddd;
+    --input-background-color: #ffffff;
+}
+
+[data-theme="dark"] {
+    --text-color: #ffffff;
+    --fill-color: #ffffff;
+    --background-color: #14141e;
+    --main-background-color: #14141e;
+    --link-color: #0088ff;
+    --placeholder-color: #afafe088;
+    --webkit-scrollbar-track-background-color: #232334;
+    --webkit-scrollbar-thumb-background-color: #3d3d5c;
+    --webkit-scrollbar-thumb-hover-background-color: #4b4b71;
+    --webkit-scrollbar-thumb-active-background-color: #5a5a87;
+    --input-border-color: #8888af;
+    --input-background-color: #393954;
 }
 
 html,
@@ -37,12 +69,12 @@ body,
 
 h1,
 h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 h3,
 h4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 h5,
@@ -78,4 +110,8 @@ a {
     &:hover {
         color: none;
     }
+}
+
+::placeholder {
+    color: var(--placeholder-color);
 }

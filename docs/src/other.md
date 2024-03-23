@@ -1,5 +1,17 @@
 # Other
 ```@docs
+PRISMA.app()
+```
+
+```@docs
+PRISMA.docs()
+```
+
+```@docs
+PRISMA.statement()
+```
+
+```@docs
 PRISMA.open()
 ```
 

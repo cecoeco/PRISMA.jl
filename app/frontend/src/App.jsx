@@ -3,8 +3,8 @@ import "./assets/scss/app.scss";
 import { lazy } from "solid-js";
 import { Router, Route } from "@solidjs/router";
 
-import Header from "./components/header.jsx";
-import Footer from "./components/footer.jsx";
+import Header from "./layout/header.jsx";
+import Footer from "./layout/footer.jsx";
 
 const Home = lazy(() => import("./pages/home.jsx"));
 const Checklist = lazy(() => import("./pages/checklist.jsx"));
@@ -14,7 +14,7 @@ const NotFound = lazy(() => import("./pages/notfound.jsx"));
 
 /**
  * Renders the layout of the app.
- *
+ * @function AppLayout
  * @param {object} props - the props passed to the component
  * @return {JSX.Element} the layout of the app
  */
@@ -30,7 +30,7 @@ function AppLayout(props) {
 
 /**
  * Renders the main application component with defined routes using Solid Router.
- *
+ * @function App
  * @return {JSX} The rendered Solid component
  */
 function App() {

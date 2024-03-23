@@ -1,39 +1,25 @@
-<!-- GitHub: https://github.com/cecoeco/PRISMA.jl -->
-
-<!-- Documentation: https://cecoeco.github.io/PRISMA.jl -->
-
-<!-- License: MIT -->
-
-<!-- Source: http://www.prisma-statement.org -->
+<!-- 
+    GitHub: https://github.com/cecoeco/PRISMA.jl
+    Documentation: https://cecoeco.github.io/PRISMA.jl
+    License: MIT
+    Source: http://www.prisma-statement.org 
+-->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
-    <meta 
-        name="viewport" 
-        content="width=device-width, initial-scale=1" 
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>PRISMA.jl</title>
-    <meta 
-        name="description" 
-        content="Generate checklists and flow diagrams for systematic reviews and meta-analyses." 
-    />
-    <meta 
-        name="author" 
-        content="Ceco E Maples" 
-    />
-    <meta 
-        name="keywords" 
-        content="PRISMA, systematic review, meta-analysis, checklist, flow diagram" 
-    />
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
-        href="src/assets/favicon.ico" 
-    />
-    <!-- Google tag (gtag.js) -->
+    <meta name="author" content="Ceco E Maples" />
+    <meta name="description"
+        content="Generate checklists and flow diagrams for systematic reviews and meta-analyses." />
+    <meta name="keywords" content="PRISMA, systematic review, meta-analysis, checklist, flow diagram" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1e" />
+    <link rel="icon" type="image/x-icon" href="src/assets/favicon.ico" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXX"></script>
     <script>
         /**
@@ -41,7 +27,6 @@
          * @type {Array}
          */
         window.dataLayer = window.dataLayer || [];
-
         /**
          * A function to push arguments to the dataLayer.
          * @param {...*} arguments - Arguments to be pushed to the dataLayer.
@@ -49,10 +34,8 @@
         function gtag() {
             dataLayer.push(arguments);
         }
-
         // Initializes the 'js' command in the dataLayer.
         gtag('js', new Date());
-
         /**
          * Configures Google Analytics tracking IDs in the dataLayer.
          * @param {string} trackingId - The tracking ID to be configured.
@@ -60,10 +43,8 @@
         function configureTracking(trackingId) {
             gtag('config', trackingId);
         }
-
         // Configures the first Google Analytics tracking ID.
         configureTracking('GT-XXXXXX');
-
         // Configures the second Google Analytics tracking ID.
         configureTracking('DC-ZZZZZZ');
     </script>
@@ -74,10 +55,7 @@
         <noscript>
             You need to enable JavaScript to run PRISMA.jl.
         </noscript>
-        <script 
-            src="src/index.jsx" 
-            type="module">
-        </script>
+        <script src="src/index.jsx" type="module"></script>
     </div>
 </body>
 
