@@ -1,0 +1,269 @@
+[data-theme="light"] {
+  --text-color-1: hsl(var(--theme-hue), 18%, 11%);
+  --text-color-2: hsl(var(--theme-hue), 18%, 14%);
+  --text-color-3: hsl(var(--theme-hue), 18%, 17%);
+  --text-color-4: hsl(var(--theme-hue), 18%, 20%);
+  --text-color-5: hsl(var(--theme-hue), 18%, 23%);
+
+  --background-color-1: hsl(var(--theme-hue), 100%, 98%);
+  --background-color-2: hsl(var(--theme-hue), 100%, 95%);
+  --background-color-3: hsl(var(--theme-hue), 100%, 92%);
+  --background-color-4: hsl(var(--theme-hue), 100%, 89%);
+  --background-color-5: hsl(var(--theme-hue), 100%, 86%);
+
+  --link-color: hsl(var(--theme-hue), 80%, 65%);
+
+  --input-placeholder-color: hsla(var(--theme-hue), 30%, 70%, 0.4);
+  --input-text-color: hsl(var(--theme-hue), 30%, 70%);
+  --input-background-color: hsl(var(--theme-hue), 100%, 99%);
+
+  --border-color: hsl(var(--theme-hue), 25%, 80%);
+  --border-color-hover: hsl(var(--theme-hue), 100%, 75%);
+  --border-color-focus: hsl(var(--theme-hue), 100%, 65%);
+  --border-box-shadow: 0 0 6px 3px hsla(var(--theme-hue), 100%, 78%, 0.3);
+
+  --box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.1);
+
+  --hover-background-color: hsla(var(--theme-hue), 100%, 75%, 0.1);
+
+  --button-background-color-1: hsl(var(--theme-hue), 100%, 68%);
+  --button-background-color-2: hsl(var(--theme-hue), 100%, 74%);
+
+  --scrollbar-color: hsla(var(--theme-hue), 100%, 68%, 0.25);
+  --scrollbar-color-hover: hsla(var(--theme-hue), 100%, 68%, 0.5);
+  --scrollbar-color-active: hsla(var(--theme-hue), 100%, 68%, 0.75);
+
+  --error-color: hsl(340, 100%, 60%);
+  --warning-color: hsl(60, 100%, 60%);
+  --success-color: hsl(135, 60%, 60%);
+}
+
+[data-theme="dark"] {
+  --text-color-1: hsl(var(--theme-hue), 100%, 98%);
+  --text-color-2: hsl(var(--theme-hue), 100%, 95%);
+  --text-color-3: hsl(var(--theme-hue), 100%, 92%);
+  --text-color-4: hsl(var(--theme-hue), 100%, 89%);
+  --text-color-5: hsl(var(--theme-hue), 100%, 86%);
+
+  --background-color-1: hsl(var(--theme-hue), 18%, 11%);
+  --background-color-2: hsl(var(--theme-hue), 18%, 14%);
+  --background-color-3: hsl(var(--theme-hue), 18%, 17%);
+  --background-color-4: hsl(var(--theme-hue), 18%, 20%);
+  --background-color-5: hsl(var(--theme-hue), 18%, 23%);
+
+  --link-color: hsl(var(--theme-hue), 100%, 83%);
+
+  --input-placeholder-color: hsla(var(--theme-hue), 15%, 40%, 0.4);
+  --input-text-color: hsl(var(--theme-hue), 15%, 40%);
+  --input-background-color: hsl(var(--theme-hue), 18%, 23%);
+
+  --border-color: hsl(var(--theme-hue), 15%, 40%);
+  --border-color-hover: hsl(var(--theme-hue), 15%, 48%);
+  --border-color-focus: hsl(var(--theme-hue), 15%, 60%);
+  --border-box-shadow: 0 0 6px 3px hsla(var(--theme-hue), 100%, 85%, 0.3);
+
+  --box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.1);
+
+  --hover-background-color: hsla(var(--theme-hue), 100%, 83%, 0.1);
+
+  --button-background-color-1: hsl(var(--theme-hue), 100%, 79%);
+  --button-background-color-2: hsl(var(--theme-hue), 100%, 85%);
+
+  --scrollbar-color: hsla(var(--theme-hue), 100%, 83%, 0.25);
+  --scrollbar-color-hover: hsla(var(--theme-hue), 100%, 83%, 0.5);
+  --scrollbar-color-active: hsla(var(--theme-hue), 100%, 83%, 0.75);
+
+  --error-color: hsl(340, 100%, 60%);
+  --warning-color: hsl(60, 100%, 70%);
+  --success-color: hsl(135, 60%, 50%);
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local("Roboto Slab Regular"),
+    url("../fonts/RobotoSlab-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 100;
+  src:
+    local("Roboto Slab Thin"),
+    url("../fonts/RobotoSlab-Thin.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: italic;
+  font-weight: 300;
+  src:
+    local("Roboto Slab Light Italic"),
+    url("../fonts/RobotoSlab-LightItalic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 300;
+  src:
+    local("Roboto Slab Light"),
+    url("../fonts/RobotoSlab-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local("Roboto Slab Bold"),
+    url("../fonts/RobotoSlab-Bold.woff") format("woff");
+}
+
+:root {
+  --theme-hue: 210;
+  font-family: "Roboto Slab", sans-serif;
+  font-optical-sizing: auto;
+  font-feature-settings: "liga" 1, "calt" 1;
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  color: var(--text-color-1);
+  background-color: var(--background-color-1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+[draggable="false"] {
+  pointer-events: auto;
+}
+
+a {
+  color: var(--link-color);
+  background-color: transparent;
+}
+
+input,
+textarea {
+  font-size: 1rem;
+  color: var(--text-color-1);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color-3);
+}
+
+::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--border-color-focus);
+  box-shadow: var(--border-box-shadow);
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+abbr[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+
+button {
+  color: var(--text-color-1);
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  text-transform: none;
+  border-radius: 5px;
+  padding: 4px 24px;
+  user-select: none;
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  background: linear-gradient(0deg, var(--button-background-color-1) 0%, var(--button-background-color-2) 100%);
+}
+
+button:hover {
+  background: linear-gradient(0deg, var(--button-background-color-2) 0%, var(--button-background-color-1) 100%);
+}
+
+button:active {
+  background: var(--button-background-color-2);
+  box-shadow: none;
+}
+
+button:disabled {
+  display: none;
+}
+
+.checklist-page ::-webkit-scrollbar,
+.flow-diagram-page ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.checklist-page ::-webkit-scrollbar-track,
+.flow-diagram-page ::-webkit-scrollbar-track {
+  background-color: var(--background-color-4);
+}
+
+.checklist-page ::-webkit-scrollbar-thumb,
+.flow-diagram-page ::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+}
+
+.checklist-page ::-webkit-scrollbar-thumb:hover,
+.flow-diagram-page ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-color-hover);
+}
+
+.checklist-page ::-webkit-scrollbar-thumb:active,
+.flow-diagram-page ::-webkit-scrollbar-thumb:active {
+  background-color: var(--scrollbar-color-active);
+}
+
+.checklist-page ::-webkit-scrollbar-corner,
+.flow-diagram-page ::-webkit-scrollbar-corner {
+  background-color: var(--background-color-4);
+}
