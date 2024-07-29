@@ -19,7 +19,7 @@ Julia package for generating checklists and flow diagrams based on the [2020 **P
 """
 module PRISMA
 
-using DataFrames: DataFrame, GroupedDataFrame, rename!, nrow, groupby
+using DataFrames: DataFrame, GroupedDataFrame, rename!, nrow, groupby, push!
 using DataStructures: LittleDict
 using Graphviz_jll: neato
 using LinearAlgebra: norm, dot

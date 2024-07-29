@@ -28,8 +28,11 @@ function App() {
       <Router root={AppLayout}>
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta name="description" content="PRISMA Web App - Checklist and Flow Diagram" />
-        <Title>PRISMA Web App</Title>
+        <Title>PRISMA.jl</Title>
+        <Meta
+          name="description"
+          content="PRISMA.jl - checklists and flow diagrams based on the 2020 PRISMA statement"
+        />
         <Link rel="icon" href="./assets/favicon.ico" />
         <Route path="/" component={Home} />
         <Route path="/checklist" component={Checklist} />

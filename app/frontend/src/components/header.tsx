@@ -52,7 +52,7 @@ export default function Header() {
     <header class={isScrolled() ? "header scrolled" : "header"}>
       <h1 class="header-title">
         <Logo class="header-logo" />
-        PRISMA Web App
+        PRISMA.jl
       </h1>
       <nav>
         <Link href="/">Home</Link>

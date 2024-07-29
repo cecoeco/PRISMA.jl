@@ -471,7 +471,7 @@ export default function FlowDiagram() {
               />
             </div>
             {state().databases.map((database, index) => (
-              <span class="settings-form-reason-group">
+              <span class="settings-form-database-group">
                 <div class="settings-form-group">
                   <label for={`database-${index + 1}`}>{`Database ${index + 1}`}</label>
                   <input
@@ -1141,6 +1141,41 @@ export default function FlowDiagram() {
                 </div>
               </>
             )}
+            {/* Borders */}
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="borders">Borders</label>
+              </h4>
+              <select
+                id="borders"
+                name="borders"
+                value={state().visual.borders}
+                onInput={(event) => {
+                  handleChange("borders", event.target.value, "visual");
+                }}
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+            {/* Border Style */}
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="border-style">Border Style</label>
+              </h4>
+              <select
+                id="border-style"
+                name="border-style"
+                value={state().visual.borderStyle}
+                onInput={(event) => {
+                  handleChange("borderStyle", event.target.value, "visual");
+                }}
+              >
+                <option value="solid">Solid</option>
+                <option value="dashed">Dashed</option>
+                <option value="dotted">Dotted</option>
+              </select>
+            </div>
             {/* Border Width */}
             <div class="settings-form-group">
               <h4 class="settings-form-heading">
@@ -1170,6 +1205,64 @@ export default function FlowDiagram() {
                 value={state().visual.borderColor}
                 onInput={(event) => {
                   handleChange("borderColor", event.target.value, "visual");
+                }}
+              />
+            </div>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="font">Font</label>
+              </h4>
+              <select
+                id="font"
+                name="font"
+                value={state().visual.font}
+                onInput={(event) => {
+                  handleChange("font", event.target.value, "visual");
+                }}
+              >
+                <option value="Arial">Arial</option>
+                <option value="Avenir">Avenir</option>
+                <option value="Baskerville">Baskerville</option>
+                <option value="Calibri">Calibri</option>
+                <option value="Cambria">Cambria</option>
+                <option value="Garamond">Garamond</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Futura">Futura</option>
+                <option value="Helvetica">Helvetica</option>
+                <option value="Inter">Inter</option>
+                <option value="Lato">Lato</option>
+                <option value="Roboto">Roboto</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+              </select>
+            </div>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="font-size">Font Size</label>
+              </h4>
+              <input
+                id="font-size"
+                name="font-size"
+                type="number"
+                placeholder="0"
+                min="0"
+                value={state().visual.fontSize}
+                onInput={(event) => {
+                  handleChange("fontSize", event.target.value, "visual");
+                }}
+              />
+            </div>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="font-color">Font Color</label>
+              </h4>
+              <input
+                id="font-color"
+                name="font-color"
+                type="color"
+                value={state().visual.fontColor}
+                onInput={(event) => {
+                  handleChange("fontColor", event.target.value, "visual");
                 }}
               />
             </div>
@@ -1234,64 +1327,6 @@ export default function FlowDiagram() {
                 value={state().visual.arrowColor}
                 onInput={(event) => {
                   handleChange("arrowColor", event.target.value, "visual");
-                }}
-              />
-            </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="font">Font</label>
-              </h4>
-              <select
-                id="font"
-                name="font"
-                value={state().visual.font}
-                onInput={(event) => {
-                  handleChange("font", event.target.value, "visual");
-                }}
-              >
-                <option value="Arial">Arial</option>
-                <option value="Avenir">Avenir</option>
-                <option value="Baskerville">Baskerville</option>
-                <option value="Calibri">Calibri</option>
-                <option value="Cambria">Cambria</option>
-                <option value="Garamond">Garamond</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Futura">Futura</option>
-                <option value="Helvetica">Helvetica</option>
-                <option value="Inter">Inter</option>
-                <option value="Lato">Lato</option>
-                <option value="Roboto">Roboto</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Verdana">Verdana</option>
-              </select>
-            </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="font-size">Font Size</label>
-              </h4>
-              <input
-                id="font-size"
-                name="font-size"
-                type="number"
-                placeholder="0"
-                min="0"
-                value={state().visual.fontSize}
-                onInput={(event) => {
-                  handleChange("fontSize", event.target.value, "visual");
-                }}
-              />
-            </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="font-color">Font Color</label>
-              </h4>
-              <input
-                id="font-color"
-                name="font-color"
-                type="color"
-                value={state().visual.fontColor}
-                onInput={(event) => {
-                  handleChange("fontColor", event.target.value, "visual");
                 }}
               />
             </div>

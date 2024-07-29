@@ -1,4 +1,4 @@
-module PRISMAWebApp
+module PRISMAApp
 
 using CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
 

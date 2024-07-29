@@ -152,63 +152,103 @@ FLOW_DIAGRAM_COL_04::Float64 = 10
 FLOW_DIAGRAM_COL_05::Float64 = 13
 FLOW_DIAGRAM_COL_06::Float64 = 16
 
-const FLOW_DIAGRAM_NODE_POSITIONS::Dict{Float64,@NamedTuple{x::Float64, y::Float64}} = Dict(
+const FLOW_DIAGRAM_POSITIONS::Dict{Float64,@NamedTuple{x::Float64, y::Float64}} = Dict(
     01.0 => (
-        x=FLOW_DIAGRAM_COL_01,
+        x=FLOW_DIAGRAM_COL_02,
         y=FLOW_DIAGRAM_ROW_01
     ),
     02.0 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=FLOW_DIAGRAM_ROW_02
-    ),
-    02.5 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=(FLOW_DIAGRAM_ROW_02 + FLOW_DIAGRAM_ROW_03) / 2
+        x=(FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_COL_04) / 2,
+        y=FLOW_DIAGRAM_ROW_01
     ),
     03.0 => (
-        x=FLOW_DIAGRAM_COL_02,
-        y=(FLOW_DIAGRAM_ROW_02 + FLOW_DIAGRAM_ROW_03) / 2
+        x=(FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_COL_06) / 2,
+        y=FLOW_DIAGRAM_ROW_01
     ),
     04.0 => (
         x=FLOW_DIAGRAM_COL_01,
-        y=FLOW_DIAGRAM_ROW_03
-    ),
-    04.5 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=(FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_ROW_04) / 2
+        y=FLOW_DIAGRAM_ROW_02
     ),
     05.0 => (
-        x=FLOW_DIAGRAM_COL_02,
-        y=(FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_ROW_04) / 2
+        x=FLOW_DIAGRAM_COL_01,
+        y=(FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_ROW_05) / 2
     ),
     06.0 => (
         x=FLOW_DIAGRAM_COL_01,
-        y=FLOW_DIAGRAM_ROW_04
-    ),
-    06.5 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=(FLOW_DIAGRAM_ROW_04 + FLOW_DIAGRAM_ROW_05) / 2
+        y=(FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_ROW_07) / 2
     ),
     07.0 => (
         x=FLOW_DIAGRAM_COL_02,
-        y=(FLOW_DIAGRAM_ROW_04 + FLOW_DIAGRAM_ROW_05) / 2
+        y=FLOW_DIAGRAM_ROW_02
     ),
-    08.0 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=FLOW_DIAGRAM_ROW_05
-    ),
-    08.5 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=(FLOW_DIAGRAM_ROW_05 + FLOW_DIAGRAM_ROW_06) / 2
-    ),
-    09.0 => (
+    07.5 => (
         x=FLOW_DIAGRAM_COL_02,
-        y=(FLOW_DIAGRAM_ROW_05 + FLOW_DIAGRAM_ROW_06) / 2
-    ),
-    10.0 => (
-        x=FLOW_DIAGRAM_COL_01,
         y=FLOW_DIAGRAM_ROW_06
     ),
+    08.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    09.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    10.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_03
+    ),
+    11.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_03
+    ),
+    12.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    13.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    14.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_05
+    ),
+    15.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_05
+    ),
+    16.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_06
+    ),
+    17.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_07
+    ),
+    18.0 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    19.0 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    20.0 => (
+        x=FLOW_DIAGRAM_COL_06,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    21.0 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_05
+    ),
+    21.5 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_06
+    ),
+    22.0 => (
+        x=FLOW_DIAGRAM_COL_06,
+        y=FLOW_DIAGRAM_ROW_05
+    )
 )
 
 """
@@ -290,6 +330,28 @@ function flow_diagram(
     arrow_color::AbstractString="black",
     arrow_width::Number=1)::PRISMA.FlowDiagram
 
+    excluded_nodes = Set{Number}()
+
+    if !previous_studies
+        data = filter(row -> !(row[:box_num] in [1, 7]), data)
+        push!(excluded_nodes, 1, 7, 7.5)
+    end
+
+    if !other_methods
+        data = filter(row -> !(row[:box_num] in [3, 18, 19, 20, 21, 22]), data)
+        push!(excluded_nodes, 3, 18, 19, 20, 21, 21.5, 22)
+    end
+
+    if !top_boxes
+        data = filter(row -> !(row[:box_num] in [1, 2, 3]), data)
+        push!(excluded_nodes, 1, 2, 3)
+    end
+
+    if !side_boxes
+        data = filter(row -> !(row[:box_num] in [4, 5, 6]), data)
+        push!(excluded_nodes, 4, 5, 6)
+    end
+
     dot_lang::String = """
     digraph {
         graph [
@@ -300,48 +362,71 @@ function flow_diagram(
     """
 
     for row in eachrow(group_labels(data))
-        pos = FLOW_DIAGRAM_NODE_POSITIONS[row.box_num]
-        dot_lang *= """
-        $(row.box_num) [
-            label=<$(row.box_lab)>,
-            shape=box,
-            style="filled,$border_style",
-            fixedsize="true",
-            fillcolor="#aaffff",
-            penwidth="$(borders ? border_width : 0)",
-            color="$border_color",
-            fontname="$font",
-            fontcolor="$font_color",
-            fontsize="$font_size",
-            pos="$(pos.x),$(pos.y)!",
-            width=2.5
-        ];
-        """
+        pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
+        if !(row.box_num in excluded_nodes)
+            dot_lang *= """
+            $(row.box_num) [
+                label=<$(row.box_lab)>,
+                shape=box,
+                style="filled,$border_style",
+                fixedsize="true",
+                fillcolor="#aaffff",
+                penwidth="$(borders ? border_width : 0)",
+                color="$border_color",
+                fontname="$font",
+                fontcolor="$font_color",
+                fontsize="$font_size",
+                pos="$(pos.x),$(pos.y)!",
+                width=2.5
+            ];
+            """
+        end
     end
 
-    invisible_nodes = [07.5, 21.5]
+    invisible_nodes = [7.5, 21.5]
     for node in invisible_nodes
-        pos = FLOW_DIAGRAM_NODE_POSITIONS[node]
-        dot_lang *= """
-        $node [label="", height=0, width=0, pos="$(pos.x),$(pos.y)!"];
-        """
+        if !(node in excluded_nodes)
+            pos = FLOW_DIAGRAM_POSITIONS[node]
+            dot_lang *= """
+            $node [label="", height=0, width=0, pos="$(pos.x),$(pos.y)!"];
+            """
+        end
     end
 
-    dot_lang *= """
-        2 -> 2.5 [arrowhead=none, color=$arrow_color, penwidth="$arrow_width"];
-        2.5 -> 3 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        2.5 -> 4 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        4 -> 4.5 [arrowhead=none, color=$arrow_color, penwidth="$arrow_width"];
-        4.5 -> 5 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        4.5 -> 6 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        6 -> 6.5 [arrowhead=none, color=$arrow_color, penwidth="$arrow_width"];
-        6.5 -> 7 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        6.5 -> 8 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        8 -> 8.5 [arrowhead=none, color=$arrow_color, penwidth="$arrow_width"];
-        8.5 -> 9 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-        8.5 -> 10 [arrowhead=$arrow_head, arrowsize="$arrow_size", color=$arrow_color, penwidth="$arrow_width"];
-    }
-    """
+    arrows = [
+        (7, 7.5),
+        (7.5, 16),
+        (8, 9),
+        (8, 10),
+        (10, 11),
+        (10, 12),
+        (12, 13),
+        (12, 14),
+        (14, 15),
+        (14, 16),
+        (16, 17),
+        (18, 19),
+        (19, 20),
+        (19, 21),
+        (21, 22),
+        (21, 21.5),
+        (21.5, 17)
+    ]
+
+    for (from, to) in arrows
+        if !(from in excluded_nodes) && !(to in excluded_nodes)
+            dot_lang *= """
+            $from -> $to [
+                arrowhead=$(from in Set([7, 21]) ? "none" : arrow_head),
+                arrowsize="$arrow_size",
+                color=$arrow_color,
+                penwidth="$arrow_width"
+            ];
+            """
+        end
+    end
+
+    dot_lang *= "}"
 
     return FlowDiagram(dot_lang)
 end

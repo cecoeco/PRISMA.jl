@@ -77,6 +77,15 @@
   width: 100%;
 }
 
+.settings-form-database-group,
+.settings-form-reason-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .settings-form,
 .settings-form input,
 .settings-form select {
@@ -106,14 +115,6 @@
 .settings-form select:focus {
   border-color: var(--border-color-focus);
   box-shadow: var(--border-box-shadow);
-}
-
-.settings-form-reason-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
 }
 
 .settings-form input[type="color"] {
