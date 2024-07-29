@@ -1,17 +1,15 @@
 """
 # PRISMA.jl
 
-Julia package for generating checklists and flow diagrams based on the [the **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
+Julia package for generating checklists and flow diagrams based on the [2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
 
 ## Functions
 
-- `checklist_df`: returns an imcomplete PRISMA checklist as a `DataFrame`
-- `checklist`: returns a completed PRISMA checklist as a `Checklist`
-- `flow_diagram_df`: returns an imcomplete PRISMA flowchart as a `DataFrame`
-- `flow_diagram`: returns a completed PRISMA flowchart as a `FlowDiagram`
-- `flow_diagram_save`: saves a completed PRISMA flowchart as a `FlowDiagram`
-- `Base.show`: uses an `IO` to print a `FlowDiagram`
-- `Base.Multimedia.display`: displays or plots a `FlowDiagram`
+- `checklist_df`: returns an empty PRISMA checklist as the type `DataFrame`
+- `checklist`: returns a completed PRISMA checklist as the type `Checklist`
+- `flow_diagram_df`: returns the `DataFrame` that is used to create the flow diagram
+- `flow_diagram`: returns a completed PRISMA flow diagram as the type `FlowDiagram`
+- `flow_diagram_save`: saves a `FlowDiagram` to any file format supported by `Graphviz_jll`
 
 ## Types
 
@@ -21,7 +19,7 @@ Julia package for generating checklists and flow diagrams based on the [the **P*
 """
 module PRISMA
 
-using DataFrames: DataFrame, rename!, nrow, groupby
+using DataFrames: DataFrame, GroupedDataFrame, rename!, nrow, groupby
 using DataStructures: LittleDict
 using Graphviz_jll: neato
 using LinearAlgebra: norm, dot
@@ -29,11 +27,8 @@ using Poppler_jll: pdfinfo, pdftotext
 using Statistics: mean
 using Transformers: encode, @hgf_str
 
-import Base.show, Base.Multimedia.display
-
 export checklist_df, checklist, Checklist
 export flow_diagram_df, flow_diagram, FlowDiagram, flow_diagram_save
-export show, display
 
 include("checklist.jl")
 include("flow_diagram.jl")

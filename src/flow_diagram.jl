@@ -307,7 +307,7 @@ function flow_diagram(
             shape=box,
             style="filled,$border_style",
             fixedsize="true",
-            fillcolor="$box_color",
+            fillcolor="#aaffff",
             penwidth="$(borders ? border_width : 0)",
             color="$border_color",
             fontname="$font",

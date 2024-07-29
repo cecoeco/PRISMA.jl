@@ -66,22 +66,6 @@ xlsx_df::DataFrame = DataFrame(XLSX.readtable(xlsx_path, sheetname))
 println(xlsx_df)
 ```
 
-The updated `DataFrames` either it be from a `.csv`, `.html`, `.json`, or `.xlsx` can be loaded into the `flow_diagram` function to create the `FlowDiagram` object which can be plotted using the `Base.show`, and `Base.Multimedia.display` function. The `Base.Multimedia.display` defaults to plotting the `FlowDiagram` as a `SVG` and uses the Julia plotting plane if using VSCode. The format that `Base.show` returns is depended on the mime type represented as `Mime` in Julia. `Base.show` can use an mime type that Graphviz supports through the `Graphviz_jll` binary. The `text/vnd.graphviz` and `text/plain` mimes prints the `.gv` to `IO`:
-
-```julia
-using PRISMA: FlowDiagram, flow_diagram
-
-fd::FlowDiagram = flow_diagram()
-
-show(stdout, "text/vnd.graphviz", fd)
-show(stdout, "text/plain", fd)
-show(stdout, "application/pdf", fd)
-show(stdout, "image/png", fd)
-show(stdout, "image/svg+xml", fd)
-
-display(fd)
-```
-
 The `FlowDiagram` can be saved as any format support by `Graphviz_jll` using the `flow_diagram_save` the only catch is the file path should end with the extension of the desired format:
 
 ```julia
