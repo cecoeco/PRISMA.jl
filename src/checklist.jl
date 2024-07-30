@@ -33,7 +33,7 @@ completed checklist along with the paper's metadata, represented by the type `Ch
 
 """
 function checklist_df()::DataFrame
-    cols::Vector{String} = ["Section and Topic","Item #","Checklist Item","Location where item is reported"]
+    cols::Vector{String} = ["Section and Topic", "Item #", "Checklist Item", "Location where item is reported"]
     rows::Vector{Tuple{String,String,String,String}} = [
         ("TITLE", "", "", ""),
         ("Title", "1", "Identify the report as a systematic review", ""),

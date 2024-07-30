@@ -133,47 +133,47 @@ export default function FlowDiagram() {
     const boxes = [
       {
         box_num: 1,
-        box_lab: "Previous studies",
+        box_text: "Previous studies",
         results: null,
       },
       {
         box_num: 2,
-        box_lab: "Identification of new studies via databases and registers",
+        box_text: "Identification of new studies via databases and registers",
         results: null,
       },
       {
         box_num: 3,
-        box_lab: "Identification of new studies via other methods",
+        box_text: "Identification of new studies via other methods",
         results: null,
       },
       {
         box_num: 4,
-        box_lab: "Identification",
+        box_text: "Identification",
         results: null,
       },
       {
         box_num: 5,
-        box_lab: "Screening",
+        box_text: "Screening",
         results: null,
       },
       {
         box_num: 6,
-        box_lab: "Included",
+        box_text: "Included",
         results: null,
       },
       {
         box_num: 7,
-        box_lab: "Studies included in previous version of review",
+        box_text: "Studies included in previous version of review",
         results: state().data.numberOfPreviousStudies,
       },
       {
         box_num: 7,
-        box_lab: "Reports of studies included in previous version of review",
+        box_text: "Reports of studies included in previous version of review",
         results: state().data.numberOfPreviousReports,
       },
       {
         box_num: 8,
-        box_lab: "Records identified from:",
+        box_text: "Records identified from:",
         results: null,
       },
     ];
@@ -181,7 +181,7 @@ export default function FlowDiagram() {
     state().databases.forEach((database) => {
       boxes.push({
         box_num: 8,
-        box_lab: database.name,
+        box_text: database.name,
         results: database.value,
       });
     });
@@ -189,52 +189,52 @@ export default function FlowDiagram() {
     boxes.push(
       {
         box_num: 9,
-        box_lab: "Records removed before screening:",
+        box_text: "Records removed before screening:",
         results: null,
       },
       {
         box_num: 9,
-        box_lab: "Duplicate records removed",
+        box_text: "Duplicate records removed",
         results: state().data.numberOfDuplicatesRemoved,
       },
       {
         box_num: 9,
-        box_lab: "Records marked as ineligible by automation tools",
+        box_text: "Records marked as ineligible by automation tools",
         results: state().data.numberOfAutomaticallyExcluded,
       },
       {
         box_num: 9,
-        box_lab: "Records removed for other reasons",
+        box_text: "Records removed for other reasons",
         results: state().data.numberOfRemovedForOtherReasons,
       },
       {
         box_num: 10,
-        box_lab: "Records screened",
+        box_text: "Records screened",
         results: state().data.numberOfRecordsScreened,
       },
       {
         box_num: 11,
-        box_lab: "Records excluded",
+        box_text: "Records excluded",
         results: state().data.numberOfRecordsExcluded,
       },
       {
         box_num: 12,
-        box_lab: "Reports sought for retrieval",
+        box_text: "Reports sought for retrieval",
         results: state().data.numberOfReportsSought,
       },
       {
         box_num: 13,
-        box_lab: "Reports not retrieved",
+        box_text: "Reports not retrieved",
         results: state().data.numberOfReportsNotRetrieved,
       },
       {
         box_num: 14,
-        box_lab: "Reports assessed for eligibility",
+        box_text: "Reports assessed for eligibility",
         results: state().data.numberOfReportsAssessed,
       },
       {
         box_num: 15,
-        box_lab: "Reports excluded:",
+        box_text: "Reports excluded:",
         results: null,
       }
     );
@@ -242,7 +242,7 @@ export default function FlowDiagram() {
     state().reasons.forEach((reason) => {
       boxes.push({
         box_num: 15,
-        box_lab: reason.name,
+        box_text: reason.name,
         results: reason.value,
       });
     });
@@ -250,67 +250,67 @@ export default function FlowDiagram() {
     boxes.push(
       {
         box_num: 16,
-        box_lab: "New studies included in review",
+        box_text: "New studies included in review",
         results: state().data.newStudies,
       },
       {
         box_num: 16,
-        box_lab: "Reports of new included studies",
+        box_text: "Reports of new included studies",
         results: state().data.newReports,
       },
       {
         box_num: 17,
-        box_lab: "Total studies included in review",
+        box_text: "Total studies included in review",
         results: state().data.totalStudies,
       },
       {
         box_num: 17,
-        box_lab: "Reports of total included studies",
+        box_text: "Reports of total included studies",
         results: state().data.totalReports,
       },
       {
         box_num: 18,
-        box_lab: "Records identified from:",
+        box_text: "Records identified from:",
         results: null,
       },
       {
         box_num: 18,
-        box_lab: "Websites",
+        box_text: "Websites",
         results: state().data.numberOfWebsites,
       },
       {
         box_num: 18,
-        box_lab: "Organizations",
+        box_text: "Organizations",
         results: state().data.numberOfOrganizations,
       },
       {
         box_num: 18,
-        box_lab: "Citation searching",
+        box_text: "Citation searching",
         results: state().data.numberOfCitations,
       },
       {
         box_num: 18,
-        box_lab: "Other",
+        box_text: "Other",
         results: state().data.numberOfOtherSources,
       },
       {
         box_num: 19,
-        box_lab: "Reports sought for retrieval",
+        box_text: "Reports sought for retrieval",
         results: state().data.numberOfReportsSought,
       },
       {
         box_num: 20,
-        box_lab: "Reports not retrieved",
+        box_text: "Reports not retrieved",
         results: state().data.numberOfReportsNotRetrieved,
       },
       {
         box_num: 21,
-        box_lab: "Reports assessed for eligibility",
+        box_text: "Reports assessed for eligibility",
         results: state().data.numberOfReportsAssessed,
       },
       {
         box_num: 22,
-        box_lab: "Reports excluded:",
+        box_text: "Reports excluded:",
         results: null,
       }
     );
@@ -318,7 +318,7 @@ export default function FlowDiagram() {
     state().otherReasons.forEach((reason) => {
       boxes.push({
         box_num: 22,
-        box_lab: reason.name,
+        box_text: reason.name,
         results: reason.value,
       });
     });

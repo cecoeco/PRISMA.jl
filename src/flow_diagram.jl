@@ -62,7 +62,7 @@ PRISMA.flow_diagram(df)
 
 """
 function flow_diagram_df()::DataFrame
-    cols::Vector{String} = ["box_num", "box_lab", "result"]
+    cols::Vector{String} = ["box_num", "box_text", "result"]
     rows::Vector{Tuple{Int,String,Union{Int,Missing}}} = [
         (01, "Previous studies", missing),
         (02, "Identification of new studies via databases and registers", missing),
@@ -126,21 +126,24 @@ end
 
 function group_labels(df::DataFrame)::DataFrame
     grouped::GroupedDataFrame = groupby(df, :box_num)
-    grouped_labels::DataFrame = DataFrame(box_num=Int[], box_lab=String[])
+    grouped_labels::DataFrame = DataFrame(box_num=Int[], box_text=String[])
 
     for g in grouped
-        box_num::Int = first(g.box_num)
-        combined_label::String = join(
-            [
-                string(
-                    ifelse(ismissing(row.result), "<b>$(row.box_lab)</b>", row.box_lab),
-                    "<br/>",
-                    ifelse(ismissing(row.result), "", "<i>n</i>&nbsp;=&nbsp;$(row.result)")
-                ) for row in eachrow(g)
-            ], "<br/>"
-        )
+        number::Int = first(g.box_num)
+        labels::Vector{String} = String[]
 
-        push!(grouped_labels, (box_num, combined_label))
+        for row in eachrow(g)
+            text::String = ismissing(row.result) ? "<b>$(row.box_text)</b>" : row.box_text
+            result::String = ismissing(row.result) ? "" : "<i>n</i>&nbsp;=&nbsp;$(row.result)"
+
+            label::String = string(text, "<br/>", result)
+
+            push!(labels, label)
+        end
+
+        group_label::String = join(labels, "<br/>")
+
+        push!(grouped_labels, (number, group_label))
     end
 
     return grouped_labels
@@ -268,7 +271,7 @@ const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
 
 """
     PRISMA.flow_diagram(
-        data::DataFrame=flow_diagram_df();
+        data::DataFrame=flow_diagram_df(),
         background_color::AbstractString="white",
         grayboxes::Bool=true,
         grayboxes_color::AbstractString="#f0f0f0",
@@ -403,7 +406,7 @@ function flow_diagram(
         if !(row.box_num in excluded_boxes)
             dot_lang *= """
             $(row.box_num) [
-                label=<$(row.box_lab)>,
+                label=<$(row.box_text)>,
                 shape=box,
                 style="filled,$border_style",
                 fixedsize="true",
