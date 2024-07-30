@@ -18,7 +18,7 @@ using PRISMA, DataFrames
 
 df = PRISMA.flow_diagram_df()
 
-df[3, "results"] = 200
+df[3, "result"] = 200
 ```
 
 In order to add more databases or registers to the flow diagram, you must add them as 
@@ -62,7 +62,7 @@ PRISMA.flow_diagram(df)
 
 """
 function flow_diagram_df()::DataFrame
-    cols::Vector{String} = ["box_num", "box_lab", "results"]
+    cols::Vector{String} = ["box_num", "box_lab", "result"]
     rows::Vector{Tuple{Int,String,Union{Int,Missing}}} = [
         (01, "Previous studies", missing),
         (02, "Identification of new studies via databases and registers", missing),
@@ -130,29 +130,38 @@ function group_labels(df::DataFrame)::DataFrame
 
     for g in grouped
         box_num::Int = first(g.box_num)
-        box_lab::String = join(g.box_lab, "<br/>")
-        push!(grouped_labels, (box_num, box_lab))
+        combined_label::String = join(
+            [
+                string(
+                    ifelse(ismissing(row.result), "<b>$(row.box_lab)</b>", row.box_lab),
+                    "<br/>",
+                    ifelse(ismissing(row.result), "", "<i>n</i>&nbsp;=&nbsp;$(row.result)")
+                ) for row in eachrow(g)
+            ], "<br/>"
+        )
+
+        push!(grouped_labels, (box_num, combined_label))
     end
 
     return grouped_labels
 end
 
-FLOW_DIAGRAM_ROW_01::Float64 = 12.7
-FLOW_DIAGRAM_ROW_02::Float64 = 12
-FLOW_DIAGRAM_ROW_03::Float64 = 11
-FLOW_DIAGRAM_ROW_04::Float64 = 10
-FLOW_DIAGRAM_ROW_05::Float64 = 09
-FLOW_DIAGRAM_ROW_06::Float64 = 08
-FLOW_DIAGRAM_ROW_07::Float64 = 07
+FLOW_DIAGRAM_ROW_01::Number = 12.7
+FLOW_DIAGRAM_ROW_02::Number = 12
+FLOW_DIAGRAM_ROW_03::Number = 11
+FLOW_DIAGRAM_ROW_04::Number = 10
+FLOW_DIAGRAM_ROW_05::Number = 09
+FLOW_DIAGRAM_ROW_06::Number = 08
+FLOW_DIAGRAM_ROW_07::Number = 07
 
-FLOW_DIAGRAM_COL_01::Float64 = 01
-FLOW_DIAGRAM_COL_02::Float64 = 04
-FLOW_DIAGRAM_COL_03::Float64 = 07
-FLOW_DIAGRAM_COL_04::Float64 = 10
-FLOW_DIAGRAM_COL_05::Float64 = 13
-FLOW_DIAGRAM_COL_06::Float64 = 16
+FLOW_DIAGRAM_COL_01::Number = 01
+FLOW_DIAGRAM_COL_02::Number = 04
+FLOW_DIAGRAM_COL_03::Number = 07
+FLOW_DIAGRAM_COL_04::Number = 10
+FLOW_DIAGRAM_COL_05::Number = 13
+FLOW_DIAGRAM_COL_06::Number = 16
 
-const FLOW_DIAGRAM_POSITIONS::Dict{Float64,@NamedTuple{x::Float64, y::Float64}} = Dict(
+const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
     01.0 => (
         x=FLOW_DIAGRAM_COL_02,
         y=FLOW_DIAGRAM_ROW_01
@@ -251,6 +260,12 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Float64,@NamedTuple{x::Float64, y::Float64}} 
     )
 )
 
+const PREVIOUS_STUDIES_BOXES::Vector{Number} = [1, 7]
+const OTHER_METHODS_BOXES::Vector{Number} = [3, 18, 19, 20, 21, 22]
+const TOP_BOXES::Vector{Number} = [1, 2, 3]
+const SIDE_BOXES::Vector{Number} = [4, 5, 6]
+const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
+
 """
     PRISMA.flow_diagram(
         data::DataFrame=flow_diagram_df();
@@ -330,26 +345,26 @@ function flow_diagram(
     arrow_color::AbstractString="black",
     arrow_width::Number=1)::PRISMA.FlowDiagram
 
-    excluded_nodes = Set{Number}()
+    excluded_boxes = Set{Number}()
 
     if !previous_studies
-        data = filter(row -> !(row[:box_num] in [1, 7]), data)
-        push!(excluded_nodes, 1, 7, 7.5)
+        data = filter(row -> !(row.box_num in PREVIOUS_STUDIES_BOXES), data)
+        push!(excluded_boxes, 1, 7, 7.5)
     end
 
     if !other_methods
-        data = filter(row -> !(row[:box_num] in [3, 18, 19, 20, 21, 22]), data)
-        push!(excluded_nodes, 3, 18, 19, 20, 21, 21.5, 22)
+        data = filter(row -> !(row.box_num in OTHER_METHODS_BOXES), data)
+        push!(excluded_boxes, 3, 18, 19, 20, 21, 21.5, 22)
     end
 
     if !top_boxes
-        data = filter(row -> !(row[:box_num] in [1, 2, 3]), data)
-        push!(excluded_nodes, 1, 2, 3)
+        data = filter(row -> !(row.box_num in TOP_BOXES), data)
+        push!(excluded_boxes, 1, 2, 3)
     end
 
     if !side_boxes
-        data = filter(row -> !(row[:box_num] in [4, 5, 6]), data)
-        push!(excluded_nodes, 4, 5, 6)
+        data = filter(row -> !(row.box_num in SIDE_BOXES), data)
+        push!(excluded_boxes, 4, 5, 6)
     end
 
     dot_lang::String = """
@@ -362,30 +377,52 @@ function flow_diagram(
     """
 
     for row in eachrow(group_labels(data))
+        box_color = "white"
+        box_border_width = border_width
+
+        if top_boxes && row.box_num in TOP_BOXES
+            box_color = top_boxes_color
+            if !top_boxes_borders
+                box_border_width = 0
+            end
+        end
+
+        if side_boxes && row.box_num in SIDE_BOXES
+            box_color = side_boxes_color
+            if !side_boxes_borders
+                box_border_width = 0
+            end
+        end
+
+        if grayboxes && row.box_num in GRAYBOXES
+            box_color = grayboxes_color
+            box_border_width = 0
+        end
+
         pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
-        if !(row.box_num in excluded_nodes)
+        if !(row.box_num in excluded_boxes)
             dot_lang *= """
             $(row.box_num) [
                 label=<$(row.box_lab)>,
                 shape=box,
                 style="filled,$border_style",
                 fixedsize="true",
-                fillcolor="#aaffff",
-                penwidth="$(borders ? border_width : 0)",
+                fillcolor="$box_color",
+                penwidth=$(borders ? box_border_width : 0),
                 color="$border_color",
                 fontname="$font",
                 fontcolor="$font_color",
                 fontsize="$font_size",
                 pos="$(pos.x),$(pos.y)!",
-                width=2.5
+                width=2
             ];
             """
         end
     end
 
-    invisible_nodes = [7.5, 21.5]
+    invisible_nodes::Vector{Number} = [7.5, 21.5]
     for node in invisible_nodes
-        if !(node in excluded_nodes)
+        if !(node in excluded_boxes)
             pos = FLOW_DIAGRAM_POSITIONS[node]
             dot_lang *= """
             $node [label="", height=0, width=0, pos="$(pos.x),$(pos.y)!"];
@@ -393,7 +430,7 @@ function flow_diagram(
         end
     end
 
-    arrows = [
+    arrows::Vector{Tuple{Number,Number}} = [
         (7, 7.5),
         (7.5, 16),
         (8, 9),
@@ -414,7 +451,7 @@ function flow_diagram(
     ]
 
     for (from, to) in arrows
-        if !(from in excluded_nodes) && !(to in excluded_nodes)
+        if !(from in excluded_boxes) && !(to in excluded_boxes)
             dot_lang *= """
             $from -> $to [
                 arrowhead=$(from in Set([7, 21]) ? "none" : arrow_head),
