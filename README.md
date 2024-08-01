@@ -8,7 +8,7 @@
 
 Julia package and [web application]() built with [`React.js`](https://react.dev/) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
 
-:arrow_down: **Installation:** inside the Julia REPL, `using Pkg; Pkg.add("PRISMA")`
+:arrow_down: **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
 
 :book: **Documentation:** <a href="https://cecoeco.github.io/PRISMA.jl/stable/"><img src="https://img.shields.io/badge/docs-stable-royalblue.svg" alt="Documentation Stable" /></a> <a href="https://cecoeco.github.io/PRISMA.jl/dev/"><img src="https://img.shields.io/badge/docs-dev-royalblue.svg" alt="Documentation Dev"></a>
 
