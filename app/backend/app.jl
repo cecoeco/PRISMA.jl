@@ -1,4 +1,4 @@
-using CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, PRISMA
+using CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
 
 const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
     "Access-Control-Allow-Origin" => "*"
@@ -10,20 +10,39 @@ const CORS_HEADERS::Vector{Pair{String,String}} = [
     "Access-Control-Allow-Headers" => "*"
 ]
 
-function generate_checklists(req::HTTP.Request)::HTTP.Response
+function corshandler(handle::Function)::Function
+    return function (request::HTTP.Request)
+        if HTTP.method(request) == "OPTIONS"
+            return HTTP.Response(200, CORS_HEADERS)
+        else
+            response::HTTP.Response = handle(request)
+            Base.append!(response.headers, ALLOWED_ORIGINS)
+
+            return response
+        end
+    end
+end
+
+Oxygen.post("/checklist/generate") do req::HTTP.Request
     try
         paper::PRISMA.Checklist = PRISMA.checklist(req.body)
 
         clist_title::String = paper.metadata["title"]
         clist_table::String = HTMLTables.table(paper.df, classes="checklist", css=false, editable=true, footer=false)
 
-        return HTTP.Response(200, JSON3.write(Dict{String,String}("title" => clist_title, "checklist" => clist_table)))
-    catch e
-        return HTTP.Response(500, "Error generating checklist: $e")
+        return Oxygen.json(
+            status=200, 
+            Dict{String,String}("title" => clist_title, "checklist" => clist_table)
+        )
+    catch error
+        return Oxygen.json(
+            status=500, 
+            Dict{String,String}("error" => "error generating checklist: $error")
+        )
     end
 end
 
-function export_checklists(req::HTTP.Request)::HTTP.Response
+Oxygen.post("/checklist/export") do req::HTTP.Request
     try
         checklists::JSON3.Object = JSON3.read(String(req.body))
 
@@ -34,13 +53,13 @@ function export_checklists(req::HTTP.Request)::HTTP.Response
             csv_files["$(checklist["title"]).csv"] = String(take!(io))
         end
 
-        return HTTP.Response(200, JSON3.write(csv_files))
-    catch e
-        return HTTP.Response(500, "Error exporting checklists: $e")
+        return Oxygen.json(status=200, csv_files)
+    catch error
+        return Oxygen.json(status=500, Dict{String,String}("error" => "error exporting checklists: $error"))
     end
 end
 
-function generate_flow_diagrams(req::HTTP.Request)::HTTP.Response
+Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
     try
         flow_diagram_options::JSON3.Object = JSON3.read(String(req.body))
 
@@ -76,16 +95,10 @@ function generate_flow_diagrams(req::HTTP.Request)::HTTP.Response
         svg_string::String = Base.read(tempname_svg, String)
         Base.Filesystem.rm(tempname_svg)
 
-        return HTTP.Response(200, JSON3.write(Dict{String,String}("svg" => svg_string)))
-    catch e
-        return HTTP.Response(500, "Error generating flow diagram: $e")
+        return Oxygen.json(status=200, Dict{String,String}("svg" => svg_string))
+    catch error
+        return Oxygen.json(status=500, Dict{String,String}("error" => "error generating flow diagram: $error"))
     end
 end
 
-const ROUTER::HTTP.Router = HTTP.Router()
-
-HTTP.register!(ROUTER, "POST", "/checklist/generate", generate_checklists)
-HTTP.register!(ROUTER, "POST", "/checklist/export", export_checklists)
-HTTP.register!(ROUTER, "POST", "/flow_diagram", generate_flow_diagrams)
-
-HTTP.serve(ROUTER, "0.0.0.0", 5050)
+Oxygen.serve(host="0.0.0.0", port=5050, middleware=[corshandler])
