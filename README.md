@@ -6,7 +6,7 @@
 </div>
 <br>
 
-Julia package and [web application]() built with [`React.js`](https://react.dev/) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
+Julia package and [web application]() built with [`React.js`](https://react.dev/) and [`Oxygen.jl`](https://github.com/OxygenFramework/Oxygen.jl) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
 
 :arrow_down: **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
 
