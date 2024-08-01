@@ -322,6 +322,28 @@ Generates the flow diagram figure from the flow diagram dataframe.
 - `arrow_color::String`: The color of the arrows. Default is `black`.
 - `arrow_width::Number`: The width of the arrows. Default is `1`.
 
+## Returns
+
+- `PRISMA.FlowDiagram`: The flow diagram figure.
+
+## Example
+
+```julia
+using PRISMA, CSV, DataFrame
+
+# create a template to edit the data in a csv
+template_df::DataFrame = PRISMA.flow_diagram_df()
+CSV.write("flow_diagram.csv", template_df)
+
+# create a `DataFrame` from the csv
+df::DataFrame = CSV.read("flow_diagram.csv", DataFrame)
+
+# generate the flow diagram with the `DataFrame`
+fd::PRISMA.FlowDiagram = PRISMA.flow_diagram(df, top_boxes_color="white")
+
+# save the flow diagram
+PRISMA.flow_diagram_save("flow_diagram.svg", fd)
+```
 """
 function flow_diagram(
     data::DataFrame=flow_diagram_df();
@@ -407,6 +429,7 @@ function flow_diagram(
             dot_lang *= """
             $(row.box_num) [
                 label=<$(row.box_text)>,
+                tooltip="$(row.box_text)",
                 shape=box,
                 style="filled,$border_style",
                 fixedsize="true",
