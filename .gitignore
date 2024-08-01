@@ -27,9 +27,7 @@ deps/usr/
 deps/src/
 docs/build/
 docs/site/
-/Manifest.toml
-docs/Manifest.toml
-test/Manifest.toml
+Manifest.toml
 *.DS_Store
 out
 build

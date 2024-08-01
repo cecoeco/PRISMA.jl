@@ -328,7 +328,7 @@ export default function FlowDiagram() {
 
   async function getFlowDiagram() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/flow_diagram", {
+      const response = await fetch("http://0.0.0.0:5050/flow_diagram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

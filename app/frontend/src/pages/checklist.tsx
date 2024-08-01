@@ -73,7 +73,7 @@ export default function Checklist() {
     const formData = new FormData();
     formData.append("file", file());
     try {
-      const response = await fetch("http://0.0.0.0:5050/generate-checklist", {
+      const response = await fetch("http://0.0.0.0:5050/checklist/generate", {
         method: "POST",
         body: formData,
       });
@@ -233,7 +233,7 @@ export default function Checklist() {
       checklist: file.checklist,
     }));
     try {
-      const response = await fetch("http://localhost:5050/export-checklist", {
+      const response = await fetch("http://localhost:5050/checklist/export", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

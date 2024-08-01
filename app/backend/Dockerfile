@@ -1,4 +1,18 @@
 FROM julia:1.10
-COPY Project.toml Manifest.toml app.jl ./
-RUN julia --project -e "using Pkg; Pkg.instantiate()"
-ENTRYPOINT [ "julia", "--project", "app.jl" ]
+
+COPY . .
+
+RUN julia -e '\
+    Pkg.add("CSV");\
+    Pkg.add("DataFrames");\
+    Pkg.add("HTMLTables");\
+    Pkg.add("HTTP");\
+    Pkg.add("JSON3");\
+    Pkg.add("JSONTables");\
+    Pkg.add("PRISMA");\
+    Pkg.precompile();\
+    '
+
+EXPOSE 5050
+
+CMD ["julia", "app.jl"]
