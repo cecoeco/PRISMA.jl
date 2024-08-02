@@ -482,7 +482,7 @@ function flow_diagram(
             $from -> $to [
                 arrowhead=$(from in Set([7, 21]) ? "none" : arrow_head),
                 arrowsize="$arrow_size",
-                color=$arrow_color,
+                color="$arrow_color",
                 penwidth="$arrow_width"
             ];
             """

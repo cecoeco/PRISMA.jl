@@ -46,15 +46,15 @@ const initialVisual = {
   sideBoxesColor: "#95cbff",
   borders: "true",
   borderStyle: "solid",
-  borderWidth: 2,
+  borderWidth: 1,
   borderColor: "#000000",
   font: "Arial",
   fontColor: "#000000",
   fontSize: 12,
   arrowHead: "normal",
-  arrowSize: 5,
+  arrowSize: 1,
   arrowColor: "#000000",
-  arrowWidth: 2,
+  arrowWidth: 1,
 };
 
 export default function FlowDiagram() {
@@ -134,47 +134,47 @@ export default function FlowDiagram() {
       {
         box_num: 1,
         box_text: "Previous studies",
-        results: null,
+        result: null,
       },
       {
         box_num: 2,
         box_text: "Identification of new studies via databases and registers",
-        results: null,
+        result: null,
       },
       {
         box_num: 3,
         box_text: "Identification of new studies via other methods",
-        results: null,
+        result: null,
       },
       {
         box_num: 4,
         box_text: "Identification",
-        results: null,
+        result: null,
       },
       {
         box_num: 5,
         box_text: "Screening",
-        results: null,
+        result: null,
       },
       {
         box_num: 6,
         box_text: "Included",
-        results: null,
+        result: null,
       },
       {
         box_num: 7,
         box_text: "Studies included in previous version of review",
-        results: state().data.numberOfPreviousStudies,
+        result: state().data.numberOfPreviousStudies,
       },
       {
         box_num: 7,
         box_text: "Reports of studies included in previous version of review",
-        results: state().data.numberOfPreviousReports,
+        result: state().data.numberOfPreviousReports,
       },
       {
         box_num: 8,
         box_text: "Records identified from:",
-        results: null,
+        result: null,
       },
     ];
 
@@ -182,7 +182,7 @@ export default function FlowDiagram() {
       boxes.push({
         box_num: 8,
         box_text: database.name,
-        results: database.value,
+        result: database.value,
       });
     });
 
@@ -190,52 +190,52 @@ export default function FlowDiagram() {
       {
         box_num: 9,
         box_text: "Records removed before screening:",
-        results: null,
+        result: null,
       },
       {
         box_num: 9,
         box_text: "Duplicate records removed",
-        results: state().data.numberOfDuplicatesRemoved,
+        result: state().data.numberOfDuplicatesRemoved,
       },
       {
         box_num: 9,
         box_text: "Records marked as ineligible by automation tools",
-        results: state().data.numberOfAutomaticallyExcluded,
+        result: state().data.numberOfAutomaticallyExcluded,
       },
       {
         box_num: 9,
         box_text: "Records removed for other reasons",
-        results: state().data.numberOfRemovedForOtherReasons,
+        result: state().data.numberOfRemovedForOtherReasons,
       },
       {
         box_num: 10,
         box_text: "Records screened",
-        results: state().data.numberOfRecordsScreened,
+        result: state().data.numberOfRecordsScreened,
       },
       {
         box_num: 11,
         box_text: "Records excluded",
-        results: state().data.numberOfRecordsExcluded,
+        result: state().data.numberOfRecordsExcluded,
       },
       {
         box_num: 12,
         box_text: "Reports sought for retrieval",
-        results: state().data.numberOfReportsSought,
+        result: state().data.numberOfReportsSought,
       },
       {
         box_num: 13,
         box_text: "Reports not retrieved",
-        results: state().data.numberOfReportsNotRetrieved,
+        result: state().data.numberOfReportsNotRetrieved,
       },
       {
         box_num: 14,
         box_text: "Reports assessed for eligibility",
-        results: state().data.numberOfReportsAssessed,
+        result: state().data.numberOfReportsAssessed,
       },
       {
         box_num: 15,
         box_text: "Reports excluded:",
-        results: null,
+        result: null,
       }
     );
 
@@ -243,7 +243,7 @@ export default function FlowDiagram() {
       boxes.push({
         box_num: 15,
         box_text: reason.name,
-        results: reason.value,
+        result: reason.value,
       });
     });
 
@@ -251,67 +251,67 @@ export default function FlowDiagram() {
       {
         box_num: 16,
         box_text: "New studies included in review",
-        results: state().data.newStudies,
+        result: state().data.newStudies,
       },
       {
         box_num: 16,
         box_text: "Reports of new included studies",
-        results: state().data.newReports,
+        result: state().data.newReports,
       },
       {
         box_num: 17,
         box_text: "Total studies included in review",
-        results: state().data.totalStudies,
+        result: state().data.totalStudies,
       },
       {
         box_num: 17,
         box_text: "Reports of total included studies",
-        results: state().data.totalReports,
+        result: state().data.totalReports,
       },
       {
         box_num: 18,
         box_text: "Records identified from:",
-        results: null,
+        result: null,
       },
       {
         box_num: 18,
         box_text: "Websites",
-        results: state().data.numberOfWebsites,
+        result: state().data.numberOfWebsites,
       },
       {
         box_num: 18,
         box_text: "Organizations",
-        results: state().data.numberOfOrganizations,
+        result: state().data.numberOfOrganizations,
       },
       {
         box_num: 18,
         box_text: "Citation searching",
-        results: state().data.numberOfCitations,
+        result: state().data.numberOfCitations,
       },
       {
         box_num: 18,
         box_text: "Other",
-        results: state().data.numberOfOtherSources,
+        result: state().data.numberOfOtherSources,
       },
       {
         box_num: 19,
         box_text: "Reports sought for retrieval",
-        results: state().data.numberOfReportsSought,
+        result: state().data.numberOfReportsSought,
       },
       {
         box_num: 20,
         box_text: "Reports not retrieved",
-        results: state().data.numberOfReportsNotRetrieved,
+        result: state().data.numberOfReportsNotRetrieved,
       },
       {
         box_num: 21,
         box_text: "Reports assessed for eligibility",
-        results: state().data.numberOfReportsAssessed,
+        result: state().data.numberOfReportsAssessed,
       },
       {
         box_num: 22,
         box_text: "Reports excluded:",
-        results: null,
+        result: null,
       }
     );
 
@@ -319,7 +319,7 @@ export default function FlowDiagram() {
       boxes.push({
         box_num: 22,
         box_text: reason.name,
-        results: reason.value,
+        result: reason.value,
       });
     });
 
@@ -328,7 +328,7 @@ export default function FlowDiagram() {
 
   async function getFlowDiagram() {
     try {
-      const response = await fetch("http://0.0.0.0:5050/flow_diagram", {
+      const response = await fetch("http://0.0.0.0:5050/flow_diagram/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -358,9 +358,10 @@ export default function FlowDiagram() {
         }),
       });
       const svgResponse = await response.json();
-      const container = document.querySelector(".figure-container");
+      console.log(svgResponse);
+      const container = document.querySelector(".flow-diagram-container");
       if (container) {
-        container.innerHTML = svgResponse;
+        container.innerHTML = svgResponse.svg;
       } else {
         console.error("Container element not found");
       }
@@ -374,7 +375,7 @@ export default function FlowDiagram() {
   });
 
   const exportFlowDiagram = () => {
-    const svg = document.querySelector(".figure-container svg");
+    const svg = document.querySelector(".flow-diagram-container svg");
     if (svg) {
       const svgData = new XMLSerializer().serializeToString(svg);
       const blob = new Blob([svgData], { type: "image/svg+xml" });
