@@ -18,8 +18,15 @@ import DoubleRight from "../assets/svgs/double-right.svg?react";
 import Download from "../assets/svgs/download.svg?react";
 import Trash from "../assets/svgs/trash.svg?react";
 
-export default function Checklist() {
-  const [files, setFiles] = useState([]);
+interface File {
+  name: string;
+  selected: boolean;
+  title: string;
+  checklist: string;
+}
+
+const Checklist: React.FC = () => {
+  const [files, setFiles] = useState<File[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [file, setFile] = useState(null);
@@ -27,7 +34,7 @@ export default function Checklist() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [openedFile, setOpenedFile] = useState(null);
 
-  const allSelected = () => files().length > 0 && files().every((file) => file.selected);
+  const allSelected = () => files.length > 0 && files.every((file) => file.selected);
 
   const handleFileChange = (event) => {
     const uploadedFile = event.target.files[0];
@@ -40,7 +47,10 @@ export default function Checklist() {
 
   const handleFileRemove = () => {
     setFile(null);
-    document.getElementById("upload-input").value = "";
+    const inputElement = document.getElementById("upload-input") as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = "";
+    }
   };
 
   const handleDragOver = (event) => {
@@ -68,12 +78,12 @@ export default function Checklist() {
   };
 
   const handleSubmit = async () => {
-    if (!file()) {
+    if (!file) {
       alert("No file selected for submission");
       return;
     }
     const formData = new FormData();
-    formData.append("file", file());
+    formData.append("file", file);
     try {
       const response = await fetch("https://prisma-jl.onrender.com/checklist/generate", {
         method: "POST",
@@ -85,10 +95,10 @@ export default function Checklist() {
       const result = await response.json();
       const newFile = {
         selected: false,
-        title: result.title && result.title.trim() !== "" ? result.title : file().name,
+        title: result.title && result.title.trim() !== "" ? result.title : file.name,
         checklist: result.checklist,
       };
-      setFiles([...files(), newFile]);
+      setFiles([...files, newFile]);
       setOpenedFile(newFile);
       handleFileRemove();
     } catch (error) {
@@ -99,21 +109,20 @@ export default function Checklist() {
   };
 
   const filteredFiles = () => {
-    return files().filter((file) =>
-      file.title.toLowerCase().includes(searchQuery().toLowerCase())
+    return files.filter((file) =>
+      file.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
 
   const totalPages = () => Math.max(Math.ceil(filteredFiles().length / 5), 1);
   const goToFirstPage = () => setCurrentPage(0);
-  const goToPreviousPage = () => setCurrentPage(Math.max(currentPage() - 1, 0));
-  const goToNextPage = () =>
-    setCurrentPage(Math.min(currentPage() + 1, totalPages() - 1));
+  const goToPreviousPage = () => setCurrentPage(Math.max(currentPage - 1, 0));
+  const goToNextPage = () => setCurrentPage(Math.min(currentPage + 1, totalPages() - 1));
   const goToLastPage = () => setCurrentPage(totalPages() - 1);
 
   const handleSort = () => {
-    const sortedFiles = [...files()];
-    if (sortOrder() === "asc") {
+    const sortedFiles = [...files];
+    if (sortOrder === "asc") {
       sortedFiles.sort((a, b) => a.title.localeCompare(b.title));
       setSortOrder("desc");
     } else {
@@ -123,14 +132,14 @@ export default function Checklist() {
     setFiles(sortedFiles);
   };
 
-  const toggleFileSelection = (index) => {
-    const updatedFiles = [...files()];
+  const toggleFileSelection = (index: number) => {
+    const updatedFiles = [...files];
     updatedFiles[index].selected = !updatedFiles[index].selected;
     setFiles(updatedFiles);
   };
 
   const toggleAllFilesSelection = () => {
-    const updatedFiles = files().map((file) => ({
+    const updatedFiles = files.map((file) => ({
       ...file,
       selected: !allSelected(),
     }));
@@ -140,7 +149,7 @@ export default function Checklist() {
   const renderButtons = () => {
     const buttons = [];
     const maxButtons = 5;
-    const current = currentPage();
+    const current = currentPage;
     const start = Math.max(
       0,
       Math.min(current - Math.floor(maxButtons / 2), totalPages() - maxButtons)
@@ -167,14 +176,14 @@ export default function Checklist() {
 
   const renderFiles = () => {
     const filtered = filteredFiles();
-    const start = currentPage() * filesPerPage;
+    const start = currentPage * filesPerPage;
     const end = Math.min(start + filesPerPage, filtered.length);
 
-    if (files().length === 0) {
+    if (files.length === 0) {
       return (
         <tbody className="files-table-body">
           <tr className="file-table-body-row-empty">
-            <td colspan="3" className="no-files-uploaded">
+            <td colSpan={3} className="no-files-uploaded">
               No files uploaded
             </td>
           </tr>
@@ -186,7 +195,7 @@ export default function Checklist() {
       return (
         <tbody className="files-table-body">
           <tr className="file-table-body-row-empty">
-            <td colspan="3" className="no-files-uploaded">
+            <td colSpan={3} className="no-files-uploaded">
               No results found
             </td>
           </tr>
@@ -236,7 +245,7 @@ export default function Checklist() {
       checklist: file.checklist,
     }));
     try {
-      const response = await fetch("http://localhost:5050/checklist/export", {
+      const response = await fetch("http://www.prisma-jl.onrender.com/checklist/export", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -248,7 +257,7 @@ export default function Checklist() {
       }
       const csvFiles = await response.json();
       for (const [filename, csvContent] of Object.entries(csvFiles)) {
-        const blob = new Blob([csvContent], { type: "text/csv" });
+        const blob = new Blob([csvContent] as BlobPart[], { type: "text/csv" });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -263,7 +272,7 @@ export default function Checklist() {
   };
 
   const removeSelectedFiles = () => {
-    const updatedFiles = files().filter((file) => !file.selected);
+    const updatedFiles = files.filter((file) => !file.selected);
     if (updatedFiles.length === 0) {
       alert("No files selected");
       return;
@@ -281,11 +290,11 @@ export default function Checklist() {
         <h1 className="checklist-title">Checklist</h1>
         <div
           className="checklist-content"
-          innerHTML={
-            openedFile()
-              ? openedFile().checklist
-              : '<p className="checklist-text">No paper selected</p>'
-          }
+          dangerouslySetInnerHTML={{
+            __html: openedFile
+              ? openedFile.checklist
+              : '<p class="checklist-text">No paper selected</p>',
+          }}
         />
       </div>
     );
@@ -297,16 +306,21 @@ export default function Checklist() {
         <div className="upload-container">
           <div
             title="upload file"
-            className={`upload ${dragActive() ? "drag-active" : ""}`}
-            onMouseDown={() => document.getElementById("upload-input").click()}
+            className={`upload ${dragActive ? "drag-active" : ""}`}
+            onMouseDown={() => {
+              const inputElement = document.getElementById("upload-input");
+              if (inputElement) {
+                inputElement.click();
+              }
+            }}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
             <Cloud className="upload-icon" />
-            {file() ? (
+            {file ? (
               <span className="upload-file">
-                {file().name}
+                {file.name}
                 <CircleX
                   title="remove file"
                   className="remove-file-icon"
@@ -343,10 +357,10 @@ export default function Checklist() {
               className="files-search-input"
               type="text"
               placeholder="Search files..."
-              value={searchQuery()}
-              onInput={(e) => setSearchQuery(e.target.value)}
+              value={searchQuery}
+              onInput={(e) => setSearchQuery((e.target as HTMLInputElement).value)}
             />
-            {searchQuery().length > 0 && (
+            {searchQuery.length > 0 && (
               <X className="files-search-clear-icon" onMouseDown={clearSearch} />
             )}
           </form>
@@ -366,13 +380,13 @@ export default function Checklist() {
                 </th>
                 <th
                   title={`sort by title ${
-                    sortOrder() === "asc" ? "ascending" : "descending"
+                    sortOrder === "asc" ? "ascending" : "descending"
                   }`}
                   className="file-title"
                   onMouseDown={handleSort}
                 >
                   Title
-                  {sortOrder() === "asc" ? (
+                  {sortOrder === "asc" ? (
                     <AtoZ className="files-sort-icon" aria-label="Sort ascending" />
                   ) : (
                     <ZtoA className="files-sort-icon" aria-label="Sort descending" />
@@ -392,7 +406,7 @@ export default function Checklist() {
                 className="files-pagination-button"
                 type="button"
                 onMouseDown={goToFirstPage}
-                disabled={currentPage() === 0}
+                disabled={currentPage === 0}
               >
                 <DoubleLeft className="files-pagination-button-icon" />
               </button>
@@ -401,7 +415,7 @@ export default function Checklist() {
                 className="files-pagination-button"
                 type="button"
                 onMouseDown={goToPreviousPage}
-                disabled={currentPage() === 0}
+                disabled={currentPage === 0}
               >
                 <Left className="files-pagination-button-icon" />
               </button>
@@ -411,7 +425,7 @@ export default function Checklist() {
                 className="files-pagination-button"
                 type="button"
                 onMouseDown={goToNextPage}
-                disabled={currentPage() === totalPages() - 1}
+                disabled={currentPage === totalPages() - 1}
               >
                 <Right className="files-pagination-button-icon" />
               </button>
@@ -420,7 +434,7 @@ export default function Checklist() {
                 className="files-pagination-button"
                 type="button"
                 onMouseDown={goToLastPage}
-                disabled={currentPage() === totalPages() - 1}
+                disabled={currentPage === totalPages() - 1}
               >
                 <DoubleRight className="files-pagination-button-icon" />
               </button>
@@ -449,4 +463,6 @@ export default function Checklist() {
       {renderChecklist()}
     </main>
   );
-}
+};
+
+export default Checklist;

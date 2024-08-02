@@ -77,7 +77,7 @@ const FlowDiagram: React.FC = () => {
 
   const handleChange = (
     field: string,
-    value: any,
+    value: number,
     category: "data" | "visual" | "databases" | "reasons" | "otherReasons"
   ) => {
     if (field === "numberOfDatabases") {
@@ -118,7 +118,7 @@ const FlowDiagram: React.FC = () => {
   const handleItemChange = (
     index: number,
     key: string,
-    value: any,
+    value: string,
     category: "databases" | "reasons" | "otherReasons"
   ) => {
     setState((prev) => ({
@@ -178,7 +178,7 @@ const FlowDiagram: React.FC = () => {
       },
     ];
 
-    state().databases.forEach((database) => {
+    state().databases.forEach((database: { name: string; value: number }) => {
       boxes.push({
         box_num: 8,
         box_text: database.name,
@@ -239,7 +239,7 @@ const FlowDiagram: React.FC = () => {
       }
     );
 
-    state().reasons.forEach((reason) => {
+    state().reasons.forEach((reason: { name: string; value: number }) => {
       boxes.push({
         box_num: 15,
         box_text: reason.name,
@@ -315,7 +315,7 @@ const FlowDiagram: React.FC = () => {
       }
     );
 
-    state().otherReasons.forEach((reason) => {
+    state().otherReasons.forEach((reason: { name: string; value: number }) => {
       boxes.push({
         box_num: 22,
         box_text: reason.name,
