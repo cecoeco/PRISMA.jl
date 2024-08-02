@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { createSignal, createEffect } from "solid-js";
 
 import "../assets/css/flow_diagram.css";
 
-import Download from "../assets/svgs/download.svg?react";
-import Reset from "../assets/svgs/reset.svg?react";
+import Download from "../assets/svgs/download.svg?component-solid";
+import Reset from "../assets/svgs/reset.svg?component-solid";
 
 const initialData = {
   numberOfPreviousStudies: 0,
@@ -57,8 +57,8 @@ const initialVisual = {
   arrowWidth: 2,
 };
 
-const FlowDiagram: React.FC = () => {
-  const [state, setState] = useState({
+export default function FlowDiagram() {
+  const [state, setState] = createSignal({
     data: { ...initialData },
     visual: { ...initialVisual },
     databases: Array.from({ length: initialData.numberOfDatabases }).map(() => ({
@@ -77,7 +77,7 @@ const FlowDiagram: React.FC = () => {
 
   const handleChange = (
     field: string,
-    value: number,
+    value: any,
     category: "data" | "visual" | "databases" | "reasons" | "otherReasons"
   ) => {
     if (field === "numberOfDatabases") {
@@ -118,7 +118,7 @@ const FlowDiagram: React.FC = () => {
   const handleItemChange = (
     index: number,
     key: string,
-    value: string,
+    value: any,
     category: "databases" | "reasons" | "otherReasons"
   ) => {
     setState((prev) => ({
@@ -178,7 +178,7 @@ const FlowDiagram: React.FC = () => {
       },
     ];
 
-    state().databases.forEach((database: { name: string; value: number }) => {
+    state().databases.forEach((database) => {
       boxes.push({
         box_num: 8,
         box_text: database.name,
@@ -239,7 +239,7 @@ const FlowDiagram: React.FC = () => {
       }
     );
 
-    state().reasons.forEach((reason: { name: string; value: number }) => {
+    state().reasons.forEach((reason) => {
       boxes.push({
         box_num: 15,
         box_text: reason.name,
@@ -315,7 +315,7 @@ const FlowDiagram: React.FC = () => {
       }
     );
 
-    state().otherReasons.forEach((reason: { name: string; value: number }) => {
+    state().otherReasons.forEach((reason) => {
       boxes.push({
         box_num: 22,
         box_text: reason.name,
@@ -369,7 +369,7 @@ const FlowDiagram: React.FC = () => {
     }
   }
 
-  useEffect(() => {
+  createEffect(() => {
     getFlowDiagram();
   });
 
@@ -409,17 +409,17 @@ const FlowDiagram: React.FC = () => {
   };
 
   return (
-    <main className="flow-diagram-page">
-      <div className="settings-container">
-        <div className="settings">
-          <h2 className="settings-title">Flow Diagram</h2>
-          <div className="settings-form">
+    <main class="flow-diagram-page">
+      <div class="settings-container">
+        <div class="settings">
+          <h2 class="settings-title">Flow Diagram</h2>
+          <div class="settings-form">
             {state().visual.previousStudiesIncluded && (
               <>
                 {/* Previous Studies */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="previous-studies">Previous Studies</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="previous-studies">Previous Studies</label>
                   </h4>
                   <input
                     id="previous-studies"
@@ -434,9 +434,9 @@ const FlowDiagram: React.FC = () => {
                   />
                 </div>
                 {/* Previous Reports */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="previous-reports">Previous Reports</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="previous-reports">Previous Reports</label>
                   </h4>
 
                   <input
@@ -454,9 +454,9 @@ const FlowDiagram: React.FC = () => {
               </>
             )}
             {/* Number of Databases */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="number-of-databases">Databases</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="number-of-databases">Databases</label>
               </h4>
               <input
                 id="number-of-databases"
@@ -471,11 +471,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {state().databases.map((database, index) => (
-              <span className="settings-form-database-group">
-                <div className="settings-form-group">
-                  <label htmlFor={`database-${index + 1}`}>{`Database ${
-                    index + 1
-                  }`}</label>
+              <span class="settings-form-database-group">
+                <div class="settings-form-group">
+                  <label for={`database-${index + 1}`}>{`Database ${index + 1}`}</label>
                   <input
                     id={`database-${index + 1}`}
                     type="text"
@@ -486,8 +484,8 @@ const FlowDiagram: React.FC = () => {
                     }
                   />
                 </div>
-                <div className="settings-form-group">
-                  <label htmlFor={`database-number-${index + 1}`}>Number</label>
+                <div class="settings-form-group">
+                  <label for={`database-number-${index + 1}`}>Number</label>
                   <input
                     id={`database-number-${index + 1}`}
                     type="number"
@@ -502,9 +500,9 @@ const FlowDiagram: React.FC = () => {
               </span>
             ))}
             {/* Number of Duplicates Removed */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="duplicates-removed">Duplicates Removed</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="duplicates-removed">Duplicates Removed</label>
               </h4>
               <input
                 id="duplicates-removed"
@@ -519,9 +517,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Number of Automatically Excluded */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="automatically-excluded">Automatically Excluded</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="automatically-excluded">Automatically Excluded</label>
               </h4>
               <input
                 id="automatically-excluded"
@@ -540,11 +538,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Number of Removed For Other Reasons */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="removed-for-other-reasons">
-                  Removed For Other Reasons
-                </label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="removed-for-other-reasons">Removed For Other Reasons</label>
               </h4>
               <input
                 id="removed-for-other-reasons"
@@ -565,9 +561,9 @@ const FlowDiagram: React.FC = () => {
             {state().visual.otherMethodsIncluded && (
               <>
                 {/* Websites */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="websites">Websites</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="websites">Websites</label>
                   </h4>
                   <input
                     id="websites"
@@ -582,9 +578,9 @@ const FlowDiagram: React.FC = () => {
                   />
                 </div>
                 {/* Organizations */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="organizations">Organizations</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="organizations">Organizations</label>
                   </h4>
                   <input
                     id="organizations"
@@ -599,9 +595,9 @@ const FlowDiagram: React.FC = () => {
                   />
                 </div>
                 {/* Citations */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="citations">Citations</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="citations">Citations</label>
                   </h4>
                   <input
                     id="citations"
@@ -616,9 +612,9 @@ const FlowDiagram: React.FC = () => {
                   />
                 </div>
                 {/* Other Sources */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="other-sources">Other Sources</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="other-sources">Other Sources</label>
                   </h4>
                   <input
                     id="other-sources"
@@ -635,9 +631,9 @@ const FlowDiagram: React.FC = () => {
               </>
             )}
             {/* Records Screened */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="records-screened">Records Screened</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="records-screened">Records Screened</label>
               </h4>
               <input
                 id="records-screened"
@@ -652,9 +648,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Records Excluded */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="records-excluded">Records Excluded</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="records-excluded">Records Excluded</label>
               </h4>
               <input
                 id="records-excluded"
@@ -669,9 +665,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Reports Sought */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="reports-sought">Reports Sought</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="reports-sought">Reports Sought</label>
               </h4>
               <input
                 id="reports-sought"
@@ -686,9 +682,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Reports Not Retrieved */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="reports-not-retrieved">Reports Not Retrieved</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="reports-not-retrieved">Reports Not Retrieved</label>
               </h4>
               <input
                 id="reports-not-retrieved"
@@ -703,9 +699,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Reports Assessed */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="reports-assessed">Reports Assessed</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="reports-assessed">Reports Assessed</label>
               </h4>
               <input
                 id="reports-assessed"
@@ -720,9 +716,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Reasons */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="number-of-reasons">Reasons</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="number-of-reasons">Reasons</label>
               </h4>
               <input
                 id="number-of-reasons"
@@ -737,9 +733,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {state().reasons.map((reason, index) => (
-              <span className="settings-form-reason-group">
-                <div className="settings-form-group">
-                  <label htmlFor={`reason-${index + 1}`}>{`Reason ${index + 1}`}</label>
+              <span class="settings-form-reason-group">
+                <div class="settings-form-group">
+                  <label for={`reason-${index + 1}`}>{`Reason ${index + 1}`}</label>
                   <input
                     id={`reason-${index + 1}`}
                     type="text"
@@ -750,8 +746,8 @@ const FlowDiagram: React.FC = () => {
                     }
                   />
                 </div>
-                <div className="settings-form-group">
-                  <label htmlFor={`reason-number-${index + 1}`}>Number</label>
+                <div class="settings-form-group">
+                  <label for={`reason-number-${index + 1}`}>Number</label>
                   <input
                     id={`reason-number-${index + 1}`}
                     type="number"
@@ -767,9 +763,9 @@ const FlowDiagram: React.FC = () => {
             ))}
             {state().visual.otherMethodsIncluded && (
               <>
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="other-reports-sought">Other Reports Sought</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="other-reports-sought">Other Reports Sought</label>
                   </h4>
                   <input
                     id="other-reports-sought"
@@ -787,9 +783,9 @@ const FlowDiagram: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="other-reports-not-retrieved">
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="other-reports-not-retrieved">
                       Other Reports Not Retrieved
                     </label>
                   </h4>
@@ -809,9 +805,9 @@ const FlowDiagram: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="other-reports-assessed">Other Reports Assessed</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="other-reports-assessed">Other Reports Assessed</label>
                   </h4>
                   <input
                     id="other-reports-assessed"
@@ -829,9 +825,9 @@ const FlowDiagram: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="number-of-other-reasons">Other Reasons</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="number-of-other-reasons">Other Reasons</label>
                   </h4>
                   <input
                     id="number-of-other-reasons"
@@ -846,9 +842,9 @@ const FlowDiagram: React.FC = () => {
                   />
                 </div>
                 {state().otherReasons.map((reason, index) => (
-                  <span className="settings-form-reason-group">
-                    <div className="settings-form-group">
-                      <label htmlFor={`other-reason-${index + 1}`}>{`Other Reason ${
+                  <span class="settings-form-reason-group">
+                    <div class="settings-form-group">
+                      <label for={`other-reason-${index + 1}`}>{`Other Reason ${
                         index + 1
                       }`}</label>
                       <input
@@ -866,8 +862,8 @@ const FlowDiagram: React.FC = () => {
                         }
                       />
                     </div>
-                    <div className="settings-form-group">
-                      <label htmlFor={`other-reason-number-${index + 1}`}>Number</label>
+                    <div class="settings-form-group">
+                      <label for={`other-reason-number-${index + 1}`}>Number</label>
                       <input
                         id={`other-reason-number-${index + 1}`}
                         type="number"
@@ -888,9 +884,9 @@ const FlowDiagram: React.FC = () => {
                 ))}
               </>
             )}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="new-studies">New Studies</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="new-studies">New Studies</label>
               </h4>
               <input
                 id="new-studies"
@@ -904,9 +900,9 @@ const FlowDiagram: React.FC = () => {
                 }}
               />
             </div>
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="new-reports">New Reports</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="new-reports">New Reports</label>
               </h4>
               <input
                 id="new-reports"
@@ -922,9 +918,9 @@ const FlowDiagram: React.FC = () => {
             </div>
             {state().visual.previousStudiesIncluded && (
               <>
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="total-studies">Total Studies</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="total-studies">Total Studies</label>
                   </h4>
                   <input
                     id="total-studies"
@@ -938,9 +934,9 @@ const FlowDiagram: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="total-reports">Total Reports</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="total-reports">Total Reports</label>
                   </h4>
                   <input
                     id="total-reports"
@@ -957,9 +953,9 @@ const FlowDiagram: React.FC = () => {
               </>
             )}
             {/* Background Color */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="background-color">Background Color</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="background-color">Background Color</label>
               </h4>
               <input
                 id="background-color"
@@ -972,9 +968,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Previous Studies Included */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="previous-studies-included">Previous Studies</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="previous-studies-included">Previous Studies</label>
               </h4>
               <select
                 id="previous-studies-included"
@@ -989,9 +985,9 @@ const FlowDiagram: React.FC = () => {
               </select>
             </div>
             {/* Other Methods Included */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="other-methods-included">Other Methods</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="other-methods-included">Other Methods</label>
               </h4>
               <select
                 id="other-methods-included"
@@ -1006,9 +1002,9 @@ const FlowDiagram: React.FC = () => {
               </select>
             </div>
             {/* Gray Boxes Included */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="gray-boxes">Gray Boxes</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="gray-boxes">Gray Boxes</label>
               </h4>
               <select
                 id="gray-boxes"
@@ -1024,9 +1020,9 @@ const FlowDiagram: React.FC = () => {
             </div>
             {/* Gray Boxes Color */}
             {state().visual.grayBoxesIncluded && (
-              <div className="settings-form-group">
-                <h4 className="settings-form-heading">
-                  <label htmlFor="gray-boxes-color">Gray Boxes Color</label>
+              <div class="settings-form-group">
+                <h4 class="settings-form-heading">
+                  <label for="gray-boxes-color">Gray Boxes Color</label>
                 </h4>
                 <input
                   id="gray-boxes-color"
@@ -1040,9 +1036,9 @@ const FlowDiagram: React.FC = () => {
               </div>
             )}
             {/* Top Boxes Included */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="top-boxes">Top Boxes</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="top-boxes">Top Boxes</label>
               </h4>
               <select
                 id="top-boxes"
@@ -1059,9 +1055,9 @@ const FlowDiagram: React.FC = () => {
             {state().visual.topBoxesIncluded && (
               <>
                 {/* Top Boxes Borders */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="top-boxes-border">Top Boxes Border</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="top-boxes-border">Top Boxes Border</label>
                   </h4>
                   <select
                     id="top-boxes-border"
@@ -1076,9 +1072,9 @@ const FlowDiagram: React.FC = () => {
                   </select>
                 </div>
                 {/* Top Boxes Color */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="top-boxes-color">Top Boxes Color</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="top-boxes-color">Top Boxes Color</label>
                   </h4>
                   <input
                     id="top-boxes-color"
@@ -1093,9 +1089,9 @@ const FlowDiagram: React.FC = () => {
               </>
             )}
             {/* Side Boxes Included */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="side-boxes">Side Boxes</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="side-boxes">Side Boxes</label>
               </h4>
               <select
                 id="side-boxes"
@@ -1112,9 +1108,9 @@ const FlowDiagram: React.FC = () => {
             {state().visual.sideBoxesIncluded && (
               <>
                 {/* Side Boxes Borders */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="side-boxes-border">Side Boxes Border</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="side-boxes-border">Side Boxes Border</label>
                   </h4>
                   <select
                     id="side-boxes-border"
@@ -1129,9 +1125,9 @@ const FlowDiagram: React.FC = () => {
                   </select>
                 </div>
                 {/* Side Boxes Color */}
-                <div className="settings-form-group">
-                  <h4 className="settings-form-heading">
-                    <label htmlFor="side-boxes-color">Side Boxes Color</label>
+                <div class="settings-form-group">
+                  <h4 class="settings-form-heading">
+                    <label for="side-boxes-color">Side Boxes Color</label>
                   </h4>
                   <input
                     id="side-boxes-color"
@@ -1146,9 +1142,9 @@ const FlowDiagram: React.FC = () => {
               </>
             )}
             {/* Borders */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="borders">Borders</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="borders">Borders</label>
               </h4>
               <select
                 id="borders"
@@ -1163,9 +1159,9 @@ const FlowDiagram: React.FC = () => {
               </select>
             </div>
             {/* Border Style */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="border-style">Border Style</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="border-style">Border Style</label>
               </h4>
               <select
                 id="border-style"
@@ -1181,9 +1177,9 @@ const FlowDiagram: React.FC = () => {
               </select>
             </div>
             {/* Border Width */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="border-width">Border Width</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="border-width">Border Width</label>
               </h4>
               <input
                 id="border-width"
@@ -1198,9 +1194,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Border Color */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="border-color">Border Color</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="border-color">Border Color</label>
               </h4>
               <input
                 id="border-color"
@@ -1212,9 +1208,9 @@ const FlowDiagram: React.FC = () => {
                 }}
               />
             </div>
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="font">Font</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="font">Font</label>
               </h4>
               <select
                 id="font"
@@ -1240,9 +1236,9 @@ const FlowDiagram: React.FC = () => {
                 <option value="Verdana">Verdana</option>
               </select>
             </div>
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="font-size">Font Size</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="font-size">Font Size</label>
               </h4>
               <input
                 id="font-size"
@@ -1256,9 +1252,9 @@ const FlowDiagram: React.FC = () => {
                 }}
               />
             </div>
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="font-color">Font Color</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="font-color">Font Color</label>
               </h4>
               <input
                 id="font-color"
@@ -1271,9 +1267,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Arrow Head */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="arrow-head">Arrow Head</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="arrow-head">Arrow Head</label>
               </h4>
               <input
                 id="arrow-head"
@@ -1286,9 +1282,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Arrow Size */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="arrow-size">Arrow Size</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="arrow-size">Arrow Size</label>
               </h4>
               <input
                 id="arrow-size"
@@ -1303,9 +1299,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Arrow Width */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="arrow-width">Arrow Width</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="arrow-width">Arrow Width</label>
               </h4>
               <input
                 id="arrow-width"
@@ -1320,9 +1316,9 @@ const FlowDiagram: React.FC = () => {
               />
             </div>
             {/* Arrow Color */}
-            <div className="settings-form-group">
-              <h4 className="settings-form-heading">
-                <label htmlFor="arrow-color">Arrow Color</label>
+            <div class="settings-form-group">
+              <h4 class="settings-form-heading">
+                <label for="arrow-color">Arrow Color</label>
               </h4>
               <input
                 id="arrow-color"
@@ -1337,29 +1333,27 @@ const FlowDiagram: React.FC = () => {
           </div>
         </div>
         {/* settings actions */}
-        <div className="settings-actions-buttons">
+        <div class="settings-actions-buttons">
           <button
             title="download current figure"
-            className="settings-actions-button export-button"
+            class="settings-actions-button export-button"
             onMouseDown={exportFlowDiagram}
           >
-            <Download className="settings-actions-button-icon export-button-icon" />
+            <Download class="settings-actions-button-icon export-button-icon" />
             Export
           </button>
           <button
             title="reset to default settings"
-            className="settings-actions-button remove-button"
+            class="settings-actions-button remove-button"
             onMouseDown={resetFlowDiagramOptions}
           >
-            <Reset className="settings-actions-button-icon remove-button-icon" />
+            <Reset class="settings-actions-button-icon remove-button-icon" />
             Reset
           </button>
         </div>
       </div>
       {/* flow diagram container */}
-      <div className="flow-diagram-container"></div>
+      <div class="flow-diagram-container"></div>
     </main>
   );
-};
-
-export default FlowDiagram;
+}

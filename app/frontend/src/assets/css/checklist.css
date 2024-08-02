@@ -396,7 +396,7 @@ input[type="file"] {
 
 .checklist {
     position: relative;
-    font-size: 0.55rem;
+    font-size: 0.8rem;
     border-collapse: collapse;
     background-color: var(--background-color-3);
 }
@@ -406,7 +406,7 @@ input[type="file"] {
 }
 
 .checklist td {
-    padding: 5px 0;
+    padding: 5px;
 }
 
 .checklist caption {
@@ -418,6 +418,8 @@ input[type="file"] {
 }
 
 .checklist thead {
+    text-wrap: nowrap;
+    font-weight: bold;
     background-color: var(--background-color-3);
     color: var(--text-color-5);
     position: sticky;

@@ -1,6 +1,6 @@
 import "../assets/css/footer.css";
 
-const Footer = () => {
+export default function Footer() {
   return (
     <footer>
       © {new Date().getFullYear()} PRISMA.jl contributors
@@ -10,5 +10,3 @@ const Footer = () => {
     </footer>
   );
 }
-
-export default Footer;

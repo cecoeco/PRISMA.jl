@@ -1,6 +1,7 @@
-import React, { StrictMode } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { createRoot } from "react-dom/client";
+import { render } from "solid-js/web";
+import { Router, Route } from "@solidjs/router";
+import { ParentProps } from "solid-js";
+import { MetaProvider, Meta, Title } from "@solidjs/meta";
 
 import "./assets/css/app.css";
 
@@ -11,25 +12,34 @@ import FlowDiagram from "./pages/flow_diagram.tsx";
 import NotFound from "./pages/notfound.tsx";
 import Footer from "./components/footer.tsx";
 
-const App: React.FC = () => {
+function AppLayout(props: ParentProps) {
   return (
-    <Router>
+    <>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/checklist" element={<Checklist />} />
-        <Route path="/flow_diagram" element={<FlowDiagram />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      {props.children}
       <Footer />
-    </Router>
+    </>
   );
-};
+}
 
-const root = createRoot(document.getElementById("root")!);
+function App() {
+  return (
+    <MetaProvider>
+      <Router root={AppLayout}>
+        <Meta charset="utf-8" />
+        <Meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Title>PRISMA.jl</Title>
+        <Meta
+          name="description"
+          content="checklists and flow diagrams based on the 2020 PRISMA statement"
+        />
+        <Route path="/" component={Home} />
+        <Route path="/checklist" component={Checklist} />
+        <Route path="/flow_diagram" component={FlowDiagram} />
+        <Route path="*" component={NotFound} />
+      </Router>
+    </MetaProvider>
+  );
+}
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+render(() => <App />, document.body);

@@ -1,14 +1,10 @@
-import React from "react";
-
 import "../assets/css/notfound.css";
 
-const NotFound: React.FC = () => {
+export default function NotFound() {
   return (
-    <main className="notfound-page">
-      <p className="notfound-message">404 Error</p>
-      <p className="notfound-message">Page not found</p>
+    <main class="notfound-page">
+      <p class="notfound-message">404 Error</p>
+      <p class="notfound-message">Page not found</p>
     </main>
   );
-};
-
-export default NotFound;
+}
