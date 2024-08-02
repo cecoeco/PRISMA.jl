@@ -1,6 +1,6 @@
 name = "PRISMA"
 uuid = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
-authors = ["Ceco E. Maples <mapleselijah9@gmail.com>"]
+authors = ["Ceco Elijah Maples <mapleselijah9@gmail.com>", "PRISMA.jl Contributors"]
 version = "0.0.2"
 
 [deps]

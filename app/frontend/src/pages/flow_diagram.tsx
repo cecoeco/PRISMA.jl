@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import "../assets/css/flow_diagram.css";
 
@@ -57,7 +57,7 @@ const initialVisual = {
   arrowWidth: 2,
 };
 
-export default function FlowDiagram() {
+const FlowDiagram: React.FC = () => {
   const [state, setState] = useState({
     data: { ...initialData },
     visual: { ...initialVisual },
@@ -1360,4 +1360,6 @@ export default function FlowDiagram() {
       <div className="flow-diagram-container"></div>
     </main>
   );
-}
+};
+
+export default FlowDiagram;

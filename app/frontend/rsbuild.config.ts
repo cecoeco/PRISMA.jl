@@ -15,7 +15,7 @@ export default defineConfig({
       viewport: "width=device-width, initial-scale=1",
       description: "checklists and flow diagrams based on the 2020 PRISMA statement",
       keywords: "PRISMA, checklists, flow diagrams",
-      author: "PRISMA.jl contributors",
+      author: "Ceco Elijah Maples, PRISMA.jl contributors",
     },
   },
 });

@@ -75,7 +75,7 @@ export default function Checklist() {
     const formData = new FormData();
     formData.append("file", file());
     try {
-      const response = await fetch("http://0.0.0.0:5050/checklist/generate", {
+      const response = await fetch("https://prisma-jl.onrender.com/checklist/generate", {
         method: "POST",
         body: formData,
       });
@@ -107,7 +107,8 @@ export default function Checklist() {
   const totalPages = () => Math.max(Math.ceil(filteredFiles().length / 5), 1);
   const goToFirstPage = () => setCurrentPage(0);
   const goToPreviousPage = () => setCurrentPage(Math.max(currentPage() - 1, 0));
-  const goToNextPage = () => setCurrentPage(Math.min(currentPage() + 1, totalPages() - 1));
+  const goToNextPage = () =>
+    setCurrentPage(Math.min(currentPage() + 1, totalPages() - 1));
   const goToLastPage = () => setCurrentPage(totalPages() - 1);
 
   const handleSort = () => {
@@ -372,9 +373,9 @@ export default function Checklist() {
                 >
                   Title
                   {sortOrder() === "asc" ? (
-                    <AtoZ className="files-sort-icon" />
+                    <AtoZ className="files-sort-icon" aria-label="Sort ascending" />
                   ) : (
-                    <ZtoA className="files-sort-icon" />
+                    <ZtoA className="files-sort-icon" aria-label="Sort descending" />
                   )}
                 </th>
                 <th title="edit checklist" className="file-edit">
