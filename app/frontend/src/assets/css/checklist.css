@@ -35,6 +35,7 @@
     background: linear-gradient(0deg, var(--background-color-2) 0%, var(--background-color-3) 100%);
     box-shadow: var(--box-shadow);
     cursor: pointer;
+    overflow: auto;
 }
 
 .upload:hover {
