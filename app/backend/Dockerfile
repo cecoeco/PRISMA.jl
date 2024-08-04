@@ -14,4 +14,4 @@ RUN julia -e 'using Pkg;\
     "PRISMA"\
     ]);'
 
-CMD julia app.jl
+CMD ["julia", "app.jl"]

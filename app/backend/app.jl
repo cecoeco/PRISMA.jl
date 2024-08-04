@@ -56,7 +56,7 @@ Oxygen.post("/checklist/export") do req::HTTP.Request
     end
 end
 
-function bytes(fd::PRISMA.FlowDiagram, format::AbstractString)
+function bytes(fd::PRISMA.FlowDiagram, format::AbstractString)::String
     tempfile::String = Base.Filesystem.tempname() * "." * format
     flow_diagram_save(tempfile, fd)
     try
@@ -99,7 +99,9 @@ Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
             arrow_width =        flow_diagram_options["arrow_width"]
         )
 
-        return Oxygen.json(status=200, Dict{String,String}("svg" => bytes(flow_diagram_dot, "svg")))
+        flow_diagram_svg::String = bytes(flow_diagram_dot, "svg")
+
+        return Oxygen.json(status=200, Dict{String,String}("svg" => flow_diagram_svg))
     catch error
         return Oxygen.json(status=500, Dict{String,String}("error" => "error generating flow diagram: $error"))
     end
@@ -136,7 +138,9 @@ Oxygen.post("/flow_diagram/export") do req::HTTP.Request
             arrow_width =        flow_diagram_options["arrow_width"]
         )
 
-        return Oxygen.json(status=200, Dict{String,String}("flow_diagram" => bytes(flow_diagram_dot, flow_diagram_options["format"])))
+        flow_diagram_bytes::String = bytes(flow_diagram_dot, flow_diagram_options["format"])
+
+        return Oxygen.json(status=200, Dict{String,String}("flow_diagram" => flow_diagram_bytes))
     catch error
         return Oxygen.json(status=500, Dict{String,String}("error" => "error generating flow diagram: $error"))
     end

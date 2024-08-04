@@ -2,21 +2,21 @@ import { createSignal } from "solid-js";
 
 import "../assets/css/checklist.css";
 
-import Cloud from "../assets/svgs/cloud.svg";
-import CircleX from "../assets/svgs/circle-x.svg";
-import MagnifyingGlass from "../assets/svgs/magnifying-glass.svg";
-import X from "../assets/svgs/x.svg";
-import Square from "../assets/svgs/square.svg";
-import SquareCheck from "../assets/svgs/square-check.svg";
-import AtoZ from "../assets/svgs/atoz.svg";
-import ZtoA from "../assets/svgs/ztoa.svg";
-import Edit from "../assets/svgs/edit.svg";
-import DoubleLeft from "../assets/svgs/double-left.svg";
-import Left from "../assets/svgs/left.svg";
-import Right from "../assets/svgs/right.svg";
-import DoubleRight from "../assets/svgs/double-right.svg";
-import Download from "../assets/svgs/download.svg";
-import Trash from "../assets/svgs/trash.svg";
+import Cloud from "../assets/svgs/cloud.svg?component-solid";
+import CircleX from "../assets/svgs/circle-x.svg?component-solid";
+import MagnifyingGlass from "../assets/svgs/magnifying-glass.svg?component-solid";
+import X from "../assets/svgs/x.svg?component-solid";
+import Square from "../assets/svgs/square.svg?component-solid";
+import SquareCheck from "../assets/svgs/square-check.svg?component-solid";
+import AtoZ from "../assets/svgs/atoz.svg?component-solid";
+import ZtoA from "../assets/svgs/ztoa.svg?component-solid";
+import Edit from "../assets/svgs/edit.svg?component-solid";
+import DoubleLeft from "../assets/svgs/double-left.svg?component-solid";
+import Left from "../assets/svgs/left.svg?component-solid";
+import Right from "../assets/svgs/right.svg?component-solid";
+import DoubleRight from "../assets/svgs/double-right.svg?component-solid";
+import Download from "../assets/svgs/download.svg?component-solid";
+import Trash from "../assets/svgs/trash.svg?component-solid";
 
 export default function Checklist() {
   const [files, setFiles] = createSignal([]);
@@ -197,7 +197,7 @@ export default function Checklist() {
     return (
       <tbody class="files-table-body">
         {filtered.slice(start, end).map((file, index) => (
-          <tr class="file-table-body-row" key={index}>
+          <tr class="file-table-body-row">
             <td title="select file" class="file-select">
               {file.selected ? (
                 <SquareCheck
@@ -308,7 +308,6 @@ export default function Checklist() {
               <span class="upload-file">
                 {file().name}
                 <CircleX
-                  title="remove file"
                   class="remove-file-icon"
                   onMouseDown={handleFileRemove}
                 />
@@ -359,9 +358,9 @@ export default function Checklist() {
                   onMouseDown={toggleAllFilesSelection}
                 >
                   {allSelected() ? (
-                    <SquareCheck title="deselect all" class="file-select-icon" />
+                    <SquareCheck class="file-select-icon" />
                   ) : (
-                    <Square title="select all" class="file-select-icon" />
+                    <Square class="file-select-icon" />
                   )}
                 </th>
                 <th
