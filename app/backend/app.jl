@@ -1,4 +1,4 @@
-using CSV, DataFrames, Graphviz_jll, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
+using CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
 
 const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
     "Access-Control-Allow-Origin" => "*"
@@ -56,17 +56,15 @@ Oxygen.post("/checklist/export") do req::HTTP.Request
     end
 end
 
-function bytes(fd::PRISMA.FlowDiagram, format::AbstractString="svg")
-    temp_gv::String = Base.Filesystem.tempname() * ".gv"
-
-    Base.Filesystem.write(temp_gv, fd.dot)
-
+function bytes(fd::PRISMA.FlowDiagram, format::AbstractString)
+    tempfile::String = Base.Filesystem.tempname() * "." * format
+    flow_diagram_save(tempfile, fd)
     try
-        return Base.read(`$(Graphviz_jll.neato()) $temp_gv -T$format`, String)
+        return Base.read(tempfile, String)
     catch error
-        Base.rethrow(error)
+        return Base.rethrow(error)
     finally
-        Base.rm(temp_gv, force=true)
+        Base.Filesystem.rm(tempfile)
     end
 end
 
@@ -97,7 +95,7 @@ Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
             font_size =          flow_diagram_options["font_size"],
             arrow_head =         flow_diagram_options["arrow_head"],
             arrow_size =         flow_diagram_options["arrow_size"],
-            arrow_color =        "$(flow_diagram_options["arrow_color"])",
+            #arrow_color =        "$(flow_diagram_options["arrow_color"])",
             arrow_width =        flow_diagram_options["arrow_width"]
         )
 

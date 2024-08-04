@@ -6,7 +6,6 @@ RUN julia -e 'using Pkg;\
     Pkg.add([\
     "CSV",\
     "DataFrames",\
-    "Graphviz_jll",\
     "HTMLTables",\
     "HTTP",\
     "JSON3",\

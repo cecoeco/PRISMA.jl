@@ -1,4 +1,3 @@
-import { render } from "solid-js/web";
 import { Router, Route } from "@solidjs/router";
 import { ParentProps } from "solid-js";
 
@@ -21,7 +20,7 @@ function AppLayout(props: ParentProps) {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Router root={AppLayout}>
       <Route path="/" component={Home} />
@@ -31,5 +30,3 @@ function App() {
     </Router>
   );
 }
-
-render(() => <App />, document.getElementById("root")! as HTMLElement);
