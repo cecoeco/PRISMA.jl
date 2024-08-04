@@ -12,6 +12,7 @@ RUN julia -e 'using Pkg;\
     "JSONTables",\
     "Oxygen",\
     "PRISMA"\
-    ]);'
+    ]);\
+    Pkg.precompile()'
 
-CMD ["julia", "app.jl"]
+CMD julia app.jl
