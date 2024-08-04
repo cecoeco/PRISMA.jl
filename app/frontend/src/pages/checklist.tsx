@@ -75,7 +75,7 @@ export default function Checklist() {
     const formData = new FormData();
     formData.append("file", file());
     try {
-      const response = await fetch("http://0.0.0.0:5050/checklist/generate", {
+      const response = await fetch("https://prisma-jl-api.onrender.com/checklist/generate", {
         method: "POST",
         body: formData,
       });
@@ -197,7 +197,7 @@ export default function Checklist() {
     return (
       <tbody class="files-table-body">
         {filtered.slice(start, end).map((file, index) => (
-          <tr class="file-table-body-row">
+          <tr class="file-table-body-row" key={index}>
             <td title="select file" class="file-select">
               {file.selected ? (
                 <SquareCheck
@@ -236,7 +236,7 @@ export default function Checklist() {
       checklist: file.checklist,
     }));
     try {
-      const response = await fetch("http://localhost:5050/checklist/export", {
+      const response = await fetch("https://prisma-jl-api.onrender.com/checklist/export", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -308,6 +308,7 @@ export default function Checklist() {
               <span class="upload-file">
                 {file().name}
                 <CircleX
+                  title="remove file"
                   class="remove-file-icon"
                   onMouseDown={handleFileRemove}
                 />
@@ -358,9 +359,9 @@ export default function Checklist() {
                   onMouseDown={toggleAllFilesSelection}
                 >
                   {allSelected() ? (
-                    <SquareCheck class="file-select-icon" />
+                    <SquareCheck title="deselect all" class="file-select-icon" />
                   ) : (
-                    <Square class="file-select-icon" />
+                    <Square title="select all" class="file-select-icon" />
                   )}
                 </th>
                 <th

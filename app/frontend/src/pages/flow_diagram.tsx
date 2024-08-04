@@ -328,35 +328,38 @@ export default function FlowDiagram() {
 
   async function getFlowDiagram() {
     try {
-      const response = await fetch("http://0.0.0.0:5050/flow_diagram/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: flowDiagramData(),
-          background_color: state().visual.backgroundColor,
-          grayboxes: state().visual.grayBoxesIncluded == "true",
-          grayboxes_color: state().visual.grayBoxesColor,
-          top_boxes: state().visual.topBoxesIncluded == "true",
-          top_boxes_borders: state().visual.topBoxesBorders == "true",
-          top_boxes_color: state().visual.topBoxesColor,
-          side_boxes: state().visual.sideBoxesIncluded == "true",
-          side_boxes_borders: state().visual.sideBoxesBorders == "true",
-          side_boxes_color: state().visual.sideBoxesColor,
-          previous_studies: state().visual.previousStudiesIncluded == "true",
-          other_methods: state().visual.otherMethodsIncluded == "true",
-          borders: state().visual.borders == "true",
-          border_style: state().visual.borderStyle,
-          border_width: state().visual.borderWidth,
-          border_color: state().visual.borderColor,
-          font: state().visual.font,
-          font_color: state().visual.fontColor,
-          font_size: state().visual.fontSize,
-          arrow_head: state().visual.arrowHead,
-          arrow_size: state().visual.arrowSize,
-          arrow_color: state().visual.arrowColor,
-          arrow_width: state().visual.arrowWidth,
-        }),
-      });
+      const response = await fetch(
+        "https://prisma-jl-api.onrender.com/flow_diagram/generate",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            data: flowDiagramData(),
+            background_color: state().visual.backgroundColor,
+            grayboxes: state().visual.grayBoxesIncluded == "true",
+            grayboxes_color: state().visual.grayBoxesColor,
+            top_boxes: state().visual.topBoxesIncluded == "true",
+            top_boxes_borders: state().visual.topBoxesBorders == "true",
+            top_boxes_color: state().visual.topBoxesColor,
+            side_boxes: state().visual.sideBoxesIncluded == "true",
+            side_boxes_borders: state().visual.sideBoxesBorders == "true",
+            side_boxes_color: state().visual.sideBoxesColor,
+            previous_studies: state().visual.previousStudiesIncluded == "true",
+            other_methods: state().visual.otherMethodsIncluded == "true",
+            borders: state().visual.borders == "true",
+            border_style: state().visual.borderStyle,
+            border_width: state().visual.borderWidth,
+            border_color: state().visual.borderColor,
+            font: state().visual.font,
+            font_color: state().visual.fontColor,
+            font_size: state().visual.fontSize,
+            arrow_head: state().visual.arrowHead,
+            arrow_size: state().visual.arrowSize,
+            arrow_color: state().visual.arrowColor,
+            arrow_width: state().visual.arrowWidth,
+          }),
+        }
+      );
       const svgResponse = await response.json();
       console.log(svgResponse);
       const container = document.querySelector(".flow-diagram-container");
