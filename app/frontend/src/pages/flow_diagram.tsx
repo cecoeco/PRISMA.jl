@@ -1,9 +1,11 @@
 import { createSignal, createEffect } from "solid-js";
+import { Show } from "solid-js";
 
 import "../assets/css/flow_diagram.css";
 
 import Download from "../assets/svgs/download.svg?component-solid";
 import Reset from "../assets/svgs/reset.svg?component-solid";
+import X from "../assets/svgs/x.svg?component-solid";
 
 const initialData = {
   numberOfPreviousStudies: 0,
@@ -58,6 +60,15 @@ const initialVisual = {
 };
 
 export default function FlowDiagram() {
+  const [showDownloadModal, setShowDownloadModal] = createSignal(false);
+  function openModal() {
+    setShowDownloadModal(true);
+  }
+
+  function closeModal() {
+    setShowDownloadModal(false);
+  }
+
   const [state, setState] = createSignal({
     data: { ...initialData },
     visual: { ...initialVisual },
@@ -414,6 +425,37 @@ export default function FlowDiagram() {
 
   return (
     <main class="flow-diagram-page">
+      <Show when={showDownloadModal()}>
+        <div class="download-modal-background" onMouseDown={closeModal}>
+          <div class="download-modal" onMouseDown={(e) => e.stopPropagation()}>
+            <button class="close-button">
+              <X onMouseDown={closeModal} class="close-button-icon" />
+            </button>
+            <h2>Download Flow Diagram</h2>
+            <label for="format">Choose Format:</label>
+            <select
+              name="format"
+              id="format"
+              //value={saveFormat()}
+              //onInput={(event) => setSaveFormat(event.target.value)}
+            >
+              <option value="png">PNG</option>
+              <option value="svg">SVG</option>
+              <option value="jpg">JPG</option>
+              <option value="pdf">PDF</option>
+              <option value="gv">Graphviz</option>
+            </select>
+            <button
+              class="download-modal-button"
+              //onMouseDown={exportFlowDiagram}
+              type="button"
+              title="Download"
+            >
+              Download
+            </button>
+          </div>
+        </div>
+      </Show>
       <div class="settings-container">
         <div class="settings">
           <h2 class="settings-title">Flow Diagram</h2>
@@ -1341,7 +1383,7 @@ export default function FlowDiagram() {
           <button
             title="download current figure"
             class="settings-actions-button export-button"
-            onMouseDown={exportFlowDiagram}
+            onMouseDown={openModal}
           >
             <Download class="settings-actions-button-icon export-button-icon" />
             Export
