@@ -75,13 +75,21 @@ export default function Checklist() {
     const formData = new FormData();
     formData.append("file", file());
     try {
-      const response = await fetch("https://prisma-jl-api.onrender.com/checklist/generate", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://prisma-jl-api.onrender.com/checklist/generate",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
       if (!response.ok) {
-        throw new Error("Error submitting file");
+        const errorData = await response.json();
+        const errorMessage = `Error submitting file: ${errorData.error}`;
+        alert(errorMessage);
+        throw new Error(errorMessage);
       }
+
       const result = await response.json();
       const newFile = {
         selected: false,
@@ -94,7 +102,7 @@ export default function Checklist() {
     } catch (error) {
       console.error("Error submitting file:", error);
       handleFileRemove();
-      alert("File could not be sent to the server");
+      alert(`File could not be sent to the server: ${error.message}`);
     }
   };
 
@@ -236,16 +244,22 @@ export default function Checklist() {
       checklist: file.checklist,
     }));
     try {
-      const response = await fetch("https://prisma-jl-api.onrender.com/checklist/export", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ checklists }),
-      });
+      const response = await fetch(
+        "https://prisma-jl-api.onrender.com/checklist/export",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ checklists }),
+        }
+      );
+
       if (!response.ok) {
-        throw new Error("Failed to export files");
+        const errorData = await response.json();
+        const errorMessage = `Failed to export files: ${errorData.error}`;
+        alert(errorMessage);
+        throw new Error(errorMessage);
       }
+
       const csvFiles = await response.json();
       for (const [filename, csvContent] of Object.entries(csvFiles)) {
         const blob = new Blob([csvContent], { type: "text/csv" });
@@ -259,6 +273,7 @@ export default function Checklist() {
       }
     } catch (error) {
       console.error("Error exporting files:", error);
+      alert(`Error exporting files: ${error.message}`);
     }
   };
 

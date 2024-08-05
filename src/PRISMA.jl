@@ -8,7 +8,7 @@ Julia package for generating checklists and flow diagrams based on the [2020 **P
 - `checklist_df`: returns an empty PRISMA checklist as the type `DataFrame`
 - `checklist`: returns a completed PRISMA checklist as the type `Checklist`
 - `flow_diagram_df`: returns the `DataFrame` that is used to create the flow diagram
-- `flow_diagram`: returns a completed PRISMA flow diagram as the type `FlowDiagram`
+- `flow_diagram`: returns a PRISMA flow diagram as the type `FlowDiagram`
 - `flow_diagram_save`: saves a `FlowDiagram` to any file format supported by `Graphviz_jll`
 
 ## Types

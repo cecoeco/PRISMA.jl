@@ -368,7 +368,7 @@ export default function FlowDiagram() {
     };
   }
 
-  const apiURL = "https://prisma-jl.onrender.com";
+  const apiURL = "https://prisma-jl-api.onrender.com";
 
   async function getFlowDiagram() {
     try {
@@ -379,7 +379,10 @@ export default function FlowDiagram() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching flow diagram: ${response.statusText}`);
+        const errorData = await response.json();
+        const errorMessage = `Error fetching flow diagram: ${errorData.error}`;
+        alert(errorMessage);
+        throw new Error(errorMessage);
       }
 
       const svgResponse = await response.json();
@@ -389,12 +392,12 @@ export default function FlowDiagram() {
       if (container) {
         container.innerHTML = svgData;
       } else {
-        console.error("Container element not found");
-        alert("Error: Container element not found.");
+        console.error("Flow diagram container element not found");
+        alert("Flow diagram container element not found.");
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      alert("Error: Unable to fetch flow diagram. Please try again later.");
+      console.error("Error generating flow diagram:", error);
+      alert(`Error generating flow diagram: ${error.message}`);
     }
   }
 
@@ -411,14 +414,19 @@ export default function FlowDiagram() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching flow diagram: ${response.statusText}`);
+        const errorData = await response.json();
+        const errorMessage = `Error fetching flow diagram: ${errorData.error}`;
+        alert(errorMessage);
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
       const flowDiagramBytes = data.flow_diagram;
 
       if (!flowDiagramBytes) {
-        throw new Error("No binary data received from the server.");
+        const errorMessage = "No binary data received from the server.";
+        alert(errorMessage);
+        throw new Error(errorMessage);
       }
 
       const mimeTypeMap: { [key: string]: string } = {
@@ -440,7 +448,7 @@ export default function FlowDiagram() {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading flow diagram:", error);
-      alert("Error: Unable to download flow diagram. Please try again later.");
+      alert(`Error downloading flow diagram: ${error.message}`);
     }
   }
 
