@@ -230,36 +230,23 @@
   font-size: 1rem;
 }
 
-.close-button {
+.close-icon {
   display: flex;
-  background: linear-gradient(0deg, var(--background-color-1) 0%, var(--background-color-2) 100%);
   cursor: pointer;
   border-radius: 50%;
-  padding: 1px;
   position: absolute;
+  fill: var(--text-color-1);
+  width: 18px;
+  height: 18px;
   top: 10px;
   right: 10px;
+  transition: transform 0.2s;
 }
 
-.close-button:hover {
-  background: linear-gradient(0deg, var(--background-color-2) 0%, var(--background-color-1) 100%);
-}
-
-.close-button:active {
-  background: var(--background-color-1)
-}
-
-.close-button-icon {
-  height: 20px;
-  width: 20px;
-  fill: var(--text-color-1);
-}
-
-.close-button:hover .close-button-icon {
-  cursor: pointer;
+.close-icon:hover {
   fill: var(--error-color);
 }
 
-.close-button:active .close-button-icon {
+.close-icon:active {
   fill: var(--text-color-1);
 }

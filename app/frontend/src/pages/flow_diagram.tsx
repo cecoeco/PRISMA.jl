@@ -337,6 +337,37 @@ export default function FlowDiagram() {
     return boxes;
   }
 
+  const [saveFormat, setSaveFormat] = createSignal("svg");
+
+  function flowDiagramArguments() {
+    return {
+      data: flowDiagramData(),
+      background_color: state().visual.backgroundColor,
+      grayboxes: state().visual.grayBoxesIncluded == "true",
+      grayboxes_color: state().visual.grayBoxesColor,
+      top_boxes: state().visual.topBoxesIncluded == "true",
+      top_boxes_borders: state().visual.topBoxesBorders == "true",
+      top_boxes_color: state().visual.topBoxesColor,
+      side_boxes: state().visual.sideBoxesIncluded == "true",
+      side_boxes_borders: state().visual.sideBoxesBorders == "true",
+      side_boxes_color: state().visual.sideBoxesColor,
+      previous_studies: state().visual.previousStudiesIncluded == "true",
+      other_methods: state().visual.otherMethodsIncluded == "true",
+      borders: state().visual.borders == "true",
+      border_style: state().visual.borderStyle,
+      border_width: state().visual.borderWidth,
+      border_color: state().visual.borderColor,
+      font: state().visual.font,
+      font_color: state().visual.fontColor,
+      font_size: state().visual.fontSize,
+      arrow_head: state().visual.arrowHead,
+      arrow_size: state().visual.arrowSize,
+      arrow_color: state().visual.arrowColor,
+      arrow_width: state().visual.arrowWidth,
+      format: saveFormat(),
+    };
+  }
+
   async function getFlowDiagram() {
     try {
       const response = await fetch(
@@ -344,31 +375,7 @@ export default function FlowDiagram() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            data: flowDiagramData(),
-            background_color: state().visual.backgroundColor,
-            grayboxes: state().visual.grayBoxesIncluded == "true",
-            grayboxes_color: state().visual.grayBoxesColor,
-            top_boxes: state().visual.topBoxesIncluded == "true",
-            top_boxes_borders: state().visual.topBoxesBorders == "true",
-            top_boxes_color: state().visual.topBoxesColor,
-            side_boxes: state().visual.sideBoxesIncluded == "true",
-            side_boxes_borders: state().visual.sideBoxesBorders == "true",
-            side_boxes_color: state().visual.sideBoxesColor,
-            previous_studies: state().visual.previousStudiesIncluded == "true",
-            other_methods: state().visual.otherMethodsIncluded == "true",
-            borders: state().visual.borders == "true",
-            border_style: state().visual.borderStyle,
-            border_width: state().visual.borderWidth,
-            border_color: state().visual.borderColor,
-            font: state().visual.font,
-            font_color: state().visual.fontColor,
-            font_size: state().visual.fontSize,
-            arrow_head: state().visual.arrowHead,
-            arrow_size: state().visual.arrowSize,
-            arrow_color: state().visual.arrowColor,
-            arrow_width: state().visual.arrowWidth,
-          }),
+          body: JSON.stringify(flowDiagramArguments()),
         }
       );
       const svgResponse = await response.json();
@@ -388,21 +395,37 @@ export default function FlowDiagram() {
     getFlowDiagram();
   });
 
-  const exportFlowDiagram = () => {
-    const svg = document.querySelector(".flow-diagram-container svg");
-    if (svg) {
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const blob = new Blob([svgData], { type: "image/svg+xml" });
+  async function downloadFlowDiagram() {
+    try {
+      const response = await fetch(
+        "https://prisma-jl-api.onrender.com/flow_diagram/export",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(flowDiagramArguments()),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
+      a.style.display = "none";
       a.href = url;
-      a.download = "flow_diagram.svg";
+      a.download = `flow_diagram.${saveFormat()}`;
       document.body.appendChild(a);
       a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading file:", error);
     }
-  };
+    closeModal();
+  }
 
-  const resetFlowDiagramOptions = () => {
+  const resetFlowDiagramArguments = () => {
     setState({
       data: { ...initialData },
       visual: { ...initialVisual },
@@ -421,6 +444,7 @@ export default function FlowDiagram() {
         value: 0,
       })),
     });
+    setSaveFormat("svg");
   };
 
   return (
@@ -428,16 +452,14 @@ export default function FlowDiagram() {
       <Show when={showDownloadModal()}>
         <div class="download-modal-background" onMouseDown={closeModal}>
           <div class="download-modal" onMouseDown={(e) => e.stopPropagation()}>
-            <button class="close-button">
-              <X onMouseDown={closeModal} class="close-button-icon" />
-            </button>
+            <X onMouseDown={closeModal} class="close-icon" />
             <h2>Download Flow Diagram</h2>
             <label for="format">Choose Format:</label>
             <select
               name="format"
               id="format"
-              //value={saveFormat()}
-              //onInput={(event) => setSaveFormat(event.target.value)}
+              value={saveFormat()}
+              onInput={(event) => setSaveFormat(event.target.value)}
             >
               <option value="png">PNG</option>
               <option value="svg">SVG</option>
@@ -447,7 +469,7 @@ export default function FlowDiagram() {
             </select>
             <button
               class="download-modal-button"
-              //onMouseDown={exportFlowDiagram}
+              onMouseDown={downloadFlowDiagram}
               type="button"
               title="Download"
             >
@@ -1391,7 +1413,7 @@ export default function FlowDiagram() {
           <button
             title="reset to default settings"
             class="settings-actions-button remove-button"
-            onMouseDown={resetFlowDiagramOptions}
+            onMouseDown={resetFlowDiagramArguments}
           >
             <Reset class="settings-actions-button-icon remove-button-icon" />
             Reset

@@ -134,7 +134,7 @@ Oxygen.post("/flow_diagram/export") do req::HTTP.Request
             font_size =          flow_diagram_options["font_size"],
             arrow_head =         flow_diagram_options["arrow_head"],
             arrow_size =         flow_diagram_options["arrow_size"],
-            arrow_color =        "$(flow_diagram_options["arrow_color"])",
+            #arrow_color =        "$(flow_diagram_options["arrow_color"])",
             arrow_width =        flow_diagram_options["arrow_width"]
         )
 
