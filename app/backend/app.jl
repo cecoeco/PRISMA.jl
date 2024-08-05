@@ -1,4 +1,4 @@
-using CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
+using Base64, CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
 
 const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
     "Access-Control-Allow-Origin" => "*"
@@ -60,9 +60,11 @@ function bytes(fd::PRISMA.FlowDiagram, format::AbstractString)::String
     tempfile::String = Base.Filesystem.tempname() * "." * format
     flow_diagram_save(tempfile, fd)
     try
-        return Base.read(tempfile, String)
+        data::Vector{UInt8} = Base.read(tempfile)
+        return Base64.base64encode(data)
     catch error
-        return Base.rethrow(error)
+        println("Error reading temporary file: $error")
+        Base.rethrow(error)
     finally
         Base.Filesystem.rm(tempfile)
     end

@@ -368,18 +368,16 @@ export default function FlowDiagram() {
     };
   }
 
+  const apiURL = "https://prisma-jl-api.onrender.com";
+
   async function getFlowDiagram() {
     try {
-      const response = await fetch(
-        "https://prisma-jl-api.onrender.com/flow_diagram/generate",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(flowDiagramArguments()),
-        }
-      );
+      const response = await fetch(`${apiURL}/flow_diagram/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(flowDiagramArguments()),
+      });
       const svgResponse = await response.json();
-      console.log(svgResponse);
       const container = document.querySelector(".flow-diagram-container");
       if (container) {
         container.innerHTML = svgResponse.svg;
@@ -396,33 +394,52 @@ export default function FlowDiagram() {
   });
 
   async function downloadFlowDiagram() {
-    try {
-      const response = await fetch(
-        "https://prisma-jl-api.onrender.com/flow_diagram/export",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(flowDiagramArguments()),
-        }
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    const response = await fetch(`${apiURL}/flow_diagram/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(flowDiagramArguments()),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      const base64Data = data.flow_diagram;
+      const binaryString = atob(base64Data);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
       }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+
+      let mimeType;
+      switch (saveFormat()) {
+        case "png":
+          mimeType = "image/png";
+          break;
+        case "svg":
+          mimeType = "image/svg+xml";
+          break;
+        case "pdf":
+          mimeType = "application/pdf";
+          break;
+        case "gv":
+          mimeType = "text/vnd.graphviz";
+          break;
+        default:
+          mimeType = "application/octet-stream";
+      }
+
+      const blob = new Blob([bytes], { type: mimeType });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.style.display = "none";
       a.href = url;
       a.download = `flow_diagram.${saveFormat()}`;
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading file:", error);
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } else {
+      console.error("Error fetching flow diagram:", data.error);
     }
-    closeModal();
   }
 
   const resetFlowDiagramArguments = () => {
@@ -463,7 +480,6 @@ export default function FlowDiagram() {
             >
               <option value="png">PNG</option>
               <option value="svg">SVG</option>
-              <option value="jpg">JPG</option>
               <option value="pdf">PDF</option>
               <option value="gv">Graphviz</option>
             </select>
