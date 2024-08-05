@@ -368,7 +368,7 @@ export default function FlowDiagram() {
     };
   }
 
-  const apiURL = "http://0.0.0.0:5050";
+  const apiURL = "https://prisma-jl.onrender.com";
 
   async function getFlowDiagram() {
     try {
@@ -377,19 +377,24 @@ export default function FlowDiagram() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(flowDiagramArguments()),
       });
+
       if (!response.ok) {
         throw new Error(`Error fetching flow diagram: ${response.statusText}`);
       }
+
       const svgResponse = await response.json();
       const svgData = new TextDecoder().decode(new Uint8Array(svgResponse.svg));
       const container = document.querySelector(".flow-diagram-container");
+
       if (container) {
         container.innerHTML = svgData;
       } else {
         console.error("Container element not found");
+        alert("Error: Container element not found.");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      alert("Error: Unable to fetch flow diagram. Please try again later.");
     }
   }
 
@@ -404,20 +409,25 @@ export default function FlowDiagram() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(flowDiagramArguments()),
       });
+
       if (!response.ok) {
         throw new Error(`Error fetching flow diagram: ${response.statusText}`);
       }
+
       const data = await response.json();
       const flowDiagramBytes = data.flow_diagram;
+
       if (!flowDiagramBytes) {
         throw new Error("No binary data received from the server.");
       }
+
       const mimeTypeMap: { [key: string]: string } = {
         png: "image/png",
         svg: "image/svg+xml",
         pdf: "application/pdf",
         gv: "text/vnd.graphviz",
       };
+
       const mimeType = mimeTypeMap[saveFormat()];
       const blob = new Blob([new Uint8Array(flowDiagramBytes)], { type: mimeType });
       const url = URL.createObjectURL(blob);
@@ -430,6 +440,7 @@ export default function FlowDiagram() {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading flow diagram:", error);
+      alert("Error: Unable to download flow diagram. Please try again later.");
     }
   }
 
