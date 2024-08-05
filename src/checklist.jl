@@ -116,7 +116,7 @@ function safe_match(pattern::Regex, text::AbstractString)::String
     end
 end
 
-function get_item(paper::AbstractString)::DataFrame
+function fillchecklist(paper::AbstractString)::DataFrame
     textencoder, bert_model = hgf"bert-base-uncased"
     results::DataFrame = deepcopy(checklist_df())
 
@@ -263,7 +263,7 @@ function checklist(paper::AbstractString)::Checklist
         "pdf version" =>       safe_match(r"PDF version:\s*(.*)",  paper_info)
     )
 
-    return Checklist(df=get_item(paper_text), metadata=metadata)
+    return Checklist(df=fillchecklist(paper_text), metadata=metadata)
 end
 
 function checklist(bytes::Vector{UInt8})::Checklist
