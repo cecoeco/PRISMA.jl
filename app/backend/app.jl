@@ -1,4 +1,4 @@
-using CSV, DataFrames, HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
+using CSV, DataFrames, HTMLTables, HTTP, JSONTables, Oxygen, PRISMA
 
 const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
     "Access-Control-Allow-Origin" => "*"
@@ -41,7 +41,7 @@ end
 
 Oxygen.post("/checklist/export") do req::HTTP.Request
     try
-        checklists::JSON3.Object = JSON3.read(String(req.body))
+        checklists::JSON3.Object = Oxygen.json(req)
 
         csv_files::Dict{String,String} = Dict{String,String}()
         for checklist in checklists["checklists"]
@@ -70,7 +70,7 @@ end
 
 Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
     try
-        flow_diagram_arguments::JSON3.Object = JSON3.read(req.body)
+        flow_diagram_arguments = Oxygen.json(req)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -109,7 +109,7 @@ end
 
 Oxygen.post("/flow_diagram/export") do req::HTTP.Request
     try
-        flow_diagram_arguments::JSON3.Object = JSON3.read(req.body)
+        flow_diagram_arguments = Oxygen.json(req)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
