@@ -1,7 +1,7 @@
 name = "PRISMA"
 uuid = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
 authors = ["Ceco Elijah Maples <mapleselijah9@gmail.com>", "PRISMA.jl Contributors"]
-version = "0.0.4"
+version = "0.0.5"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"

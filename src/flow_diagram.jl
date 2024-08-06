@@ -285,15 +285,15 @@ const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
         other_methods::Bool=true,
         borders::Bool=true,
         border_style::AbstractString="solid",
-        border_width::Number=1,
+        border_width::Union{AbstractString,Number}=1,
         border_color::AbstractString="black",
         font::AbstractString="Helvetica",
         font_color::AbstractString="black",
-        font_size::Number=1,
+        font_size::Union{AbstractString,Number}=1,
         arrow_head::AbstractString="normal",
-        arrow_size::Number=1,
+        arrow_size::Union{AbstractString,Number}=1,
         arrow_color::AbstractString="black",
-        arrow_width::Number=1)::PRISMA.FlowDiagram
+        arrow_width::Union{AbstractString,Number}=1)::PRISMA.FlowDiagram
 
 Generates the flow diagram figure from the flow diagram dataframe.
 
@@ -344,6 +344,7 @@ fd::PRISMA.FlowDiagram = PRISMA.flow_diagram(df, top_boxes_color="white")
 # save the flow diagram
 PRISMA.flow_diagram_save("flow_diagram.svg", fd)
 ```
+
 """
 function flow_diagram(
     data::DataFrame=flow_diagram_df();
@@ -360,17 +361,17 @@ function flow_diagram(
     other_methods::Bool=true,
     borders::Bool=true,
     border_style::AbstractString="solid",
-    border_width::Number=1,
+    border_width::Union{AbstractString,Number}=1,
     border_color::AbstractString="black",
     font::AbstractString="Helvetica",
     font_color::AbstractString="black",
-    font_size::Number=12,
+    font_size::Union{AbstractString,Number}=12,
     arrow_head::AbstractString="normal",
-    arrow_size::Number=1,
+    arrow_size::Union{AbstractString,Number}=1,
     arrow_color::AbstractString="black",
-    arrow_width::Number=1)::PRISMA.FlowDiagram
+    arrow_width::Union{AbstractString,Number}=1)::PRISMA.FlowDiagram
 
-    excluded_boxes = Set{Number}()
+    excluded_boxes::Set{Number} = Set{Number}()
 
     if !previous_studies
         data = filter(row -> !(row.box_num in PREVIOUS_STUDIES_BOXES), data)

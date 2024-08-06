@@ -70,7 +70,7 @@ end
 
 Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
     try
-        flow_diagram_arguments::JSON3.Object = JSON3.read(String(req.body))
+        flow_diagram_arguments::JSON3.Object = JSON3.read(req.body)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -95,13 +95,13 @@ Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
             font_size =          flow_diagram_arguments["font_size"],
             arrow_head =         flow_diagram_arguments["arrow_head"],
             arrow_size =         flow_diagram_arguments["arrow_size"],
-            #arrow_color =        "$(flow_diagram_arguments["arrow_color"])",
+            arrow_color =        "$(flow_diagram_arguments["arrow_color"])",
             arrow_width =        flow_diagram_arguments["arrow_width"]
         )
 
         flow_diagram_svg::Vector{UInt8} = bytes(flow_diagram_dot, "svg")
 
-        return Oxygen.json(status=200, Dict{String,Vector{UInt8}}("svg" => flow_diagram_svg))
+        return Oxygen.json(status=200, Dict{String,Vector{UInt8}}("flow_diagram" => flow_diagram_svg))
     catch error
         return Oxygen.json(status=500, Dict{String,String}("error" => "error generating flow diagram: $error"))
     end
@@ -109,7 +109,7 @@ end
 
 Oxygen.post("/flow_diagram/export") do req::HTTP.Request
     try
-        flow_diagram_arguments::JSON3.Object = JSON3.read(String(req.body))
+        flow_diagram_arguments::JSON3.Object = JSON3.read(req.body)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -134,7 +134,7 @@ Oxygen.post("/flow_diagram/export") do req::HTTP.Request
             font_size =          flow_diagram_arguments["font_size"],
             arrow_head =         flow_diagram_arguments["arrow_head"],
             arrow_size =         flow_diagram_arguments["arrow_size"],
-            #arrow_color =        "$(flow_diagram_arguments["arrow_color"])",
+            arrow_color =        "$(flow_diagram_arguments["arrow_color"])",
             arrow_width =        flow_diagram_arguments["arrow_width"]
         )
 

@@ -368,7 +368,7 @@ export default function FlowDiagram() {
     };
   }
 
-  const apiURL = "https://prisma-jl-api.onrender.com";
+  const apiURL = "http://0.0.0.0:5050";
 
   async function getFlowDiagram() {
     try {
@@ -380,17 +380,19 @@ export default function FlowDiagram() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage = `Error fetching flow diagram: ${errorData.error}`;
+        const errorMessage = `Error generating flow diagram: ${errorData.error}`;
         alert(errorMessage);
         throw new Error(errorMessage);
       }
 
-      const svgResponse = await response.json();
-      const svgData = new TextDecoder().decode(new Uint8Array(svgResponse.svg));
+      const FlowDiagram = await response.json();
+      const FlowDiagramData = new TextDecoder().decode(
+        new Uint8Array(FlowDiagram.flow_diagram)
+      );
       const container = document.querySelector(".flow-diagram-container");
 
       if (container) {
-        container.innerHTML = svgData;
+        container.innerHTML = FlowDiagramData;
       } else {
         console.error("Flow diagram container element not found");
       }
