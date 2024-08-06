@@ -480,7 +480,7 @@ function flow_diagram(
         if !(from in excluded_boxes) && !(to in excluded_boxes)
             dot_lang *= """
             $from -> $to [
-                arrowhead=$(from in Set([7, 21]) ? "none" : arrow_head),
+                arrowhead=$(from in Set([7, 21]) && to != 22 ? "none" : arrow_head),
                 arrowsize="$arrow_size",
                 color="$arrow_color",
                 penwidth="$arrow_width"

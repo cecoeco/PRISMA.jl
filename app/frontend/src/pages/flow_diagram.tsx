@@ -393,11 +393,14 @@ export default function FlowDiagram() {
         container.innerHTML = svgData;
       } else {
         console.error("Flow diagram container element not found");
-        alert("Flow diagram container element not found.");
       }
     } catch (error) {
-      console.error("Error generating flow diagram:", error);
-      alert(`Error generating flow diagram: ${error.message}`);
+      console.error("Error fetching data:", error);
+      if (error instanceof Error) {
+        alert(`Error fetching flow diagram: ${error.message}`);
+      } else {
+        alert("Error fetching flow diagram: An unknown error occurred.");
+      }
     }
   }
 
@@ -415,7 +418,7 @@ export default function FlowDiagram() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage = `Error fetching flow diagram: ${errorData.error}`;
+        const errorMessage = `Error downloading flow diagram: ${errorData.error}`;
         alert(errorMessage);
         throw new Error(errorMessage);
       }
@@ -424,9 +427,7 @@ export default function FlowDiagram() {
       const flowDiagramBytes = data.flow_diagram;
 
       if (!flowDiagramBytes) {
-        const errorMessage = "No binary data received from the server.";
-        alert(errorMessage);
-        throw new Error(errorMessage);
+        throw new Error("No binary data received from the server.");
       }
 
       const mimeTypeMap: { [key: string]: string } = {
@@ -448,7 +449,11 @@ export default function FlowDiagram() {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading flow diagram:", error);
-      alert(`Error downloading flow diagram: ${error.message}`);
+      if (error instanceof Error) {
+        alert(`Error downloading flow diagram: ${error.message}`);
+      } else {
+        alert("Error downloading flow diagram: An unknown error occurred.");
+      }
     }
   }
 

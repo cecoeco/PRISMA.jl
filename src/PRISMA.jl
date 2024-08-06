@@ -25,6 +25,7 @@ using Graphviz_jll: neato
 using LinearAlgebra: norm, dot
 using Poppler_jll: pdfinfo, pdftotext
 using Statistics: mean
+using TidierStrings
 using Transformers: encode, @hgf_str
 
 export checklist_df, checklist, Checklist

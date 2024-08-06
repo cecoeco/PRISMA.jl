@@ -85,7 +85,7 @@ export default function Checklist() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage = `Error submitting file: ${errorData.error}`;
+        const errorMessage = `Error generating checklist: ${errorData.error}`;
         alert(errorMessage);
         throw new Error(errorMessage);
       }
@@ -100,9 +100,13 @@ export default function Checklist() {
       setOpenedFile(newFile);
       handleFileRemove();
     } catch (error) {
-      console.error("Error submitting file:", error);
+      console.error("Error generating checklist:", error);
       handleFileRemove();
-      alert(`File could not be sent to the server: ${error.message}`);
+      if (error instanceof Error) {
+        alert(`Error generating checklist: ${error.message}`);
+      } else {
+        alert("Error generating checklist: An unknown error occurred.");
+      }
     }
   };
 
@@ -272,8 +276,12 @@ export default function Checklist() {
         a.remove();
       }
     } catch (error) {
-      console.error("Error exporting files:", error);
-      alert(`Error exporting files: ${error.message}`);
+      console.error("Error exporting checklist(s):", error);
+      if (error instanceof Error) {
+        alert(`Error exporting checklist(s): ${error.message}`);
+      } else {
+        alert("Error exporting checklist(s): An unknown error occurred.");
+      }
     }
   };
 
