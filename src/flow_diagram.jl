@@ -124,6 +124,10 @@ Flow diagram type for PRISMA.jl
     dot::AbstractString
 end
 
+function format_label(string::AbstractString)::String
+    return replace(str_wrap(string; width=30), "\n" => "<br/>")
+end
+
 function group_labels(df::DataFrame)::DataFrame
     grouped::GroupedDataFrame = groupby(df, :box_num)
     grouped_labels::DataFrame = DataFrame(box_num=Int[], box_text=String[])
@@ -137,8 +141,9 @@ function group_labels(df::DataFrame)::DataFrame
             result::String = ismissing(row.result) ? "" : "<i>n</i>&nbsp;=&nbsp;$(row.result)"
 
             label::String = string(text, "<br/>", result)
+            formatted_label::String = format_label(label)
 
-            push!(labels, label)
+            push!(labels, formatted_label)
         end
 
         group_label::String = join(labels, "<br/>")

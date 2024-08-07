@@ -1,7 +1,7 @@
 """
 # PRISMA.jl
 
-Julia package for generating checklists and flow diagrams based on the [2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
+Julia package for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
 
 ## Functions
 
@@ -25,7 +25,7 @@ using Graphviz_jll: neato
 using LinearAlgebra: norm, dot
 using Poppler_jll: pdfinfo, pdftotext
 using Statistics: mean
-using TidierStrings
+using TidierStrings: str_wrap
 using Transformers: encode, @hgf_str
 
 export checklist_df, checklist, Checklist
