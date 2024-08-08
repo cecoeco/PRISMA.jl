@@ -10,7 +10,7 @@ Julia package and [web application](https://prisma-jl.onrender.com) built with [
 
 :arrow_down: **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
 
-:book: **Documentation:** <a href="https://cecoeco.github.io/PRISMA.jl/stable/"><img src="https://img.shields.io/badge/docs-stable-0088ff.svg" alt="Documentation Stable" /></a> <a href="https://cecoeco.github.io/PRISMA.jl/dev/"><img src="https://img.shields.io/badge/docs-dev-0088ff.svg" alt="Documentation Dev"></a>
+:book: **Documentation:** <a href="https://cecoeco.github.io/PRISMA.jl/stable/"><img src="https://img.shields.io/badge/docs-stable-4c9fff.svg" alt="Documentation Stable" /></a> <a href="https://cecoeco.github.io/PRISMA.jl/dev/"><img src="https://img.shields.io/badge/docs-dev-4c9fff.svg" alt="Documentation Dev"></a>
 
 :books: **References:**
 

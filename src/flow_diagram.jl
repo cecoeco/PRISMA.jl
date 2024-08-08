@@ -125,7 +125,7 @@ Flow diagram type for PRISMA.jl
 end
 
 function wrap_text(string::AbstractString)::String
-    return replace(str_wrap(string; width=30), "\n" => "<br/>")
+    return replace(str_wrap(string, width=33), "\n" => "<br/>")
 end
 
 function group_labels(df::DataFrame)::DataFrame
@@ -140,7 +140,7 @@ function group_labels(df::DataFrame)::DataFrame
             text::String = ismissing(row.result) ? "<b>$(row.box_text)</b>" : row.box_text
             result::String = ismissing(row.result) ? "" : "<i>n</i>&nbsp;=&nbsp;$(row.result)"
 
-            wrapped_text::String = row.box_num in [1, 2, 3, 4, 5, 6] ? text : wrap_text(text)
+            wrapped_text::String = row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES ? text : wrap_text(text)
             wrapped_result::String = wrap_text(result)
 
             label::String = ismissing(row.result) ? wrapped_text : string(wrapped_text, "<br/>", wrapped_result)
@@ -156,20 +156,24 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
+FLOW_DIAGRAM_TOP_MARGIN::Number = 1.4
+
 FLOW_DIAGRAM_ROW_01::Number = 15.5
-FLOW_DIAGRAM_ROW_02::Number = 14
-FLOW_DIAGRAM_ROW_03::Number = 12
-FLOW_DIAGRAM_ROW_04::Number = 10
-FLOW_DIAGRAM_ROW_05::Number = 08
-FLOW_DIAGRAM_ROW_06::Number = 06
-FLOW_DIAGRAM_ROW_07::Number = 04
+FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 1.2
+FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 - FLOW_DIAGRAM_TOP_MARGIN
+
+FLOW_DIAGRAM_LEFT_MARGIN::Number = 2.65
 
 FLOW_DIAGRAM_COL_01::Number = 01
-FLOW_DIAGRAM_COL_02::Number = 04
-FLOW_DIAGRAM_COL_03::Number = 07
-FLOW_DIAGRAM_COL_04::Number = 10
-FLOW_DIAGRAM_COL_05::Number = 13
-FLOW_DIAGRAM_COL_06::Number = 16
+FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_LEFT_MARGIN
 
 const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
     01.0 => (
@@ -372,7 +376,7 @@ function flow_diagram(
     border_color::AbstractString="black",
     font::AbstractString="Helvetica",
     font_color::AbstractString="black",
-    font_size::Union{AbstractString,Number}=12,
+    font_size::Union{AbstractString,Number}=10,
     arrow_head::AbstractString="normal",
     arrow_size::Union{AbstractString,Number}=1,
     arrow_color::AbstractString="black",
