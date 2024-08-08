@@ -124,7 +124,7 @@ Flow diagram type for PRISMA.jl
     dot::AbstractString
 end
 
-function format_label(string::AbstractString)::String
+function wrap_text(string::AbstractString)::String
     return replace(str_wrap(string; width=30), "\n" => "<br/>")
 end
 
@@ -140,10 +140,12 @@ function group_labels(df::DataFrame)::DataFrame
             text::String = ismissing(row.result) ? "<b>$(row.box_text)</b>" : row.box_text
             result::String = ismissing(row.result) ? "" : "<i>n</i>&nbsp;=&nbsp;$(row.result)"
 
-            label::String = string(text, "<br/>", result)
-            formatted_label::String = format_label(label)
+            wrapped_text::String = row.box_num in [1, 2, 3, 4, 5, 6] ? text : wrap_text(text)
+            wrapped_result::String = wrap_text(result)
 
-            push!(labels, formatted_label)
+            label::String = ismissing(row.result) ? wrapped_text : string(wrapped_text, "<br/>", wrapped_result)
+
+            push!(labels, label)
         end
 
         group_label::String = join(labels, "<br/>")
@@ -154,13 +156,13 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
-FLOW_DIAGRAM_ROW_01::Number = 12.7
-FLOW_DIAGRAM_ROW_02::Number = 12
-FLOW_DIAGRAM_ROW_03::Number = 11
+FLOW_DIAGRAM_ROW_01::Number = 15.5
+FLOW_DIAGRAM_ROW_02::Number = 14
+FLOW_DIAGRAM_ROW_03::Number = 12
 FLOW_DIAGRAM_ROW_04::Number = 10
-FLOW_DIAGRAM_ROW_05::Number = 09
-FLOW_DIAGRAM_ROW_06::Number = 08
-FLOW_DIAGRAM_ROW_07::Number = 07
+FLOW_DIAGRAM_ROW_05::Number = 08
+FLOW_DIAGRAM_ROW_06::Number = 06
+FLOW_DIAGRAM_ROW_07::Number = 04
 
 FLOW_DIAGRAM_COL_01::Number = 01
 FLOW_DIAGRAM_COL_02::Number = 04
@@ -260,7 +262,7 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = D
     ),
     21.5 => (
         x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_06
+        y=FLOW_DIAGRAM_ROW_07
     ),
     22.0 => (
         x=FLOW_DIAGRAM_COL_06,
@@ -438,7 +440,6 @@ function flow_diagram(
                 tooltip="$(row.box_text)",
                 shape=box,
                 style="filled,$border_style",
-                fixedsize="true",
                 fillcolor="$box_color",
                 penwidth=$(borders ? box_border_width : 0),
                 color="$border_color",
