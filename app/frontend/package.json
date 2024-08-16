@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -7,12 +8,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "vite": "^5.3.5",
+    "vite": "5.3.5",
     "vite-plugin-solid": "2.8.2",
     "vite-plugin-solid-svg": "0.8.1"
   },
   "dependencies": {
-    "@solidjs/router": "^0.14.1",
+    "@solidjs/router": "0.14.1",
     "solid-js": "1.8.11"
   }
 }

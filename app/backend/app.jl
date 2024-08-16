@@ -197,8 +197,8 @@ Oxygen.post("api/flow_diagram/export") do req::HTTP.Request
 end
 
 Oxygen.serve(
-    host="0.0.0.0", 
-    port=5050, 
-    middleware=[corshandler], 
+    host="0.0.0.0",
+    port=5050,
+    middleware=[corshandler],
     async=true
 )
