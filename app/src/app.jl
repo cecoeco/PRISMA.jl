@@ -8,6 +8,8 @@ using NodeJS
 using Oxygen
 using PRISMA
 
+Pkg.add(["CSV", "DataFrames", "HTMLTables", "HTTP", "JSONTables", "JSON3", "NodeJS", "Oxygen", "PRISMA"]) 
+
 const FRONTEND_BUILD::String = joinpath(dirname(@__DIR__), "dist")
 
 function build_frontend()::Nothing
@@ -220,4 +222,4 @@ Oxygen.post("api/flow_diagram/export") do req::HTTP.Request
     end
 end
 
-runapp(host="0.0.0.0", port=5050, async=true)
+#runapp(host="0.0.0.0", port=5050, async=true)
