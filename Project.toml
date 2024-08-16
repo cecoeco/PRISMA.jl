@@ -14,24 +14,12 @@ TidierStrings = "248e6834-d0f8-40ef-8fbb-8e711d883e9c"
 Transformers = "21ca0261-441d-5938-ace7-c90938fde4d4"
 
 [compat]
-CSV = "0.10"
 DataFrames = "1.6"
 DataStructures = "0.18"
-HTMLTables = "0.4"
 Graphviz_jll = "2.50"
 LinearAlgebra = "1"
 Poppler_jll = "24.6"
 Statistics = "1"
 TidierStrings = "0.2"
 Transformers = "0.3"
-XLSX = "0.10"
 julia = "1"
-
-[extras]
-CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-HTMLTables = "b1afcece-b80e-4563-b90e-36b4cc56d3fa"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
-
-[targets]
-test = ["Test", "CSV", "HTMLTables", "XLSX"]

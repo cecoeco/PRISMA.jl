@@ -28,7 +28,8 @@ deps/src/
 docs/build/
 docs/site/
 Manifest.toml
-*.DS_Store
+!app/Manifest.toml
+.DS_Store
 out
 build
 draft

@@ -4,4 +4,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [solidPlugin(), solidSvg()],
+  build: {
+    assetsDir: "",
+  },
 });

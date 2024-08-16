@@ -76,7 +76,7 @@ export default function Checklist() {
     formData.append("file", file());
     try {
       const response = await fetch(
-        "https://prisma-jl-api.onrender.com/checklist/generate",
+        "https://prisma-jl.onrender.com/api/checklist/generate",
         {
           method: "POST",
           body: formData,
@@ -249,7 +249,7 @@ export default function Checklist() {
     }));
     try {
       const response = await fetch(
-        "https://prisma-jl-api.onrender.com/checklist/export",
+        "https://prisma-jl.onrender.com/api/checklist/export",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

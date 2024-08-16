@@ -1,5 +1,4 @@
 {
-  "name": "prisma-app",
   "scripts": {
     "start": "vite",
     "dev": "vite",

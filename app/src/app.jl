@@ -1,29 +1,60 @@
-using CSV, DataFrames, HTMLTables, HTTP, JSONTables, Oxygen, PRISMA
+using CSV
+using DataFrames
+using HTMLTables
+using HTTP
+using JSONTables
+using JSON3
+using NodeJS
+using Oxygen
+using PRISMA
 
-const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
-    "Access-Control-Allow-Origin" => "*"
-]
+const FRONTEND_BUILD::String = joinpath(dirname(@__DIR__), "dist")
 
-const CORS_HEADERS::Vector{Pair{String,String}} = [
-    ALLOWED_ORIGINS...,
-    "Access-Control-Allow-Methods" => "*",
-    "Access-Control-Allow-Headers" => "*"
-]
+function build_frontend()::Nothing
+    @info "Building frontend..."
 
-function corshandler(handle::Function)::Function
-    return function (request::HTTP.Request)
-        if HTTP.method(request) == "OPTIONS"
-            return HTTP.Response(200, CORS_HEADERS)
-        else
-            response::HTTP.Response = handle(request)
-            Base.append!(response.headers, ALLOWED_ORIGINS)
+    if isdir(FRONTEND_BUILD)
+        @info "Removing existing build directory..."
+        rm(FRONTEND_BUILD, force=true, recursive=true)
+    end
 
-            return response
-        end
+    if dirname(pwd()) != "app"
+        @info "Switching to app directory..."
+        cd("app")
+    end
+
+    run(`$(NodeJS.npm_cmd()) install`)
+    run(`$(NodeJS.npm_cmd()) run build`)
+
+    @info "Finished building frontend"
+
+    return nothing
+end
+
+function runapp(; kwargs...)::Nothing
+    build_frontend()
+    Oxygen.serve(; kwargs...)
+
+    return nothing
+end
+
+Oxygen.get("*") do 
+    try
+        return Oxygen.html(
+            status=200,
+            Base.read(joinpath(FRONTEND_BUILD, "index.html"), String)
+        )
+    catch error
+        return Oxygen.json(
+            status=500,
+            Dict{String,String}(
+                "error" => "error loading frontend: $error"
+            )
+        )
     end
 end
 
-Oxygen.post("/checklist/generate") do req::HTTP.Request
+Oxygen.post("api/checklist/generate") do req::HTTP.Request
     try
         paper::PRISMA.Checklist = PRISMA.checklist(req.body)
 
@@ -33,26 +64,47 @@ Oxygen.post("/checklist/generate") do req::HTTP.Request
             clist, classes="checklist", css=false, editable=true, footer=false
         )
 
-        return Oxygen.json(status=200, Dict{String,String}("title" => clist_title, "checklist" => clist_table))
+        return Oxygen.json(
+            status=200, 
+            Dict{String,String}(
+                "title" => clist_title, 
+                "checklist" => clist_table
+            )
+        )
     catch error
-        return Oxygen.json(status=500, Dict{String,String}("error" => "error generating checklist: $error"))
+        return Oxygen.json(
+            status=500, 
+            Dict{String,String}(
+                "error" => "error generating checklist: $error"
+            )
+        )
     end
 end
 
-Oxygen.post("/checklist/export") do req::HTTP.Request
+Oxygen.post("api/checklist/export") do req::HTTP.Request
     try
         checklists::JSON3.Object = Oxygen.json(req)
 
         csv_files::Dict{String,String} = Dict{String,String}()
         for checklist in checklists["checklists"]
             io::IO = IOBuffer()
-            CSV.write(io, HTMLTables.read(checklist["checklist"], DataFrame))
+            df::DataFrame = HTMLTables.read(checklist["checklist"], DataFrame)
+            CSV.write(io, df)
             csv_files["$(checklist["title"]).csv"] = String(take!(io))
+            close(io)
         end
 
-        return Oxygen.json(status=200, csv_files)
+        return Oxygen.json(
+            status=200, 
+            csv_files
+        )
     catch error
-        return Oxygen.json(status=500, Dict{String,String}("error" => "error exporting checklists: $error"))
+        return Oxygen.json(
+            status=500, 
+            Dict{String,String}(
+                "error" => "error exporting checklists: $error"
+            )
+        )
     end
 end
 
@@ -68,9 +120,9 @@ function bytes(fd::PRISMA.FlowDiagram, format::AbstractString)::Vector{UInt8}
     end
 end
 
-Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
+Oxygen.post("api/flow_diagram/generate") do req::HTTP.Request
     try
-        flow_diagram_arguments = Oxygen.json(req)
+        flow_diagram_arguments::JSON3.Object = Oxygen.json(req)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -99,17 +151,28 @@ Oxygen.post("/flow_diagram/generate") do req::HTTP.Request
             arrow_width =        flow_diagram_arguments["arrow_width"]
         )
 
-        flow_diagram_svg::Vector{UInt8} = bytes(flow_diagram_dot, "svg")
-
-        return Oxygen.json(status=200, Dict{String,Vector{UInt8}}("flow_diagram" => flow_diagram_svg))
+        return Oxygen.json(
+            status=200, 
+            Dict{String,Vector{UInt8}}(
+                "flow_diagram" => bytes(
+                    flow_diagram_dot, 
+                    "svg"
+                )
+            )
+        )
     catch error
-        return Oxygen.json(status=500, Dict{String,String}("error" => "error generating flow diagram: $error"))
+        return Oxygen.json(
+            status=500, 
+            Dict{String,String}(
+                "error" => "error generating flow diagram: $error"
+            )
+        )
     end
 end
 
-Oxygen.post("/flow_diagram/export") do req::HTTP.Request
+Oxygen.post("api/flow_diagram/export") do req::HTTP.Request
     try
-        flow_diagram_arguments = Oxygen.json(req)
+        flow_diagram_arguments::JSON3.Object = Oxygen.json(req)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -138,12 +201,23 @@ Oxygen.post("/flow_diagram/export") do req::HTTP.Request
             arrow_width =        flow_diagram_arguments["arrow_width"]
         )
 
-        flow_diagram_bytes::Vector{UInt8} = bytes(flow_diagram_dot, flow_diagram_arguments["format"])
-
-        return Oxygen.json(status=200, Dict{String,Vector{UInt8}}("flow_diagram" => flow_diagram_bytes))
+        return Oxygen.json(
+            status=200, 
+            Dict{String,Vector{UInt8}}(
+                "flow_diagram" => bytes(
+                    flow_diagram_dot, 
+                    flow_diagram_arguments["format"]
+                )
+            )
+        )
     catch error
-        return Oxygen.json(status=500, Dict{String,String}("error" => "error generating flow diagram: $error"))
+        return Oxygen.json(
+            status=500, 
+            Dict{String,String}(
+                "error" => "error generating flow diagram: $error"
+            )
+        )
     end
 end
 
-Oxygen.serve(host="0.0.0.0", port=5050, middleware=[corshandler])
+runapp(host="0.0.0.0", port=5050, async=true)

@@ -13,7 +13,7 @@ makedocs(
     modules=[PRISMA],
     format=HTML(assets=["src/assets/bib.css", "src/assets/favicon.ico"]),
     sitename="PRISMA.jl",
-    authors="PRISMA.jl Contributors",
+    authors="Ceco Elijah Maples and contributors",
     pages=pages,
     plugins=[CitationBibliography(joinpath(dirname(@__FILE__), "src/assets/references.bib"), style=:authoryear)]
 )
