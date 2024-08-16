@@ -10,7 +10,7 @@ Julia package and [web application](https://prisma-jl.onrender.com) powered by [
 
 **Features:**
 
-- natural language processing (NLP) of manuscript PDFs to generate completed 2020 PRISMA checklists.
+- natural language processing (NLP) of manuscript PDFs to generate 2020 PRISMA checklists.
 - highly customizable 2020 PRISMA flow diagrams generated from study data.
 - Interactive web app that requires zero programming knowledge.
 

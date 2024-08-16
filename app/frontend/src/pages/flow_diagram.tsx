@@ -371,7 +371,7 @@ export default function FlowDiagram() {
   async function getFlowDiagram() {
     try {
       const response = await fetch(
-        "https://prisma-jl.onrender.com/api/flow_diagram/generate",
+        "https://prisma-jl-api.onrender.com/api/flow_diagram/generate",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -414,7 +414,7 @@ export default function FlowDiagram() {
   async function downloadFlowDiagram() {
     try {
       const response = await fetch(
-        "https://prisma-jl.onrender.com/api/flow_diagram/export",
+        "https://prisma-jl-api.onrender.com/api/flow_diagram/export",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

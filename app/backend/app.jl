@@ -2,57 +2,31 @@ using CSV
 using DataFrames
 using HTMLTables
 using HTTP
-using JSONTables
 using JSON3
-using NodeJS
+using JSONTables
 using Oxygen
 using PRISMA
 
-Pkg.add(["CSV", "DataFrames", "HTMLTables", "HTTP", "JSONTables", "JSON3", "NodeJS", "Oxygen", "PRISMA"]) 
+const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
+    "Access-Control-Allow-Origin" => "*"
+]
 
-const FRONTEND_BUILD::String = joinpath(dirname(@__DIR__), "dist")
+const CORS_HEADERS::Vector{Pair{String,String}} = [
+    ALLOWED_ORIGINS...,
+    "Access-Control-Allow-Methods" => "*",
+    "Access-Control-Allow-Headers" => "*"
+]
 
-function build_frontend()::Nothing
-    @info "Building frontend..."
+function corshandler(handle::Function)::Function
+    return function (request::HTTP.Request)
+        if HTTP.method(request) == "OPTIONS"
+            return HTTP.Response(200, CORS_HEADERS)
+        else
+            response::HTTP.Response = handle(request)
+            Base.append!(response.headers, ALLOWED_ORIGINS)
 
-    if isdir(FRONTEND_BUILD)
-        @info "Removing existing build directory..."
-        rm(FRONTEND_BUILD, force=true, recursive=true)
-    end
-
-    if dirname(pwd()) != "app"
-        @info "Switching to app directory..."
-        cd("app")
-    end
-
-    run(`$(NodeJS.npm_cmd()) install`)
-    run(`$(NodeJS.npm_cmd()) run build`)
-
-    @info "Finished building frontend"
-
-    return nothing
-end
-
-function runapp(; kwargs...)::Nothing
-    build_frontend()
-    Oxygen.serve(; kwargs...)
-
-    return nothing
-end
-
-Oxygen.get("*") do 
-    try
-        return Oxygen.html(
-            status=200,
-            Base.read(joinpath(FRONTEND_BUILD, "index.html"), String)
-        )
-    catch error
-        return Oxygen.json(
-            status=500,
-            Dict{String,String}(
-                "error" => "error loading frontend: $error"
-            )
-        )
+            return response
+        end
     end
 end
 
@@ -92,8 +66,8 @@ Oxygen.post("api/checklist/export") do req::HTTP.Request
             io::IO = IOBuffer()
             df::DataFrame = HTMLTables.read(checklist["checklist"], DataFrame)
             CSV.write(io, df)
-            csv_files["$(checklist["title"]).csv"] = String(take!(io))
-            close(io)
+            csv_files["$(checklist["title"]).csv"] = String(Base.take!(io))
+            Base.close(io)
         end
 
         return Oxygen.json(
@@ -222,4 +196,9 @@ Oxygen.post("api/flow_diagram/export") do req::HTTP.Request
     end
 end
 
-#runapp(host="0.0.0.0", port=5050, async=true)
+Oxygen.serve(
+    host="0.0.0.0", 
+    port=5050, 
+    middleware=[corshandler], 
+    async=true
+)
