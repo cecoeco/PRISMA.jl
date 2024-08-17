@@ -142,7 +142,7 @@ flow_diagram_read("flow_diagram.html")
 function flow_diagram_read(
     fn::AbstractString;
     sheetname::AbstractString="PRISMA Flow Diagram",
-    json_type::T,
+    json_type,
     kwargs...)::DataFrame
 
     return read_as_dataframe(fn; sheetname=sheetname, json_type=json_type, kwargs...)

@@ -397,7 +397,7 @@ checklist_read("checklist.html")
 function checklist_read(
     fn::AbstractString;
     sheetname::AbstractString="PRISMA Checklist",
-    json_type::T,
+    json_type,
     kwargs...)::DataFrame
 
     return read_as_dataframe(fn; sheetname=sheetname, json_type=json_type, kwargs...)
