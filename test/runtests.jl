@@ -1,4 +1,4 @@
-using HTTP, PRISMA, Test
+using PRISMA, Test
 
 Test.@testset "checklist_df" begin
     df::DataFrame = PRISMA.checklist_df()
@@ -23,7 +23,7 @@ Test.@testset "checklist_df" begin
 end
 
 Test.@testset "checklist" begin
-    cl::PRISMA.Checklist = PRISMA.checklist(HTTP.get("https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf").body)
+    cl::PRISMA.Checklist = PRISMA.checklist("../docs/src/assets/bmj.n71.full.pdf")
 
     PRISMA.checklist_save("checklist.csv", cl, overwrite=true)
     Test.@test Base.Filesystem.isfile("checklist.csv")
