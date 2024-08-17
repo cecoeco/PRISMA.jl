@@ -93,15 +93,5 @@ Test.@testset "flow_diagram" begin
 end
 
 Test.@testset "Aqua.jl tests" begin
-    Aqua.test_all(
-        PRISMA,
-        ambiguities=false,
-        unbound_args=true,
-        undefined_exports=true,
-        project_extras=true,
-        stale_deps=true,
-        deps_compat=false,
-        piracies=true,
-        persistent_tasks=true
-    )
+    Aqua.test_all(PRISMA)
 end
