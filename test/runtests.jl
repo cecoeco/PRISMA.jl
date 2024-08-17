@@ -24,10 +24,10 @@ end
 
 @testset "checklist" begin
     url::String = "https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf"
-    req::HTTP.Request = HTTP.get(url)
-    pdf::Vector{UInt8} = req.body
+    response::HTTP.Messages.Response = HTTP.get(url)
+    paper::Vector{UInt8} = response.body
 
-    cl::PRISMA.Checklist = PRISMA.checklist(pdf)
+    cl::PRISMA.Checklist = PRISMA.checklist(paper)
 
     PRISMA.checklist_save("checklist.csv", cl, overwrite=true)
     @test Base.Filesystem.isfile("checklist.csv")
