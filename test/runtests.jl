@@ -12,7 +12,7 @@ using XLSX
 
     CSV.write("checklist.csv", df)
     @test Base.Filesystem.isfile("checklist.csv")
-    
+
     XLSX.writetable("checklist.xlsx", "PRISMA Checklist" => df)
     @test Base.Filesystem.isfile("checklist.xlsx")
 
