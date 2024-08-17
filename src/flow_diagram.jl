@@ -534,14 +534,10 @@ PRISMA.flow_diagram_save("flow_diagram.svg", fd)
 
 """
 function flow_diagram_save(fn::AbstractString, fd::FlowDiagram; overwrite::Bool=false)::String
-    if isfile(fn) && !overwrite
-        return throw(ArgumentError("file $fn already exists"))
-    end
+    check_overwrite(fn, overwrite)
 
     temp_gv::String = tempname() * ".gv"
-
-    write(temp_gv, fd.dot)
-
+    Base.Filesystem.write(temp_gv, fd.dot)
     try
         run(`$(neato()) $temp_gv -T$(split(fn, ".")[end]) -o $fn`)
 

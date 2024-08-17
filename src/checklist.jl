@@ -268,7 +268,7 @@ end
 
 function checklist(bytes::Vector{UInt8})::Checklist
     paper::String = tempname() * ".pdf"
-    write(paper, bytes)
+    Base.Filesystem.write(paper, bytes)
 
     try
         return checklist(paper)
