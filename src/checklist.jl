@@ -3,22 +3,25 @@
 
 Returns a template PRISMA checklist as a `DataFrame`
 
+## Examples
+
 You can export the `DataFrame` to an Excel spreadsheet or CSV file and edit 
 the checklist using a spreadsheet program. You can also edit the `DataFrame` 
 directly in a Julia program using the DataFrames.jl package. 
 
-## Examples
+```julia
+using PRISMA
+
+df = checklist_df()
+
+checklist_save("checklist.csv", df)
+checklist_save("checklist.xlsx", df)
+checklist_save("checklist.html", df; editable=true)
+checklist_save("checklist.json", df)
+```
 
 ```julia
-using PRISMA, CSV
-
-CSV.write("checklist.csv", checklist_df())
-
-using PRISMA, XLSX
-
-XLSX.writetable("checklist.xlsx", "PRISMA Checklist" => checklist_df())
-
-using PRISMA, DataFrames
+using PRISMA
 
 df = checklist_df()
 df[3, "Location where item is reported"] = "Sysemtatic review is in the title."
@@ -204,24 +207,15 @@ If the parsing fails the value will be an empty string.
 
 ## Examples
 
-Export a completed checklist to an Microsoft® Excel spreadsheet using the `XLSX` package.
+Export a completed checklist to an Microsoft® Excel spreadsheet. Just make the sure the
+file path end with `.xlsx`.
 
 ```julia
-using PRISMA, XLSX
+using PRISMA
 
 clist = checklist("manuscript.pdf")
 
-XLSX.writetable("checklist.xlsx", "PRISMA Checklist" => clist.df)
-```
-
-Export a completed checklist as a CSV file using the `CSV` package.
-
-```julia
-using PRISMA, CSV
-
-clist = checklist("manuscript.pdf")
-
-CSV.write("checklist.csv", clist.df)
+checklist_save("checklist.xlsx", clist)
 ```
 
 It is also possible to view the completed checklist directly 
@@ -232,13 +226,13 @@ could not find or to add new items or quick edits.
 ```julia
 using PRISMA, DataFrames
 
-clist = checklist("manuscript.pdf")
+df::DataFrame = checklist("manuscript.pdf").df
 
-println(clist.df)
+println(df)
 
-clist.df[02, "Yes/No/NA"] = "Yes"
-clist.df[09, "Yes/No/NA"] = "Yes"
-clist.df[10, "Yes/No/NA"] = "Yes"
+df[02, "Yes/No/NA"] = "Yes"
+df[09, "Yes/No/NA"] = "Yes"
+df[10, "Yes/No/NA"] = "Yes"
 
 ```
 
@@ -365,4 +359,13 @@ function checklist_save(
     check_overwrite(fn, overwrite)
 
     return save_dataframe(fn, df, sheetname; kwargs...)
+end
+
+function checklist_read(
+    fn::AbstractString;
+    sheetname::AbstractString="",
+    json_type::T,
+    kwargs...)::DataFrame
+
+    return read_as_dataframe(fn; sheetname=sheetname, json_type=json_type, kwargs...)
 end

@@ -1,7 +1,0 @@
-[deps]
-PRISMA = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[compat]
-PRISMA = "0.0.5"
-julia = "1"

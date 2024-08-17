@@ -8,17 +8,12 @@ Return the template that is used to create the flow diagram as a `DataFrame`.
 You can either edit the template in a Julia program or save it as a CSV file.
 
 ```julia
-using PRISMA, CSV
+using PRISMA
 
 df = PRISMA.flow_diagram_df()
 
-CSV.write("flow_diagram.csv", df)
+flow_diagram_save("flow_diagram.csv", df)
 
-using PRISMA, DataFrames
-
-df = PRISMA.flow_diagram_df()
-
-df[3, "result"] = 200
 ```
 
 In order to add more databases or registers to the flow diagram, you must add them as 
@@ -108,6 +103,15 @@ function flow_diagram_df()::DataFrame
     ]
 
     return DataFrame(rows, cols)
+end
+
+function flow_diagram_read(
+    fn::AbstractString;
+    sheetname::AbstractString="",
+    json_type::T,
+    kwargs...)::DataFrame
+
+    return read_as_dataframe(fn; sheetname=sheetname, json_type=json_type, kwargs...)
 end
 
 """
