@@ -7,9 +7,9 @@ Test.@testset "checklist_df" begin
     Test.@test Base.Filesystem.isfile("checklist.csv")
     Test.@test PRISMA.checklist_read("checklist.csv") == df
 
-    PRISMA.checklist_save("checklist.xlsx", sheetname="checklist", df, overwrite=true)
+    PRISMA.checklist_save("checklist.xlsx", df, overwrite=true)
     Test.@test Base.Filesystem.isfile("checklist.xlsx")
-    Test.@test PRISMA.checklist_read("checklist.xlsx", sheetname="checklist") == df
+    Test.@test PRISMA.checklist_read("checklist.xlsx") == df
 
     PRISMA.checklist_save("checklist.html", df, overwrite=true)
     Test.@test Base.Filesystem.isfile("checklist.html")
@@ -59,9 +59,9 @@ Test.@testset "flow_diagram_df" begin
     Test.@test Base.Filesystem.isfile("flow_diagram.csv")
     Test.@test PRISMA.flow_diagram_read("flow_diagram.csv") == df
 
-    PRISMA.flow_diagram_save("flow_diagram.xlsx", sheetname="flow_diagram", df, overwrite=true)
+    PRISMA.flow_diagram_save("flow_diagram.xlsx", df, overwrite=true)
     Test.@test Base.Filesystem.isfile("flow_diagram.xlsx")
-    Test.@test PRISMA.flow_diagram_read("flow_diagram.xlsx", sheetname="flow_diagram") == df
+    Test.@test PRISMA.flow_diagram_read("flow_diagram.xlsx") == df
 
     PRISMA.flow_diagram_save("flow_diagram.html", df, overwrite=true)
     Test.@test Base.Filesystem.isfile("flow_diagram.html")

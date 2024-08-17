@@ -29,7 +29,7 @@ end
 function read_as_dataframe(
     fn::AbstractString;
     sheetname::AbstractString="",
-    json_type::T,
+    json_type,
     kwargs...)::DataFrame
 
     ext::String = splitext(fn)[2]

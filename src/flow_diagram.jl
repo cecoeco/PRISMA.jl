@@ -105,9 +105,43 @@ function flow_diagram_df()::DataFrame
     return DataFrame(rows, cols)
 end
 
+"""
+    flow_diagram_read(fn::AbstractString; sheetname::AbstractString="", json_type::T, kwargs....)::DataFrame
+
+reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON` file
+
+## Arguments
+
+- `fn::AbstractString`: the name of the file to read
+- `sheetname::AbstractString="": the name of the sheet in the spreadsheet
+- `json_type::T`: the type of the JSON file
+- `kwargs...`: additional arguments to be passed to the underlying
+`CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSON3.read` functions
+
+## Returns
+
+- `DataFrame`: the template dataframe
+
+## Examples
+
+```julia
+using PRISMA: flow_diagram_save, flow_diagram_df, flow_diagram_read
+
+flow_diagram_save("flow_diagram.csv", flow_diagram_df())
+flow_diagram_save("flow_diagram.xlsx", flow_diagram_df())
+flow_diagram_save("flow_diagram.json", flow_diagram_df())
+flow_diagram_save("flow_diagram.html", flow_diagram_df())
+
+flow_diagram_read("flow_diagram.csv")
+flow_diagram_read("flow_diagram.xlsx")
+flow_diagram_read("flow_diagram.json")
+flow_diagram_read("flow_diagram.html")
+```
+
+"""
 function flow_diagram_read(
     fn::AbstractString;
-    sheetname::AbstractString="",
+    sheetname::AbstractString="PRISMA Flow Diagram",
     json_type::T,
     kwargs...)::DataFrame
 
