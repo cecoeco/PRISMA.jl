@@ -1,7 +1,6 @@
-using PRISMA
-using Test
+using HTTP, PRISMA, Test
 
-@testset "checklist" begin
+@testset "checklist_df" begin
     df::DataFrame = PRISMA.checklist_df()
 
     PRISMA.checklist_save("checklist.csv", df, overwrite=true)
@@ -21,8 +20,14 @@ using Test
     Base.Filesystem.rm("checklist.xlsx")
     Base.Filesystem.rm("checklist.html")
     Base.Filesystem.rm("checklist.json")
+end
 
-    cl::PRISMA.Checklist = PRISMA.checklist("https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf")
+@testset "checklist" begin
+    url::String = "https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf"
+    req::HTTP.Request = HTTP.get(url)
+    pdf::Vector{UInt8} = req.body
+
+    cl::PRISMA.Checklist = PRISMA.checklist(pdf)
 
     PRISMA.checklist_save("checklist.csv", cl, overwrite=true)
     @test Base.Filesystem.isfile("checklist.csv")
@@ -43,7 +48,7 @@ using Test
     Base.Filesystem.rm("checklist.json")
 end
 
-@testset "flow_diagram" begin
+@testset "flow_diagram_df" begin
     df::DataFrame = PRISMA.flow_diagram_df()
 
     PRISMA.flow_diagram_save("flow_diagram.csv", df, overwrite=true)
@@ -63,7 +68,9 @@ end
     Base.Filesystem.rm("flow_diagram.xlsx")
     Base.Filesystem.rm("flow_diagram.html")
     Base.Filesystem.rm("flow_diagram.json")
+end
 
+@testset "flow_diagram" begin
     fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
     PRISMA.flow_diagram_save("flow_diagram.svg", fd, overwrite=true)
