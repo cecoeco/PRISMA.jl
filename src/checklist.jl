@@ -278,3 +278,91 @@ function checklist(bytes::Vector{UInt8})::Checklist
         rm(paper, force=true)
     end
 end
+
+"""
+    checklist_save(fn::AbstractString, cl::Checklist; overwrite::Bool=false, kwargs...)::String
+
+saves as either `Checklist` a JSON, CSV, XLSX, or HTML.
+
+## Arguments
+
+- `fn::AbstractString`: the name of the file to save
+- `cl::Checklist`: the checklist to save
+- `overwrite::Bool`: whether to overwrite the file if it already exists
+- `kwargs...`: additional arguments to be passed to the underlying 
+`CSV.write`, `XLSX.writetable`, `HTMLTables.write`, and `JSON3.write` functions
+
+## Returns
+
+- `String`: the path to the saved file
+
+## Examples
+
+```julia
+using PRISMA: Checklist, checklist, checklist_save
+
+clist::Checklist = checklist("manuscript.pdf")
+
+checklist_save("checklist.csv", clist)
+checklist_save("checklist.xlsx", clist)
+checklist_save("checklist.json", clist)
+checklist_save("checklist.html", clist)
+```
+
+"""
+function checklist_save(
+    fn::AbstractString,
+    cl::Checklist;
+    sheetname::AbstractString="PRISMA Checklist",
+    overwrite::Bool=false,
+    kwargs...)::String
+
+    check_overwrite(fn, overwrite)
+
+    return save_dataframe(fn, cl.df, sheetname; kwargs...)
+end
+
+"""
+    checklist_save(fn::AbstractString, cl::Checklist; overwrite::Bool=false, kwargs...)::String
+
+saves as either `Checklist` a JSON, CSV, XLSX, or HTML.
+
+## Arguments
+
+- `fn::AbstractString`: the name of the file to save
+- `df::DataFrame=checklist_df()`: the dataframe to save
+- `overwrite::Bool`: whether to overwrite the file if it already exists
+- `kwargs...`: additional arguments to be passed to the underlying 
+`CSV.write`, `XLSX.writetable`, `HTMLTables.write`, and `JSON3.write` functions
+
+## Returns
+
+- `String`: the path to the saved file
+
+## Examples
+
+```julia
+using PRISMA: checklist, checklist_save
+using DataFrames: DataFrame
+
+df::DataFrame = checklist_df()
+
+checklist_save("checklist.csv", df)
+checklist_save("checklist.xlsx", df)
+checklist_save("checklist.json", df)
+checklist_save("checklist.html", df)
+
+```
+
+"""
+function checklist_save(
+    fn::AbstractString,
+    df::DataFrame=checklist_df();
+    sheetname::AbstractString="PRISMA Checklist",
+    overwrite::Bool=false,
+    kwargs...)::String
+
+    check_overwrite(fn, overwrite)
+
+    return save_dataframe(fn, df, sheetname; kwargs...)
+end

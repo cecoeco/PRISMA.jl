@@ -552,3 +552,47 @@ function flow_diagram_save(fn::AbstractString, fd::FlowDiagram; overwrite::Bool=
         rm(temp_gv, force=true)
     end
 end
+
+"""
+    PRISMA.flow_diagram_save(fn::AbstractString, df::DataFrame; sheetname::AbstractString="PRISMA Flow Diagram", overwrite::Bool=false, kwargs...)::String
+
+saves as the template for the flow diagram as a either a CSV, XLSX, HTML, or JSON file.
+
+## Arguments
+
+- `fn::AbstractString`: the name of the file to save
+- `df::DataFrame`: the flow diagram to save
+- `sheetname::AbstractString="PRISMA Flow Diagram"`: the name of the sheet in the spreadsheet
+- `overwrite::Bool=false`: whether to overwrite the file if it already exists
+- `kwargs...`: additional arguments to be passed to the underlying
+`CSV.write`, `XLSX.writetable`, `HTMLTables.write`, and `JSON3.write` functions
+
+## Returns
+
+- `String`: the path to the saved file
+
+## Examples
+
+```julia
+using PRISMA
+
+df = PRISMA.flow_diagram_df()
+
+PRISMA.flow_diagram_save("flow_diagram.csv", df)
+PRISMA.flow_diagram_save("flow_diagram.xlsx", df)
+PRISMA.flow_diagram_save("flow_diagram.html", df)
+PRISMA.flow_diagram_save("flow_diagram.json", df)
+```
+
+"""
+function flow_diagram_save(
+    fn::AbstractString,
+    df::DataFrame=flow_diagram_df();
+    sheetname::AbstractString="PRISMA Flow Diagram",
+    overwrite::Bool=false,
+    kwargs...)::String
+
+    check_overwrite(fn, overwrite)
+
+    return save_dataframe(fn, df, sheetname; kwargs...)
+end

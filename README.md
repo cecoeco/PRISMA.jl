@@ -2,7 +2,7 @@
 
 <br>
 <div align="center">
-<img src="logo.svg" width="17%">
+<img src="logo.svg" width="18%">
 </div>
 <br>
 

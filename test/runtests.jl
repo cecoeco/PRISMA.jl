@@ -1,25 +1,39 @@
-using CSV
-using DataFrames
-using HTMLTables
-using JSON3
-using JSONTables
 using PRISMA
 using Test
-using XLSX
 
 @testset "checklist" begin
     df::DataFrame = PRISMA.checklist_df()
 
-    CSV.write("checklist.csv", df)
+    PRISMA.checklist_save("checklist.csv", df, overwrite=true)
     @test Base.Filesystem.isfile("checklist.csv")
 
-    XLSX.writetable("checklist.xlsx", "PRISMA Checklist" => df)
+    PRISMA.checklist_save("checklist.xlsx", df, overwrite=true)
     @test Base.Filesystem.isfile("checklist.xlsx")
 
-    HTMLTables.write("checklist.html", df)
+    PRISMA.checklist_save("checklist.html", df, overwrite=true)
     @test Base.Filesystem.isfile("checklist.html")
 
-    JSON3.write("checklist.json", JSONTables.objecttable(df))
+    PRISMA.checklist_save("checklist.json", df, overwrite=true)
+    @test Base.Filesystem.isfile("checklist.json")
+
+    # remove the files
+    Base.Filesystem.rm("checklist.csv")
+    Base.Filesystem.rm("checklist.xlsx")
+    Base.Filesystem.rm("checklist.html")
+    Base.Filesystem.rm("checklist.json")
+
+    cl::PRISMA.Checklist = PRISMA.checklist("https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf")
+
+    PRISMA.checklist_save("checklist.csv", cl, overwrite=true)
+    @test Base.Filesystem.isfile("checklist.csv")
+
+    PRISMA.checklist_save("checklist.xlsx", cl, overwrite=true)
+    @test Base.Filesystem.isfile("checklist.xlsx")
+
+    PRISMA.checklist_save("checklist.html", cl, overwrite=true)
+    @test Base.Filesystem.isfile("checklist.html")
+
+    PRISMA.checklist_save("checklist.json", cl, overwrite=true)
     @test Base.Filesystem.isfile("checklist.json")
 
     # remove the files
@@ -31,7 +45,26 @@ end
 
 @testset "flow_diagram" begin
     df::DataFrame = PRISMA.flow_diagram_df()
-    fd::PRISMA.FlowDiagram = PRISMA.flow_diagram(df)
+
+    PRISMA.flow_diagram_save("flow_diagram.csv", df, overwrite=true)
+    @test Base.Filesystem.isfile("flow_diagram.csv")
+
+    PRISMA.flow_diagram_save("flow_diagram.xlsx", df, overwrite=true)
+    @test Base.Filesystem.isfile("flow_diagram.xlsx")
+
+    PRISMA.flow_diagram_save("flow_diagram.html", df, overwrite=true)
+    @test Base.Filesystem.isfile("flow_diagram.html")
+
+    PRISMA.flow_diagram_save("flow_diagram.json", df, overwrite=true)
+    @test Base.Filesystem.isfile("flow_diagram.json")
+
+    # remove the files
+    Base.Filesystem.rm("flow_diagram.csv")
+    Base.Filesystem.rm("flow_diagram.xlsx")
+    Base.Filesystem.rm("flow_diagram.html")
+    Base.Filesystem.rm("flow_diagram.json")
+
+    fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
     PRISMA.flow_diagram_save("flow_diagram.svg", fd, overwrite=true)
     @test Base.Filesystem.isfile("flow_diagram.svg")
