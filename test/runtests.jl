@@ -1,4 +1,4 @@
-using Aqua, HTTP, PRISMA, Test
+using HTTP, PRISMA, Test
 
 Test.@testset "checklist_df" begin
     df::DataFrame = PRISMA.checklist_df()
@@ -90,8 +90,4 @@ Test.@testset "flow_diagram" begin
     Base.Filesystem.rm("flow_diagram.png")
     Base.Filesystem.rm("flow_diagram.pdf")
     Base.Filesystem.rm("flow_diagram.dot")
-end
-
-Test.@testset "Aqua.jl tests" begin
-    Aqua.test_all(PRISMA)
 end

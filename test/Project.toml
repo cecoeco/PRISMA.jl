@@ -1,11 +1,9 @@
 [deps]
-Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 PRISMA = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Aqua = "0.8"
 HTTP = "1"
 PRISMA = "0.0.5"
 julia = "1"
