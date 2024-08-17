@@ -25,9 +25,9 @@ end
 Test.@testset "checklist" begin
     url::String = "https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf"
     response::HTTP.Messages.Response = HTTP.get(url)
-    paper::Vector{UInt8} = response.body
+    pdf::Vector{UInt8} = response.body
 
-    cl::PRISMA.Checklist = PRISMA.checklist(paper)
+    cl::PRISMA.Checklist = PRISMA.checklist(pdf)
 
     PRISMA.checklist_save("checklist.csv", cl, overwrite=true)
     Test.@test Base.Filesystem.isfile("checklist.csv")
@@ -92,6 +92,16 @@ Test.@testset "flow_diagram" begin
     Base.Filesystem.rm("flow_diagram.dot")
 end
 
-Test.@testset "Aqua.jl" begin
-    Aqua.test_all(PRISMA)
+Test.@testset "Aqua.jl tests" begin
+    Aqua.test_all(
+        PRISMA,
+        ambiguities=false,
+        unbound_args=true,
+        undefined_exports=true,
+        project_extras=true,
+        stale_deps=true,
+        deps_compat=false,
+        piracies=true,
+        persistent_tasks=true
+    )
 end

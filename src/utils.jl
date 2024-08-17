@@ -14,14 +14,14 @@ function save_dataframe(
     elseif ext == ".json"
         JSON3.write(fn, JSONTables.objecttable(df); kwargs...)
     else
-        throw(ArgumentError("unsupported file extension: $ext"))
+        return throw(ArgumentError("unsupported file extension: $ext"))
     end
 
     return fn
 end
 
-function check_overwrite(fn::AbstractString, overwrite::Bool)
+function check_overwrite(fn::AbstractString, overwrite::Bool)::Nothing
     if isfile(fn) && !overwrite
-        throw(ArgumentError("file $fn already exists"))
+        return throw(ArgumentError("file $fn already exists"))
     end
 end

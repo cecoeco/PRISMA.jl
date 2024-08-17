@@ -4,7 +4,6 @@ authors = ["Ceco Elijah Maples <mapleselijah9@gmail.com>", "PRISMA.jl Contributo
 version = "0.0.5"
 
 [deps]
-Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
@@ -20,13 +19,11 @@ Transformers = "21ca0261-441d-5938-ace7-c90938fde4d4"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
-Aqua = "0.8"
 CSV = "0.10"
 DataFrames = "1.6"
 DataStructures = "0.18"
 Graphviz_jll = "2.50"
 HTMLTables = "0.4"
-HTTP = "1"
 JSON3 = "1"
 JSONTables = "1"
 LinearAlgebra = "1"
@@ -36,11 +33,3 @@ TidierStrings = "0.2"
 Transformers = "0.3"
 XLSX = "0.10"
 julia = "1"
-
-[extras]
-Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
-HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Aqua", "HTTP", "Test"]
