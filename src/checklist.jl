@@ -244,8 +244,8 @@ clist.df[10, "Yes/No/NA"] = "Yes"
 
 """
 function checklist(paper::AbstractString)::Checklist
-    paper_info::String = read(`$(pdfinfo()) $paper`, String)
-    paper_text::String = read(`$(pdftotext()) $paper -`, String)
+    paper_info::String = Base.read(`$(pdfinfo()) $paper`, String)
+    paper_text::String = Base.read(`$(pdftotext()) $paper -`, String)
 
     metadata::LittleDict{String,String} = LittleDict(
         "title" =>             safe_match(r"Title:\s*(.*)",        paper_info),
