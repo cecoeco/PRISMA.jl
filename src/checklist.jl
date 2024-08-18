@@ -371,7 +371,7 @@ reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
 - `fn::AbstractString`: the name of the file to read
 - `sheetname::AbstractString="": the name of the sheet in the spreadsheet
 - `kwargs...`: additional arguments to be passed to the underlying
-`CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSON3.read` functions
+`CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSONTables.jsontable` functions
 
 ## Returns
 

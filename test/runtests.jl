@@ -5,19 +5,19 @@ Test.@testset "checklist_df" begin
 
     PRISMA.checklist_save("checklist.csv", df)
     Test.@test Base.Filesystem.isfile("checklist.csv")
-    Test.@test isa(PRISMA.checklist_read("checklist.csv"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
 
     PRISMA.checklist_save("checklist.xlsx", df)
     Test.@test Base.Filesystem.isfile("checklist.xlsx")
-    Test.@test isa(PRISMA.checklist_read("checklist.xlsx"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.xlsx") isa DataFrame
 
     PRISMA.checklist_save("checklist.html", df)
     Test.@test Base.Filesystem.isfile("checklist.html")
-    Test.@test isa(PRISMA.checklist_read("checklist.html"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.html") isa DataFrame
 
     PRISMA.checklist_save("checklist.json", df)
     Test.@test Base.Filesystem.isfile("checklist.json")
-    Test.@test isa(PRISMA.checklist_read("checklist.json"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.json") isa DataFrame
 
     # remove the files
     Base.Filesystem.rm("checklist.csv")
@@ -35,19 +35,19 @@ Test.@testset "checklist" begin
 
     PRISMA.checklist_save("checklist.csv", cl)
     Test.@test Base.Filesystem.isfile("checklist.csv")
-    Test.@test isa(PRISMA.checklist_read("checklist.csv"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
 
     PRISMA.checklist_save("checklist.xlsx", cl)
     Test.@test Base.Filesystem.isfile("checklist.xlsx")
-    Test.@test isa(PRISMA.checklist_read("checklist.xlsx"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.xlsx") isa DataFrame
 
     PRISMA.checklist_save("checklist.html", cl)
     Test.@test Base.Filesystem.isfile("checklist.html")
-    Test.@test isa(PRISMA.checklist_read("checklist.html"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.html") isa DataFrame
 
     PRISMA.checklist_save("checklist.json", cl)
     Test.@test Base.Filesystem.isfile("checklist.json")
-    Test.@test isa(PRISMA.checklist_read("checklist.json"), DataFrame)
+    Test.@test PRISMA.checklist_read("checklist.json") isa DataFrame
 
     # remove the files
     Base.Filesystem.rm("checklist.csv")
@@ -61,19 +61,19 @@ Test.@testset "flow_diagram_df" begin
 
     PRISMA.flow_diagram_save("flow_diagram.csv", df)
     Test.@test Base.Filesystem.isfile("flow_diagram.csv")
-    Test.@test isa(PRISMA.flow_diagram_read("flow_diagram.csv"), DataFrame)
+    Test.@test PRISMA.flow_diagram_read("flow_diagram.csv") isa DataFrame
 
     PRISMA.flow_diagram_save("flow_diagram.xlsx", df)
     Test.@test Base.Filesystem.isfile("flow_diagram.xlsx")
-    Test.@test isa(PRISMA.flow_diagram_read("flow_diagram.xlsx"), DataFrame)
+    Test.@test PRISMA.flow_diagram_read("flow_diagram.xlsx") isa DataFrame
 
     PRISMA.flow_diagram_save("flow_diagram.html", df)
     Test.@test Base.Filesystem.isfile("flow_diagram.html")
-    Test.@test isa(PRISMA.flow_diagram_read("flow_diagram.html"), DataFrame)
+    Test.@test PRISMA.flow_diagram_read("flow_diagram.html") isa DataFrame
 
     PRISMA.flow_diagram_save("flow_diagram.json", df)
     Test.@test Base.Filesystem.isfile("flow_diagram.json")
-    Test.@test isa(PRISMA.flow_diagram_read("flow_diagram.json"), DataFrame)
+    Test.@test PRISMA.flow_diagram_read("flow_diagram.json") isa DataFrame
 
     # remove the files
     Base.Filesystem.rm("flow_diagram.csv")

@@ -39,7 +39,7 @@ function read_as_dataframe(
     elseif ext == ".html"
         return HTMLTables.read(fn, DataFrame; kwargs...)
     elseif ext == ".json"
-        return JSONTables.jsontable(JSON3.read(fn; kwargs...))
+        return DataFrame(JSONTables.jsontable(fn; kwargs...))
     else
         return throw(ArgumentError("unsupported file extension: $ext"))
     end
