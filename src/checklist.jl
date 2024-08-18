@@ -14,7 +14,7 @@ using PRISMA
 
 df = checklist_df()
 
-checklist_save("checklist.csv", df)
+checklist_save("checklist.csv",  df)
 checklist_save("checklist.xlsx", df)
 checklist_save("checklist.html", df; editable=true)
 checklist_save("checklist.json", df)
@@ -297,7 +297,7 @@ using PRISMA: Checklist, checklist, checklist_save
 
 clist::Checklist = checklist("manuscript.pdf")
 
-checklist_save("checklist.csv", clist)
+checklist_save("checklist.csv",  clist)
 checklist_save("checklist.xlsx", clist)
 checklist_save("checklist.json", clist)
 checklist_save("checklist.html", clist)
@@ -341,7 +341,7 @@ using DataFrames: DataFrame
 
 df::DataFrame = checklist_df()
 
-checklist_save("checklist.csv", df)
+checklist_save("checklist.csv",  df)
 checklist_save("checklist.xlsx", df)
 checklist_save("checklist.json", df)
 checklist_save("checklist.html", df)
@@ -371,7 +371,7 @@ reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
 - `fn::AbstractString`: the name of the file to read
 - `sheetname::AbstractString="": the name of the sheet in the spreadsheet
 - `kwargs...`: additional arguments to be passed to the underlying
-`CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSONTables.jsontable` functions
+`CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSON3.read` functions
 
 ## Returns
 
@@ -382,7 +382,7 @@ reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
 ```julia
 using PRISMA: checklist_save, checklist_df, checklist_read
 
-checklist_save("checklist.csv", checklist_df())
+checklist_save("checklist.csv",  checklist_df())
 checklist_save("checklist.xlsx", checklist_df())
 checklist_save("checklist.json", checklist_df())
 checklist_save("checklist.html", checklist_df())
