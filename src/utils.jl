@@ -29,7 +29,6 @@ end
 function read_as_dataframe(
     fn::AbstractString;
     sheetname::AbstractString="",
-    json_type,
     kwargs...)::DataFrame
 
     ext::String = splitext(fn)[2]
@@ -40,7 +39,7 @@ function read_as_dataframe(
     elseif ext == ".html"
         return HTMLTables.read(fn, DataFrame; kwargs...)
     elseif ext == ".json"
-        return JSONTables.jsontable(JSON3.read(fn, json_type; kwargs...))
+        return JSONTables.jsontable(JSON3.read(fn; kwargs...))
     else
         return throw(ArgumentError("unsupported file extension: $ext"))
     end

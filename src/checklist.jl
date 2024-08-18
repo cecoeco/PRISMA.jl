@@ -362,7 +362,7 @@ function checklist_save(
 end
 
 """
-    checklist_read(fn::AbstractString; sheetname::AbstractString="", json_type::T, kwargs....)::DataFrame
+    checklist_read(fn::AbstractString; sheetname::AbstractString="", kwargs....)::DataFrame
 
 reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
 
@@ -370,7 +370,6 @@ reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
 
 - `fn::AbstractString`: the name of the file to read
 - `sheetname::AbstractString="": the name of the sheet in the spreadsheet
-- `json_type::T`: the type of the JSON file
 - `kwargs...`: additional arguments to be passed to the underlying
 `CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSON3.read` functions
 
@@ -397,8 +396,7 @@ checklist_read("checklist.html")
 function checklist_read(
     fn::AbstractString;
     sheetname::AbstractString="PRISMA Checklist",
-    json_type,
     kwargs...)::DataFrame
 
-    return read_as_dataframe(fn; sheetname=sheetname, json_type=json_type, kwargs...)
+    return read_as_dataframe(fn, sheetname=sheetname; kwargs...)
 end
