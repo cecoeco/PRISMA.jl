@@ -30,6 +30,28 @@ function corshandler(handle::Function)::Function
     end
 end
 
+Oxygen.get("api/checklist/template") do req::HTTP.Request
+    try
+        io::IO = IOBuffer()
+        CSV.write(io, PRISMA.checklist_df())
+        csv::String = String(Base.take!(io))
+
+        return Oxygen.json(
+            status=200, 
+            Dict{String,String}(
+                "checklist_template" => csv
+            )
+        )
+    catch error
+        return Oxygen.json(
+            status=500, 
+            Dict{String,String}(
+                "error" => "error generating checklist template: $error"
+            )
+        )
+    end
+end
+
 Oxygen.post("api/checklist/generate") do req::HTTP.Request
     try
         paper::PRISMA.Checklist = PRISMA.checklist(req.body)

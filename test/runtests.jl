@@ -33,7 +33,7 @@ Test.@testset "checklist" begin
     pdf::Vector{UInt8} = response.body
     =#
 
-    cl::PRISMA.Checklist = PRISMA.checklist("docs/src/assets/page-et-al-2021.pdf")
+    cl::PRISMA.Checklist = PRISMA.checklist("page-et-al-2021.pdf")
 
     PRISMA.checklist_save("checklist.csv", cl)
     Test.@test Base.Filesystem.isfile("checklist.csv")
@@ -137,7 +137,7 @@ Test.@testset "plotting checklist" begin
     pdf::Vector{UInt8} = response.body
     =#
 
-    cl::PRISMA.Checklist = PRISMA.checklist("docs/src/assets/page-et-al-2021.pdf")
+    cl::PRISMA.Checklist = PRISMA.checklist("page-et-al-2021.pdf")
 
     io::IO = IOBuffer()
     Base.show(io, cl)

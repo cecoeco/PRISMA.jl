@@ -1,0 +1,42 @@
+box_num,box_text,result
+1,Previous studies,
+2,Identification of new studies via databases and registers,
+3,Identification of new studies via other methods,
+4,Identification,
+5,Screening,
+6,Included,
+7,Studies included in previous version of review,0
+7,Reports of studies included in previous version of review,0
+8,Records identified from:,
+8,Database or Register 1,0
+8,Database or Register 2,0
+8,Database or Register 3,0
+9,Records removed before screening:,
+9,Duplicate records removed,0
+9,Records marked as ineligible by automation tools,0
+9,Records removed for other reasons,0
+10,Records screened,0
+11,Records excluded,0
+12,Reports sought for retrieval,0
+13,Reports not retrieved,0
+14,Reports assessed for eligibility,0
+15,Reports excluded:,
+15,Reason 1,0
+15,Reason 2,0
+15,Reason 3,0
+16,New studies included in review,0
+16,Reports of new included studies,0
+17,Total studies included in review,0
+17,Reports of total included studies,0
+18,Records identified from:,
+18,Websites,0
+18,Organizations,0
+18,Citation searching,0
+18,Other,0
+19,Reports sought for retrieval,0
+20,Reports not retrieved,0
+21,Reports assessed for eligibility,0
+22,Reports excluded:,
+22,Reason 1,0
+22,Reason 2,0
+22,Reason 3,0
