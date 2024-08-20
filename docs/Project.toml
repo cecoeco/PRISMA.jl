@@ -1,0 +1,10 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocumenterCitations = "daee34ce-89f3-4625-b898-19384cb65244"
+PRISMA = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
+
+[compat]
+Documenter = "1.3"
+DocumenterCitations = "1.3"
+PRISMA = "0.0.6, 0.0.5"
+julia = "1"

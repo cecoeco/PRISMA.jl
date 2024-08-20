@@ -1,0 +1,43 @@
+name = "PRISMA"
+uuid = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
+authors = ["Ceco Elijah Maples <mapleselijah9@gmail.com>", "PRISMA.jl Contributors"]
+version = "0.0.6"
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
+Graphviz_jll = "3c863552-8265-54e4-a6dc-903eb78fde85"
+HTMLTables = "b1afcece-b80e-4563-b90e-36b4cc56d3fa"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+JSONTables = "b9914132-a727-11e9-1322-f18e41205b0b"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Poppler_jll = "9c32591e-4766-534b-9725-b71a8799265b"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+TidierStrings = "248e6834-d0f8-40ef-8fbb-8e711d883e9c"
+Transformers = "21ca0261-441d-5938-ace7-c90938fde4d4"
+XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
+
+[compat]
+CSV = "0.10"
+DataFrames = "1.6"
+DataStructures = "0.18"
+Graphviz_jll = "2.50"
+HTMLTables = "0.4"
+HTTP = "1"
+JSON3 = "1"
+JSONTables = "1"
+LinearAlgebra = "1"
+Poppler_jll = "24.6"
+Statistics = "1"
+TidierStrings = "0.2"
+Transformers = "0.3"
+XLSX = "0.10"
+julia = "1"
+
+[extras]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["HTTP", "Test"]
