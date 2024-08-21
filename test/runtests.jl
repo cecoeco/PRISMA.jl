@@ -144,11 +144,11 @@ Test.@testset "plotting checklist" begin
 	Test.@test Base.occursin("DataFrame", output)
 	Test.@test Base.occursin("LittleDict", output)
 
-	io_text::IO = IOBuffer()
-	Base.show(io_text, Base.Multimedia.MIME("text/plain"), cl)
-	output_text::String = String(Base.take!(io_text))
-	Test.@test Base.occursin("DataFrame", output_text)
-	Test.@test Base.occursin("LittleDict", output_text)
+	io_txt::IO = IOBuffer()
+	Base.show(io_txt, Base.Multimedia.MIME("text/plain"), cl)
+	output_txt::String = String(Base.take!(io_txt))
+	Test.@test Base.occursin("DataFrame", output_txt)
+	Test.@test Base.occursin("LittleDict", output_txt)
 
 	io_csv::IO = IOBuffer()
 	Base.show(io_csv, Base.Multimedia.MIME("text/csv"), cl)
@@ -182,10 +182,10 @@ Test.@testset "plotting flow_diagram" begin
 	output::String = String(Base.take!(io))
 	Test.@test Base.occursin("digraph", output)
 
-	io_text::IO = IOBuffer()
-	Base.show(io_text, Base.Multimedia.MIME("text/plain"), fd)
-	output_text::String = String(Base.take!(io_text))
-	Test.@test Base.occursin("digraph", output_text)
+	io_txt::IO = IOBuffer()
+	Base.show(io_txt, Base.Multimedia.MIME("text/plain"), fd)
+	output_txt::String = String(Base.take!(io_txt))
+	Test.@test Base.occursin("digraph", output_txt)
 
 	io_svg::IO = IOBuffer()
 	Base.show(io_svg, Base.Multimedia.MIME("image/svg+xml"), fd)

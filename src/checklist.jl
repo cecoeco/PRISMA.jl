@@ -321,7 +321,7 @@ checklist_save("checklist.html", clist)
 function checklist_save(
     fn::AbstractString,
     cl::Checklist;
-    sheetname::AbstractString="PRISMA Checklist",
+    sheetname::AbstractString="2020 PRISMA Checklist",
     overwrite::Bool=false,
     kwargs...)::String
 
