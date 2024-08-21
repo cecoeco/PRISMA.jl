@@ -103,6 +103,20 @@ an small ordered dictionary withs keys and values.
 - `df::DataFrame`: the checklist as a `DataFrame`
 - `metadata::LittleDict`: the metadata of the paper
 
+## Examples
+
+```julia
+using PRISMA
+
+cl::Checklist = checklist("paper.pdf")
+
+title = cl.metadata["title"]
+println(title)
+
+pages = cl.metadata["pages"]
+println(pages)
+```
+
 """
 @kwdef mutable struct Checklist
     df::DataFrame = checklist_df()
