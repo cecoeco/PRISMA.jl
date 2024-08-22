@@ -94,7 +94,7 @@
 }
 
 .settings-form input::placeholder {
-  color: var(--border-color);
+  color: var(--input-text-color);
 }
 
 .settings-form input,

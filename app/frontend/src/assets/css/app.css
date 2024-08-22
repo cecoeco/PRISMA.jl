@@ -17,7 +17,7 @@
   --input-text-color: hsl(var(--theme-hue), 30%, 70%);
   --input-background-color: hsl(var(--theme-hue), 100%, 99%);
 
-  --border-color: hsl(var(--theme-hue), 25%, 80%);
+  --border-color: hsl(var(--theme-hue), 66%, 80%);
   --border-color-hover: hsl(var(--theme-hue), 100%, 75%);
   --border-color-focus: hsl(var(--theme-hue), 100%, 65%);
   --border-box-shadow: 0 0 6px 3px hsla(var(--theme-hue), 100%, 78%, 0.3);

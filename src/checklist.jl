@@ -288,7 +288,13 @@ function checklist(bytes::Vector{UInt8})::Checklist
 end
 
 """
-    checklist_save(fn::AbstractString, cl::Checklist; overwrite::Bool=false, kwargs...)::String
+    checklist_save(
+        fn::AbstractString, 
+        cl::Checklist; 
+        sheetname::AbstractString="2020 PRISMA Checklist", 
+        overwrite::Bool=false, 
+        kwargs...
+    )::String
 
 saves as either `Checklist` a JSON, CSV, XLSX, or HTML.
 
@@ -296,9 +302,13 @@ saves as either `Checklist` a JSON, CSV, XLSX, or HTML.
 
 - `fn::AbstractString`: the name of the file to save
 - `cl::Checklist`: the checklist to save
+
+## Keyword Arguments
+
+- `sheetname::AbstractString="2020 PRISMA Checklist"`: the name of the sheet in the spreadsheet
 - `overwrite::Bool`: whether to overwrite the file if it already exists
-- `kwargs...`: additional arguments to be passed to the underlying 
-`CSV.write`, `XLSX.writetable`, `HTMLTables.write`, and `JSON3.write` functions
+- `kwargs...`: arguments to be passed to the underlying `CSV.write`, `XLSX.writetable`, 
+`HTMLTables.write`, and `JSON3.write` functions
 
 ## Returns
 
@@ -331,7 +341,13 @@ function checklist_save(
 end
 
 """
-    checklist_save(fn::AbstractString, cl::Checklist; overwrite::Bool=false, kwargs...)::String
+    checklist_save(
+        fn::AbstractString, 
+        cl::Checklist; 
+        sheetname::AbstractString="2020 PRISMA Checklist", 
+        overwrite::Bool=false, 
+        kwargs...
+    )::String
 
 saves as either `Checklist` a JSON, CSV, XLSX, or HTML.
 
@@ -339,9 +355,13 @@ saves as either `Checklist` a JSON, CSV, XLSX, or HTML.
 
 - `fn::AbstractString`: the name of the file to save
 - `df::DataFrame=checklist_df()`: the dataframe to save
+
+## Keyword Arguments
+
+- `sheetname::AbstractString="2020 PRISMA Checklist"`: the name of the sheet in the spreadsheet
 - `overwrite::Bool`: whether to overwrite the file if it already exists
-- `kwargs...`: additional arguments to be passed to the underlying 
-`CSV.write`, `XLSX.writetable`, `HTMLTables.write`, and `JSON3.write` functions
+- `kwargs...`: arguments to be passed to the underlying `CSV.write`, `XLSX.writetable`, 
+`HTMLTables.write`, and `JSON3.write` functions
 
 ## Returns
 
@@ -376,14 +396,14 @@ function checklist_save(
 end
 
 """
-    checklist_read(fn::AbstractString; sheetname::AbstractString="", kwargs....)::DataFrame
+    checklist_read(fn::AbstractString; sheetname::AbstractString="2020 PRISMA Checklist", kwargs....)::DataFrame
 
 reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
 
 ## Arguments
 
 - `fn::AbstractString`: the name of the file to read
-- `sheetname::AbstractString="": the name of the sheet in the spreadsheet
+- `sheetname::AbstractString="2020 PRISMA Checklist"`: the name of the sheet in the spreadsheet
 - `kwargs...`: additional arguments to be passed to the underlying
 `CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSON3.read` functions
 

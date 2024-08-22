@@ -1,10 +1,8 @@
-using Documenter: makedocs, HTML, deploydocs
-using DocumenterCitations: CitationBibliography
-using PRISMA
+using Documenter, DocumenterCitations, PRISMA
 
-makedocs(
+Documenter.makedocs(
     modules=[PRISMA],
-    format=HTML(assets=["src/assets/bib.css", "src/assets/favicon.ico"]),
+    format=Documenter.HTML(assets=["src/assets/bib.css", "src/assets/favicon.ico"]),
     sitename="PRISMA.jl",
     authors="Ceco Elijah Maples and contributors",
     pages=[
@@ -13,7 +11,15 @@ makedocs(
         "Flow Diagram" => "flow_diagram.md",
         "References" => "references.md"
     ],
-    plugins=[CitationBibliography(joinpath(dirname(@__FILE__), "src/assets/references.bib"), style=:authoryear)]
+    plugins=[
+        DocumenterCitations.CitationBibliography(
+            Base.Filesystem.joinpath(
+                Base.Filesystem.dirname(Base.@__FILE__), 
+                "src/assets/references.bib"
+            ), 
+            style=:authoryear
+        )
+    ]
 )
 
-deploydocs(repo="github.com/cecoeco/PRISMA.jl.git")
+Documenter.deploydocs(repo="github.com/cecoeco/PRISMA.jl.git")

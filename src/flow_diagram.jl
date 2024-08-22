@@ -106,14 +106,14 @@ function flow_diagram_df()::DataFrame
 end
 
 """
-    flow_diagram_read(fn::AbstractString; sheetname::AbstractString="", kwargs....)::DataFrame
+    flow_diagram_read(fn::AbstractString; sheetname::AbstractString="2020 PRISMA Flow Diagram", kwargs....)::DataFrame
 
 reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON` file
 
 ## Arguments
 
 - `fn::AbstractString`: the name of the file to read
-- `sheetname::AbstractString="": the name of the sheet in the spreadsheet
+- `sheetname::AbstractString="2020 PRISMA Flow Diagram": the name of the sheet in the spreadsheet
 - `kwargs...`: additional arguments to be passed to the underlying
 `CSV.read`, `XLSX.readtable`, `HTMLTables.read`, and `JSON3.read` functions
 
@@ -586,7 +586,7 @@ function flow_diagram_save(fn::AbstractString, fd::FlowDiagram; overwrite::Bool=
 end
 
 """
-    PRISMA.flow_diagram_save(fn::AbstractString, df::DataFrame; sheetname::AbstractString="PRISMA Flow Diagram", overwrite::Bool=false, kwargs...)::String
+    PRISMA.flow_diagram_save(fn::AbstractString, df::DataFrame; sheetname::AbstractString="2020 PRISMA Flow Diagram", overwrite::Bool=false, kwargs...)::String
 
 saves as the template for the flow diagram as a either a CSV, XLSX, HTML, or JSON file.
 
@@ -594,7 +594,7 @@ saves as the template for the flow diagram as a either a CSV, XLSX, HTML, or JSO
 
 - `fn::AbstractString`: the name of the file to save
 - `df::DataFrame`: the flow diagram to save
-- `sheetname::AbstractString="PRISMA Flow Diagram"`: the name of the sheet in the spreadsheet
+- `sheetname::AbstractString="2020 PRISMA Flow Diagram"`: the name of the sheet in the spreadsheet
 - `overwrite::Bool=false`: whether to overwrite the file if it already exists
 - `kwargs...`: additional arguments to be passed to the underlying
 `CSV.write`, `XLSX.writetable`, `HTMLTables.write`, and `JSON3.write` functions
