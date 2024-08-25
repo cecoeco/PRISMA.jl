@@ -7,17 +7,25 @@ Julia package for generating checklists and flow diagrams based on [the 2020 **P
 
 - `checklist_df`: returns an empty PRISMA checklist as the type `DataFrame`
 - `checklist`: returns a completed PRISMA checklist as the type `Checklist`
-- `checklist_read`: reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
-- `checklist_save`: saves a `Checklist` as either a `CSV`, `XLSX`, `HTML`, or `JSON`
+- `checklist_read`: reads the checklist data as a `DataFrame` from a data file
+- `checklist_save`: saves a `Checklist` as either a `.csv`, `.xlsx`, `.html`, or `.json` file
+
 - `flow_diagram_df`: returns the `DataFrame` that is used to create the flow diagram
 - `flow_diagram`: returns a PRISMA flow diagram as the type `FlowDiagram`
-- `flow_diagram_read`: reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON`
-- `flow_diagram_save`: saves a `FlowDiagram` to any file format supported by `Graphviz_jll`
+- `flow_diagram_read`: reads the flow diagram data as a `DataFrame` from a data file
+- `flow_diagram_save`: saves a `FlowDiagram` to file formats supported by `Graphviz`
 
 ## Types
 
 - `Checklist`: includes a completed checklist and paper metadata
 - `FlowDiagram`: the PRISMA flow diagram represented as Graphviz's DOT language
+
+## Reexports
+
+- `DataFrame`: the `DataFrame` type from the `DataFrames` package
+- `LittleDict`: the Checklist metadata is a small ordered dictionary
+- `Base.display`: new method for displaying the `FlowDiagram` type
+- `Base.show`: new methods for the `Checklist` and `FlowDiagram` types
 
 """
 module PRISMA
