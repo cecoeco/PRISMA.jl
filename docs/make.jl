@@ -4,7 +4,7 @@ Documenter.makedocs(
     modules=[PRISMA],
     format=Documenter.HTML(assets=["src/assets/bib.css", "src/assets/favicon.ico"]),
     sitename="PRISMA.jl",
-    authors="Ceco Elijah Maples and contributors",
+    authors="Ceco Elijah Maples and Contributors",
     pages=[
         "Home" => "index.md",
         "Checklist" => "checklist.md",

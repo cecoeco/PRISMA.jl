@@ -22,10 +22,10 @@ Julia package for generating checklists and flow diagrams based on [the 2020 **P
 
 ## Reexports
 
-- `DataFrame`: the `DataFrame` type from the `DataFrames` package
-- `LittleDict`: the Checklist metadata is a small ordered dictionary
-- `Base.display`: new method for displaying the `FlowDiagram` type
-- `Base.show`: new methods for the `Checklist` and `FlowDiagram` types
+- `DataFrames.DataFrame`: both `flow_diagram_df` and `checklist_df` return a `DataFrame`
+- `DataStructures.LittleDict`: the metadata field of the `Checklist` type is a small ordered dictionary
+- `Base.display`: `PRISMA` adds a method for displaying the `FlowDiagram` type
+- `Base.show`: `PRISMA` adds new methods for showing the `Checklist` and `FlowDiagram` types
 
 """
 module PRISMA
