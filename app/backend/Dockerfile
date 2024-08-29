@@ -1,6 +1,5 @@
-FROM julia:1.10
+FROM julia:latest
 WORKDIR /backend
-COPY Project.toml Manifest.toml ./
-COPY src src
-RUN julia --project -e "using Pkg; Pkg.instantiate()"
+COPY . .
+RUN julia --project -e "using Pkg; Pkg.instantiate(); Pkg.precompile()"
 ENTRYPOINT [ "julia", "--project", "src/app.jl" ]
