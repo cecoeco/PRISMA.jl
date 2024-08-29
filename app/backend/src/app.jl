@@ -221,6 +221,5 @@ end
 Oxygen.serve(
     host="0.0.0.0",
     port=5050,
-    middleware=[corshandler],
-    async=true
+    middleware=[corshandler]
 )
