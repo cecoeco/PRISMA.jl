@@ -28,7 +28,7 @@ deps/src/
 docs/build/
 docs/site/
 Manifest.toml
-!app/backend/Manifest.toml
+!app/Manifest.toml
 .DS_Store
 out
 build
