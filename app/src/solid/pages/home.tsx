@@ -3,7 +3,7 @@ import "../assets/css/home.css";
 export default function Home() {
   async function downloadChecklistTemplate() {
     try {
-      const response = await fetch("http://prisma-jl-api.onrender.com/api/checklist/template", {
+      const response = await fetch("/api/checklist/template", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export default function Home() {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", "prisma_2020_checklist.csv");
+        link.setAttribute("download", "PRISMA_checklist.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -55,8 +55,8 @@ export default function Home() {
 
       <section class="about-prisma">
         <h2>
-          The PRISMA (Preferred Reporting Items for Systematic Reviews and
-          Meta-Analyses) 2020 Statement
+          The PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)
+          2020 Statement
         </h2>
         <br />
         <p>

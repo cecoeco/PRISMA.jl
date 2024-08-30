@@ -1,36 +1,97 @@
+module AppPRISMA
+
 using CSV
 using DataFrames
 using HTMLTables
 using HTTP
 using JSON3
 using JSONTables
+using NodeJS
 using Oxygen
 using PRISMA
 
-const ALLOWED_ORIGINS::Vector{Pair{String,String}} = [
-    "Access-Control-Allow-Origin" => "*"
-]
+const DIRECTORY::String = Base.Filesystem.dirname(Base.@__FILE__)
 
-const CORS_HEADERS::Vector{Pair{String,String}} = [
-    ALLOWED_ORIGINS...,
-    "Access-Control-Allow-Methods" => "*",
-    "Access-Control-Allow-Headers" => "*"
-]
+const BUILD_DIRECTORY::String = Base.Filesystem.joinpath(DIRECTORY, "build")
 
-function corshandler(handle::Function)::Function
-    return function (request::HTTP.Request)
-        if HTTP.method(request) == "OPTIONS"
-            return HTTP.Response(200, CORS_HEADERS)
-        else
-            response::HTTP.Response = handle(request)
-            Base.append!(response.headers, ALLOWED_ORIGINS)
-
-            return response
-        end
+function build_solidjs(; build_directory::String)::Nothing
+    if Base.Filesystem.basename(Base.Filesystem.pwd()) != "app"
+        Base.CoreLogging.@info "Changing app directory..."
+        Base.Filesystem.cd("app")
     end
+
+    if Base.Filesystem.isdir(build_directory)
+        Base.CoreLogging.@info "Removing existing build directory..."
+        Base.Filesystem.rm(build_directory; force=true, recursive=true)
+    end
+
+    Base.CoreLogging.@info "Building frontend..."
+
+    Base.run(`$(NodeJS.npm_cmd()) install`)
+    Base.run(`$(NodeJS.npm_cmd()) run build`)
+
+    Base.CoreLogging.@info "Finished building frontend"
+
+    return nothing
 end
 
-Oxygen.get("api/checklist/template") do req::HTTP.Request
+function serve_solidjs(; build_directory::String)::Nothing
+    Base.Filesystem.write(
+        Base.Filesystem.joinpath(build_directory, "index.html"),
+        """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>PRISMA.jl</title>
+            <meta 
+                name="description" 
+                content="PRISMA.jl: generate checklists and flow diagrams based on the PRISMA statement"
+            >
+            <meta name="author" content="Ceco Elijah Maples and PRISMA.jl Contributors">
+            <link rel="icon" type="image/x-icon" href="/favicon.ico">
+            <link rel="stylesheet" type="text/css" href="/index.css">
+            <script defer src="/index.js"></script>
+        </head>
+        <body>
+            <noscript>You need to enable JavaScript to run this app.</noscript>
+	        <div id="root"></div>
+        </body>
+        </html>
+        """
+    )
+
+    Oxygen.get("/favicon.ico") do
+        Oxygen.file("favicon.ico")
+    end
+
+    for path in Base.Filesystem.readdir(build_directory; join=true)
+        filename::String = Base.Filesystem.basename(path)
+        if filename == "index.html"
+            Oxygen.get("/") do
+                Oxygen.file(path)
+            end
+        else
+            Oxygen.get("/$filename") do
+                Oxygen.file(path)
+            end
+        end
+    end
+
+    return nothing
+end
+
+function start_app()::Nothing
+    build_solidjs(; build_directory=BUILD_DIRECTORY)
+    serve_solidjs(; build_directory=BUILD_DIRECTORY)
+
+    Oxygen.serve(; host="0.0.0.0", port=5050)
+
+    return nothing
+end
+
+Oxygen.get("/api/checklist/template") do request::HTTP.Request
     try
         io::IO = IOBuffer()
         CSV.write(io, PRISMA.checklist_df())
@@ -52,9 +113,9 @@ Oxygen.get("api/checklist/template") do req::HTTP.Request
     end
 end
 
-Oxygen.post("api/checklist/generate") do req::HTTP.Request
+Oxygen.post("/api/checklist/generate") do request::HTTP.Request
     try
-        paper::PRISMA.Checklist = PRISMA.checklist(req.body)
+        paper::PRISMA.Checklist = PRISMA.checklist(request.body)
 
         clist::DataFrame = paper.df
         clist_title::String = paper.metadata["title"]
@@ -79,9 +140,9 @@ Oxygen.post("api/checklist/generate") do req::HTTP.Request
     end
 end
 
-Oxygen.post("api/checklist/export") do req::HTTP.Request
+Oxygen.post("/api/checklist/export") do request::HTTP.Request
     try
-        checklists::JSON3.Object = Oxygen.json(req)
+        checklists::JSON3.Object = Oxygen.json(request)
 
         csv_files::Dict{String,String} = Dict{String,String}()
         for checklist in checklists["checklists"]
@@ -118,9 +179,9 @@ function bytes(fd::PRISMA.FlowDiagram, format::AbstractString)::Vector{UInt8}
     end
 end
 
-Oxygen.post("api/flow_diagram/generate") do req::HTTP.Request
+Oxygen.post("/api/flow_diagram/generate") do request::HTTP.Request
     try
-        flow_diagram_arguments::JSON3.Object = Oxygen.json(req)
+        flow_diagram_arguments::JSON3.Object = Oxygen.json(request)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -168,9 +229,9 @@ Oxygen.post("api/flow_diagram/generate") do req::HTTP.Request
     end
 end
 
-Oxygen.post("api/flow_diagram/export") do req::HTTP.Request
+Oxygen.post("/api/flow_diagram/export") do request::HTTP.Request
     try
-        flow_diagram_arguments::JSON3.Object = Oxygen.json(req)
+        flow_diagram_arguments::JSON3.Object = Oxygen.json(request)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
@@ -218,8 +279,6 @@ Oxygen.post("api/flow_diagram/export") do req::HTTP.Request
     end
 end
 
-Oxygen.serve(
-    host="0.0.0.0",
-    port=5050,
-    middleware=[corshandler]
-)
+start_app()
+
+end

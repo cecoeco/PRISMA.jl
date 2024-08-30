@@ -370,14 +370,11 @@ export default function FlowDiagram() {
 
   async function getFlowDiagram() {
     try {
-      const response = await fetch(
-        "https://prisma-jl-api.onrender.com/api/flow_diagram/generate",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(flowDiagramArguments()),
-        }
-      );
+      const response = await fetch("/api/flow_diagram/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(flowDiagramArguments()),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -413,14 +410,11 @@ export default function FlowDiagram() {
 
   async function downloadFlowDiagram() {
     try {
-      const response = await fetch(
-        "https://prisma-jl-api.onrender.com/api/flow_diagram/export",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(flowDiagramArguments()),
-        }
-      );
+      const response = await fetch("/api/flow_diagram/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(flowDiagramArguments()),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

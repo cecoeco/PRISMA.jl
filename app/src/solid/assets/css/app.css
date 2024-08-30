@@ -192,10 +192,6 @@ body,
   outline: none;
 }
 
-[draggable="false"] {
-  pointer-events: auto;
-}
-
 a {
   color: var(--link-color);
   background-color: transparent;
@@ -220,23 +216,6 @@ textarea:focus {
   box-shadow: var(--border-box-shadow);
 }
 
-hr {
-  box-sizing: content-box;
-  height: 0;
-  overflow: visible;
-}
-
-pre {
-  font-family: monospace, monospace;
-  font-size: 1em;
-}
-
-abbr[title] {
-  border-bottom: none;
-  text-decoration: underline;
-  text-decoration: underline dotted;
-}
-
 button {
   color: var(--text-color-1);
   font-size: 1rem;
@@ -257,7 +236,7 @@ button:hover {
 }
 
 button:active {
-  transform: scale(0.99);
+  transform: scale(0.98);
   background: var(--button-background-color-2);
   box-shadow: none;
 }
@@ -266,33 +245,27 @@ button:disabled {
   display: none;
 }
 
-.checklist-page ::-webkit-scrollbar,
-.flow-diagram-page ::-webkit-scrollbar {
+#root ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
 
-.checklist-page ::-webkit-scrollbar-track,
-.flow-diagram-page ::-webkit-scrollbar-track {
+#root ::-webkit-scrollbar-track {
   background-color: var(--background-color-4);
 }
 
-.checklist-page ::-webkit-scrollbar-thumb,
-.flow-diagram-page ::-webkit-scrollbar-thumb {
+#root ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-color);
 }
 
-.checklist-page ::-webkit-scrollbar-thumb:hover,
-.flow-diagram-page ::-webkit-scrollbar-thumb:hover {
+#root ::-webkit-scrollbar-thumb:hover {
   background-color: var(--scrollbar-color-hover);
 }
 
-.checklist-page ::-webkit-scrollbar-thumb:active,
-.flow-diagram-page ::-webkit-scrollbar-thumb:active {
+#root ::-webkit-scrollbar-thumb:active {
   background-color: var(--scrollbar-color-active);
 }
 
-.checklist-page ::-webkit-scrollbar-corner,
-.flow-diagram-page ::-webkit-scrollbar-corner {
+#root ::-webkit-scrollbar-corner {
   background-color: var(--background-color-4);
 }
