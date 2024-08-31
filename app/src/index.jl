@@ -45,10 +45,7 @@ function serve_solidjs(; build_directory::String)::Nothing
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>PRISMA.jl</title>
-            <meta 
-                name="description" 
-                content="PRISMA.jl: generate checklists and flow diagrams based on the PRISMA statement"
-            >
+            <meta name="description" content="generate PRISMA checklists and flow diagrams">
             <meta name="author" content="Ceco Elijah Maples and PRISMA.jl Contributors">
             <link rel="icon" type="image/x-icon" href="/favicon.ico">
             <link rel="stylesheet" type="text/css" href="/index.css">
@@ -56,7 +53,7 @@ function serve_solidjs(; build_directory::String)::Nothing
         </head>
         <body>
             <noscript>You need to enable JavaScript to run this app.</noscript>
-	        <div id="root"></div>
+            <div id="root"></div>
         </body>
         </html>
         """
@@ -69,7 +66,7 @@ function serve_solidjs(; build_directory::String)::Nothing
     for path in Base.Filesystem.readdir(build_directory; join=true)
         filename::String = Base.Filesystem.basename(path)
         if filename == "index.html"
-            Oxygen.get("/") do
+            Oxygen.get("/*") do
                 Oxygen.file(path)
             end
         else
@@ -98,14 +95,14 @@ Oxygen.get("/api/checklist/template") do request::HTTP.Request
         csv::String = String(Base.take!(io))
 
         return Oxygen.json(
-            status=200, 
+            status=200,
             Dict{String,String}(
                 "checklist_template" => csv
             )
         )
     catch error
         return Oxygen.json(
-            status=500, 
+            status=500,
             Dict{String,String}(
                 "error" => "error generating checklist template: $error"
             )
@@ -124,15 +121,15 @@ Oxygen.post("/api/checklist/generate") do request::HTTP.Request
         )
 
         return Oxygen.json(
-            status=200, 
+            status=200,
             Dict{String,String}(
-                "title" => clist_title, 
+                "title" => clist_title,
                 "checklist" => clist_table
             )
         )
     catch error
         return Oxygen.json(
-            status=500, 
+            status=500,
             Dict{String,String}(
                 "error" => "error generating checklist: $error"
             )
@@ -154,12 +151,12 @@ Oxygen.post("/api/checklist/export") do request::HTTP.Request
         end
 
         return Oxygen.json(
-            status=200, 
+            status=200,
             csv_files
         )
     catch error
         return Oxygen.json(
-            status=500, 
+            status=500,
             Dict{String,String}(
                 "error" => "error exporting checklists: $error"
             )
@@ -211,17 +208,17 @@ Oxygen.post("/api/flow_diagram/generate") do request::HTTP.Request
         )
 
         return Oxygen.json(
-            status=200, 
+            status=200,
             Dict{String,Vector{UInt8}}(
                 "flow_diagram" => bytes(
-                    flow_diagram_dot, 
+                    flow_diagram_dot,
                     "svg"
                 )
             )
         )
     catch error
         return Oxygen.json(
-            status=500, 
+            status=500,
             Dict{String,String}(
                 "error" => "error generating flow diagram: $error"
             )
@@ -261,17 +258,17 @@ Oxygen.post("/api/flow_diagram/export") do request::HTTP.Request
         )
 
         return Oxygen.json(
-            status=200, 
+            status=200,
             Dict{String,Vector{UInt8}}(
                 "flow_diagram" => bytes(
-                    flow_diagram_dot, 
+                    flow_diagram_dot,
                     flow_diagram_arguments["format"]
                 )
             )
         )
     catch error
         return Oxygen.json(
-            status=500, 
+            status=500,
             Dict{String,String}(
                 "error" => "error generating flow diagram: $error"
             )
