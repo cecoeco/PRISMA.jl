@@ -66,7 +66,7 @@ function serve_solidjs(; build_directory::String)::Nothing
     for path in Base.Filesystem.readdir(build_directory; join=true)
         filename::String = Base.Filesystem.basename(path)
         if filename == "index.html"
-            Oxygen.get("/*") do
+            Oxygen.get("/") do
                 Oxygen.file(path)
             end
         else
