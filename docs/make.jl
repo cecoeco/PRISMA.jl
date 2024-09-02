@@ -1,8 +1,13 @@
 using Documenter, DocumenterCitations, PRISMA
 
+const ASSETS::String = joinpath(dirname(@__FILE__), "src/assets")
+
 Documenter.makedocs(
     modules=[PRISMA],
-    format=Documenter.HTML(assets=["src/assets/bib.css", "src/assets/favicon.ico"]),
+    format=Documenter.HTML(assets=[
+        joinpath(ASSETS, "bib.css"),
+        joinpath(ASSETS, "favicon.ico")
+    ]),
     sitename="PRISMA.jl",
     authors="Ceco Elijah Maples and Contributors",
     pages=[
@@ -13,10 +18,7 @@ Documenter.makedocs(
     ],
     plugins=[
         DocumenterCitations.CitationBibliography(
-            Base.Filesystem.joinpath(
-                Base.Filesystem.dirname(Base.@__FILE__), 
-                "src/assets/references.bib"
-            ), 
+            joinpath(ASSETS, "references.bib"),
             style=:authoryear
         )
     ]

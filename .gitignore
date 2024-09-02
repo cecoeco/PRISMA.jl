@@ -1,3 +1,4 @@
+# reactjs
 logs
 *.log
 npm-debug.log*
@@ -8,6 +9,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+build
 *.local
 .vscode/
 !.vscode/extensions.json
@@ -17,6 +19,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# julia
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
@@ -30,6 +33,3 @@ docs/site/
 Manifest.toml
 !app/Manifest.toml
 .DS_Store
-out
-build
-draft

@@ -10,11 +10,11 @@ using NodeJS
 using Oxygen
 using PRISMA
 
-const DIRECTORY::String = Base.Filesystem.dirname(Base.@__FILE__)
+const DIRECTORY::String = Base.Filesystem.dirname(Base.@__DIR__)
 
 const BUILD_DIRECTORY::String = Base.Filesystem.joinpath(DIRECTORY, "build")
 
-function build_solidjs(; build_directory::String)::Nothing
+function build_reactjs(; build_directory::String)::Nothing
     if Base.Filesystem.basename(Base.Filesystem.pwd()) != "app"
         Base.CoreLogging.@info "Changing app directory..."
         Base.Filesystem.cd("app")
@@ -35,7 +35,7 @@ function build_solidjs(; build_directory::String)::Nothing
     return nothing
 end
 
-function serve_solidjs(; build_directory::String)::Nothing
+function serve_reactjs(; build_directory::String)::Nothing
     Base.Filesystem.write(
         Base.Filesystem.joinpath(build_directory, "index.html"),
         """
@@ -46,6 +46,7 @@ function serve_solidjs(; build_directory::String)::Nothing
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>PRISMA.jl</title>
             <meta name="description" content="generate PRISMA checklists and flow diagrams">
+            <meta name="keywords" content="PRISMA, checklist, flow diagram, meta-analysis, systematic review">
             <meta name="author" content="Ceco Elijah Maples and PRISMA.jl Contributors">
             <link rel="icon" type="image/x-icon" href="/favicon.ico">
             <link rel="stylesheet" type="text/css" href="/index.css">
@@ -58,10 +59,6 @@ function serve_solidjs(; build_directory::String)::Nothing
         </html>
         """
     )
-
-    Oxygen.get("/favicon.ico") do
-        Oxygen.file("favicon.ico")
-    end
 
     for path in Base.Filesystem.readdir(build_directory; join=true)
         filename::String = Base.Filesystem.basename(path)
@@ -80,8 +77,8 @@ function serve_solidjs(; build_directory::String)::Nothing
 end
 
 function start_app()::Nothing
-    build_solidjs(; build_directory=BUILD_DIRECTORY)
-    serve_solidjs(; build_directory=BUILD_DIRECTORY)
+    build_reactjs(; build_directory=BUILD_DIRECTORY)
+    serve_reactjs(; build_directory=BUILD_DIRECTORY)
 
     Oxygen.serve(; host="0.0.0.0", port=5050)
 
@@ -104,7 +101,7 @@ Oxygen.get("/api/checklist/template") do request::HTTP.Request
         return Oxygen.json(
             status=500,
             Dict{String,String}(
-                "error" => "error generating checklist template: $error"
+                "error" => "$(error.message)"
             )
         )
     end
@@ -131,7 +128,7 @@ Oxygen.post("/api/checklist/generate") do request::HTTP.Request
         return Oxygen.json(
             status=500,
             Dict{String,String}(
-                "error" => "error generating checklist: $error"
+                "error" => "$(error.message)"
             )
         )
     end
@@ -158,7 +155,7 @@ Oxygen.post("/api/checklist/export") do request::HTTP.Request
         return Oxygen.json(
             status=500,
             Dict{String,String}(
-                "error" => "error exporting checklists: $error"
+                "error" => "$(error.message)"
             )
         )
     end
@@ -220,7 +217,7 @@ Oxygen.post("/api/flow_diagram/generate") do request::HTTP.Request
         return Oxygen.json(
             status=500,
             Dict{String,String}(
-                "error" => "error generating flow diagram: $error"
+                "error" => "$(error.message)"
             )
         )
     end
@@ -270,7 +267,7 @@ Oxygen.post("/api/flow_diagram/export") do request::HTTP.Request
         return Oxygen.json(
             status=500,
             Dict{String,String}(
-                "error" => "error generating flow diagram: $error"
+                "error" => "$(error.message)"
             )
         )
     end

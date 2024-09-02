@@ -1,6 +1,6 @@
 import "../assets/css/home.css";
 
-export default function Home() {
+const Home: React.FC = () => {
   async function downloadChecklistTemplate() {
     try {
       const response = await fetch("/api/checklist/template", {
@@ -31,8 +31,8 @@ export default function Home() {
   }
 
   return (
-    <main class="home-page">
-      <section class="intro">
+    <main className="home-page">
+      <section className="intro">
         <h1>
           Welcome to{" "}
           <a href="https://cecoeco.github.io/PRISMA.jl/dev/" target="_blank">
@@ -53,7 +53,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section class="about-prisma">
+      <section className="about-prisma">
         <h2>
           The PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses)
           2020 Statement
@@ -74,7 +74,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section class="features">
+      <section className="features">
         <h2>Features</h2>
         <p>
           <strong>Checklist:</strong> Upload a PDF and generate a PRISMA checklist based
@@ -83,7 +83,7 @@ export default function Home() {
         <p>
           <strong>Checklist Template:</strong> Download a copy of the PRISMA checklist as
           a CSV:{" "}
-          <button onMouseDown={downloadChecklistTemplate} class="download-button">
+          <button onMouseDown={downloadChecklistTemplate} className="download-button">
             Download Checklist
           </button>
         </p>
@@ -93,7 +93,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section class="resources">
+      <section className="resources">
         <h2>PRISMA 2020 Resources</h2>
         <br />
         <p>
@@ -130,17 +130,19 @@ export default function Home() {
         </ul>
       </section>
 
-      <section class="navigation">
+      <section className="navigation">
         <h2>Get Started</h2>
-        <div class="nav-buttons">
-          <a href="/checklist" class="nav-button">
+        <div className="nav-buttons">
+          <a href="/checklist" className="nav-button">
             Generate PRISMA Checklist
           </a>
-          <a href="/flow_diagram" class="nav-button">
+          <a href="/flow_diagram" className="nav-button">
             Create PRISMA Flow Diagram
           </a>
         </div>
       </section>
     </main>
   );
-}
+};
+
+export default Home;

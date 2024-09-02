@@ -1,11 +1,10 @@
-import { createSignal, createEffect } from "solid-js";
-import { Show } from "solid-js";
+import { useState, useEffect } from "react";
 
 import "../assets/css/flow_diagram.css";
 
-import Download from "../assets/svgs/download.svg?component-solid";
-import Reset from "../assets/svgs/reset.svg?component-solid";
-import X from "../assets/svgs/x.svg?component-solid";
+import Download from "../assets/svgs/download.svg?react";
+import Reset from "../assets/svgs/reset.svg?react";
+import X from "../assets/svgs/x.svg?react";
 
 const initialData = {
   numberOfPreviousStudies: 0,
@@ -59,17 +58,12 @@ const initialVisual = {
   arrowWidth: 1,
 };
 
-export default function FlowDiagram() {
-  const [showDownloadModal, setShowDownloadModal] = createSignal(false);
-  function openModal() {
-    setShowDownloadModal(true);
-  }
+const FlowDiagram: React.FC = () => {
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const openModal = () => setShowDownloadModal(true);
+  const closeModal = () => setShowDownloadModal(false);
 
-  function closeModal() {
-    setShowDownloadModal(false);
-  }
-
-  const [state, setState] = createSignal({
+  const [state, setState] = useState({
     data: { ...initialData },
     visual: { ...initialVisual },
     databases: Array.from({ length: initialData.numberOfDatabases }).map(() => ({
@@ -175,12 +169,12 @@ export default function FlowDiagram() {
       {
         box_num: 7,
         box_text: "Studies included in previous version of review",
-        result: state().data.numberOfPreviousStudies,
+        result: state.data.numberOfPreviousStudies,
       },
       {
         box_num: 7,
         box_text: "Reports of studies included in previous version of review",
-        result: state().data.numberOfPreviousReports,
+        result: state.data.numberOfPreviousReports,
       },
       {
         box_num: 8,
@@ -189,7 +183,7 @@ export default function FlowDiagram() {
       },
     ];
 
-    state().databases.forEach((database) => {
+    state.databases.forEach((database) => {
       boxes.push({
         box_num: 8,
         box_text: database.name,
@@ -206,42 +200,42 @@ export default function FlowDiagram() {
       {
         box_num: 9,
         box_text: "Duplicate records removed",
-        result: state().data.numberOfDuplicatesRemoved,
+        result: state.data.numberOfDuplicatesRemoved,
       },
       {
         box_num: 9,
         box_text: "Records marked as ineligible by automation tools",
-        result: state().data.numberOfAutomaticallyExcluded,
+        result: state.data.numberOfAutomaticallyExcluded,
       },
       {
         box_num: 9,
         box_text: "Records removed for other reasons",
-        result: state().data.numberOfRemovedForOtherReasons,
+        result: state.data.numberOfRemovedForOtherReasons,
       },
       {
         box_num: 10,
         box_text: "Records screened",
-        result: state().data.numberOfRecordsScreened,
+        result: state.data.numberOfRecordsScreened,
       },
       {
         box_num: 11,
         box_text: "Records excluded",
-        result: state().data.numberOfRecordsExcluded,
+        result: state.data.numberOfRecordsExcluded,
       },
       {
         box_num: 12,
         box_text: "Reports sought for retrieval",
-        result: state().data.numberOfReportsSought,
+        result: state.data.numberOfReportsSought,
       },
       {
         box_num: 13,
         box_text: "Reports not retrieved",
-        result: state().data.numberOfReportsNotRetrieved,
+        result: state.data.numberOfReportsNotRetrieved,
       },
       {
         box_num: 14,
         box_text: "Reports assessed for eligibility",
-        result: state().data.numberOfReportsAssessed,
+        result: state.data.numberOfReportsAssessed,
       },
       {
         box_num: 15,
@@ -250,7 +244,7 @@ export default function FlowDiagram() {
       }
     );
 
-    state().reasons.forEach((reason) => {
+    state.reasons.forEach((reason) => {
       boxes.push({
         box_num: 15,
         box_text: reason.name,
@@ -262,22 +256,22 @@ export default function FlowDiagram() {
       {
         box_num: 16,
         box_text: "New studies included in review",
-        result: state().data.newStudies,
+        result: state.data.newStudies,
       },
       {
         box_num: 16,
         box_text: "Reports of new included studies",
-        result: state().data.newReports,
+        result: state.data.newReports,
       },
       {
         box_num: 17,
         box_text: "Total studies included in review",
-        result: state().data.totalStudies,
+        result: state.data.totalStudies,
       },
       {
         box_num: 17,
         box_text: "Reports of total included studies",
-        result: state().data.totalReports,
+        result: state.data.totalReports,
       },
       {
         box_num: 18,
@@ -287,37 +281,37 @@ export default function FlowDiagram() {
       {
         box_num: 18,
         box_text: "Websites",
-        result: state().data.numberOfWebsites,
+        result: state.data.numberOfWebsites,
       },
       {
         box_num: 18,
         box_text: "Organizations",
-        result: state().data.numberOfOrganizations,
+        result: state.data.numberOfOrganizations,
       },
       {
         box_num: 18,
         box_text: "Citation searching",
-        result: state().data.numberOfCitations,
+        result: state.data.numberOfCitations,
       },
       {
         box_num: 18,
         box_text: "Other",
-        result: state().data.numberOfOtherSources,
+        result: state.data.numberOfOtherSources,
       },
       {
         box_num: 19,
         box_text: "Reports sought for retrieval",
-        result: state().data.numberOfReportsSought,
+        result: state.data.numberOfReportsSought,
       },
       {
         box_num: 20,
         box_text: "Reports not retrieved",
-        result: state().data.numberOfReportsNotRetrieved,
+        result: state.data.numberOfReportsNotRetrieved,
       },
       {
         box_num: 21,
         box_text: "Reports assessed for eligibility",
-        result: state().data.numberOfReportsAssessed,
+        result: state.data.numberOfReportsAssessed,
       },
       {
         box_num: 22,
@@ -326,7 +320,7 @@ export default function FlowDiagram() {
       }
     );
 
-    state().otherReasons.forEach((reason) => {
+    state.otherReasons.forEach((reason) => {
       boxes.push({
         box_num: 22,
         box_text: reason.name,
@@ -337,34 +331,34 @@ export default function FlowDiagram() {
     return boxes;
   }
 
-  const [saveFormat, setSaveFormat] = createSignal("svg");
+  const [saveFormat, setSaveFormat] = useState("svg");
 
   function flowDiagramArguments() {
     return {
       data: flowDiagramData(),
-      background_color: state().visual.backgroundColor,
-      grayboxes: state().visual.grayBoxesIncluded == "true",
-      grayboxes_color: state().visual.grayBoxesColor,
-      top_boxes: state().visual.topBoxesIncluded == "true",
-      top_boxes_borders: state().visual.topBoxesBorders == "true",
-      top_boxes_color: state().visual.topBoxesColor,
-      side_boxes: state().visual.sideBoxesIncluded == "true",
-      side_boxes_borders: state().visual.sideBoxesBorders == "true",
-      side_boxes_color: state().visual.sideBoxesColor,
-      previous_studies: state().visual.previousStudiesIncluded == "true",
-      other_methods: state().visual.otherMethodsIncluded == "true",
-      borders: state().visual.borders == "true",
-      border_style: state().visual.borderStyle,
-      border_width: state().visual.borderWidth,
-      border_color: state().visual.borderColor,
-      font: state().visual.font,
-      font_color: state().visual.fontColor,
-      font_size: state().visual.fontSize,
-      arrow_head: state().visual.arrowHead,
-      arrow_size: state().visual.arrowSize,
-      arrow_color: state().visual.arrowColor,
-      arrow_width: state().visual.arrowWidth,
-      format: saveFormat(),
+      background_color: state.visual.backgroundColor,
+      grayboxes: state.visual.grayBoxesIncluded == "true",
+      grayboxes_color: state.visual.grayBoxesColor,
+      top_boxes: state.visual.topBoxesIncluded == "true",
+      top_boxes_borders: state.visual.topBoxesBorders == "true",
+      top_boxes_color: state.visual.topBoxesColor,
+      side_boxes: state.visual.sideBoxesIncluded == "true",
+      side_boxes_borders: state.visual.sideBoxesBorders == "true",
+      side_boxes_color: state.visual.sideBoxesColor,
+      previous_studies: state.visual.previousStudiesIncluded == "true",
+      other_methods: state.visual.otherMethodsIncluded == "true",
+      borders: state.visual.borders == "true",
+      border_style: state.visual.borderStyle,
+      border_width: state.visual.borderWidth,
+      border_color: state.visual.borderColor,
+      font: state.visual.font,
+      font_color: state.visual.fontColor,
+      font_size: state.visual.fontSize,
+      arrow_head: state.visual.arrowHead,
+      arrow_size: state.visual.arrowSize,
+      arrow_color: state.visual.arrowColor,
+      arrow_width: state.visual.arrowWidth,
+      format: saveFormat,
     };
   }
 
@@ -404,7 +398,7 @@ export default function FlowDiagram() {
     }
   }
 
-  createEffect(() => {
+  useEffect(() => {
     getFlowDiagram();
   });
 
@@ -437,12 +431,12 @@ export default function FlowDiagram() {
         gv: "text/vnd.graphviz",
       };
 
-      const mimeType = mimeTypeMap[saveFormat()];
+      const mimeType = mimeTypeMap[saveFormat];
       const blob = new Blob([new Uint8Array(flowDiagramBytes)], { type: mimeType });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `flow_diagram.${saveFormat()}`;
+      a.download = `flow_diagram.${saveFormat}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -480,18 +474,20 @@ export default function FlowDiagram() {
   };
 
   return (
-    <main class="flow-diagram-page">
-      <Show when={showDownloadModal()}>
-        <div class="download-modal-background" onMouseDown={closeModal}>
-          <div class="download-modal" onMouseDown={(e) => e.stopPropagation()}>
-            <X onMouseDown={closeModal} class="close-icon" />
+    <main className="flow-diagram-page">
+      {showDownloadModal && (
+        <div className="download-modal-background" onMouseDown={closeModal}>
+          <div className="download-modal" onMouseDown={(e) => e.stopPropagation()}>
+            <X onMouseDown={closeModal} className="close-icon" />
             <h2>Download Flow Diagram</h2>
-            <label for="format">Choose Format:</label>
+            <label htmlFor="format">Choose Format:</label>
             <select
               name="format"
               id="format"
-              value={saveFormat()}
-              onInput={(event) => setSaveFormat(event.target.value)}
+              value={saveFormat}
+              onInput={(event) =>
+                setSaveFormat((event.target as HTMLSelectElement).value)
+              }
             >
               <option value="png">PNG</option>
               <option value="svg">SVG</option>
@@ -499,7 +495,7 @@ export default function FlowDiagram() {
               <option value="gv">Graphviz</option>
             </select>
             <button
-              class="download-modal-button"
+              className="download-modal-button"
               onMouseDown={downloadFlowDiagram}
               type="button"
               title="Download"
@@ -508,17 +504,17 @@ export default function FlowDiagram() {
             </button>
           </div>
         </div>
-      </Show>
-      <div class="settings-container">
-        <div class="settings">
-          <h2 class="settings-title">Flow Diagram</h2>
-          <div class="settings-form">
-            {state().visual.previousStudiesIncluded && (
+      )}
+      <div className="settings-container">
+        <div className="settings">
+          <h2 className="settings-title">Flow Diagram</h2>
+          <div className="settings-form">
+            {state.visual.previousStudiesIncluded && (
               <>
                 {/* Previous Studies */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="previous-studies">Previous Studies</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="previous-studies">Previous Studies</label>
                   </h4>
                   <input
                     id="previous-studies"
@@ -526,16 +522,20 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfPreviousStudies}
+                    value={state.data.numberOfPreviousStudies}
                     onInput={(event) =>
-                      handleChange("numberOfPreviousStudies", event.target.value, "data")
+                      handleChange(
+                        "numberOfPreviousStudies",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      )
                     }
                   />
                 </div>
                 {/* Previous Reports */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="previous-reports">Previous Reports</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="previous-reports">Previous Reports</label>
                   </h4>
 
                   <input
@@ -544,18 +544,22 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfPreviousReports}
+                    value={state.data.numberOfPreviousReports}
                     onInput={(event) =>
-                      handleChange("numberOfPreviousReports", event.target.value, "data")
+                      handleChange(
+                        "numberOfPreviousReports",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      )
                     }
                   />
                 </div>
               </>
             )}
             {/* Number of Databases */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="number-of-databases">Databases</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="number-of-databases">Databases</label>
               </h4>
               <input
                 id="number-of-databases"
@@ -563,28 +567,39 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="3"
                 min="0"
-                value={state().data.numberOfDatabases}
+                value={state.data.numberOfDatabases}
                 onInput={(event) =>
-                  handleChange("numberOfDatabases", event.target.value, "data")
+                  handleChange(
+                    "numberOfDatabases",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  )
                 }
               />
             </div>
-            {state().databases.map((database, index) => (
-              <span class="settings-form-database-group">
-                <div class="settings-form-group">
-                  <label for={`database-${index + 1}`}>{`Database ${index + 1}`}</label>
+            {state.databases.map((database, index) => (
+              <span className="settings-form-database-group">
+                <div className="settings-form-group">
+                  <label htmlFor={`database-${index + 1}`}>{`Database ${
+                    index + 1
+                  }`}</label>
                   <input
                     id={`database-${index + 1}`}
                     type="text"
                     placeholder={`Database ${index + 1}`}
                     value={database.name}
                     onInput={(event) =>
-                      handleItemChange(index, "name", event.target.value, "databases")
+                      handleItemChange(
+                        index,
+                        "name",
+                        (event.target as HTMLInputElement).value,
+                        "databases"
+                      )
                     }
                   />
                 </div>
-                <div class="settings-form-group">
-                  <label for={`database-number-${index + 1}`}>Number</label>
+                <div className="settings-form-group">
+                  <label htmlFor={`database-number-${index + 1}`}>Number</label>
                   <input
                     id={`database-number-${index + 1}`}
                     type="number"
@@ -592,16 +607,21 @@ export default function FlowDiagram() {
                     min="0"
                     value={database.value}
                     onInput={(event) =>
-                      handleItemChange(index, "value", event.target.value, "databases")
+                      handleItemChange(
+                        index,
+                        "value",
+                        (event.target as HTMLInputElement).value,
+                        "databases"
+                      )
                     }
                   />
                 </div>
               </span>
             ))}
             {/* Number of Duplicates Removed */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="duplicates-removed">Duplicates Removed</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="duplicates-removed">Duplicates Removed</label>
               </h4>
               <input
                 id="duplicates-removed"
@@ -609,16 +629,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfDuplicatesRemoved}
+                value={state.data.numberOfDuplicatesRemoved}
                 onInput={(event) => {
-                  handleChange("numberOfDuplicatesRemoved", event.target.value, "data");
+                  handleChange(
+                    "numberOfDuplicatesRemoved",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
             {/* Number of Automatically Excluded */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="automatically-excluded">Automatically Excluded</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="automatically-excluded">Automatically Excluded</label>
               </h4>
               <input
                 id="automatically-excluded"
@@ -626,20 +650,22 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfAutomaticallyExcluded}
+                value={state.data.numberOfAutomaticallyExcluded}
                 onInput={(event) => {
                   handleChange(
                     "numberOfAutomaticallyExcluded",
-                    event.target.value,
+                    (event.target as HTMLInputElement).value,
                     "data"
                   );
                 }}
               />
             </div>
             {/* Number of Removed For Other Reasons */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="removed-for-other-reasons">Removed For Other Reasons</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="removed-for-other-reasons">
+                  Removed For Other Reasons
+                </label>
               </h4>
               <input
                 id="removed-for-other-reasons"
@@ -647,22 +673,22 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfRemovedForOtherReasons}
+                value={state.data.numberOfRemovedForOtherReasons}
                 onInput={(event) => {
                   handleChange(
                     "numberOfRemovedForOtherReasons",
-                    event.target.value,
+                    (event.target as HTMLInputElement).value,
                     "data"
                   );
                 }}
               />
             </div>
-            {state().visual.otherMethodsIncluded && (
+            {state.visual.otherMethodsIncluded && (
               <>
                 {/* Websites */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="websites">Websites</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="websites">Websites</label>
                   </h4>
                   <input
                     id="websites"
@@ -670,16 +696,20 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfWebsites}
+                    value={state.data.numberOfWebsites}
                     onInput={(event) => {
-                      handleChange("numberOfWebsites", event.target.value, "data");
+                      handleChange(
+                        "numberOfWebsites",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
                 {/* Organizations */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="organizations">Organizations</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="organizations">Organizations</label>
                   </h4>
                   <input
                     id="organizations"
@@ -687,16 +717,20 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfOrganizations}
+                    value={state.data.numberOfOrganizations}
                     onInput={(event) => {
-                      handleChange("numberOfOrganizations", event.target.value, "data");
+                      handleChange(
+                        "numberOfOrganizations",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
                 {/* Citations */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="citations">Citations</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="citations">Citations</label>
                   </h4>
                   <input
                     id="citations"
@@ -704,16 +738,20 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfCitations}
+                    value={state.data.numberOfCitations}
                     onInput={(event) => {
-                      handleChange("numberOfCitations", event.target.value, "data");
+                      handleChange(
+                        "numberOfCitations",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
                 {/* Other Sources */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="other-sources">Other Sources</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="other-sources">Other Sources</label>
                   </h4>
                   <input
                     id="other-sources"
@@ -721,18 +759,22 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfOtherSources}
+                    value={state.data.numberOfOtherSources}
                     onInput={(event) => {
-                      handleChange("numberOfOtherSources", event.target.value, "data");
+                      handleChange(
+                        "numberOfOtherSources",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
               </>
             )}
             {/* Records Screened */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="records-screened">Records Screened</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="records-screened">Records Screened</label>
               </h4>
               <input
                 id="records-screened"
@@ -740,16 +782,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfRecordsScreened}
+                value={state.data.numberOfRecordsScreened}
                 onInput={(event) => {
-                  handleChange("numberOfRecordsScreened", event.target.value, "data");
+                  handleChange(
+                    "numberOfRecordsScreened",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
             {/* Records Excluded */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="records-excluded">Records Excluded</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="records-excluded">Records Excluded</label>
               </h4>
               <input
                 id="records-excluded"
@@ -757,16 +803,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfRecordsExcluded}
+                value={state.data.numberOfRecordsExcluded}
                 onInput={(event) => {
-                  handleChange("numberOfRecordsExcluded", event.target.value, "data");
+                  handleChange(
+                    "numberOfRecordsExcluded",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
             {/* Reports Sought */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="reports-sought">Reports Sought</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="reports-sought">Reports Sought</label>
               </h4>
               <input
                 id="reports-sought"
@@ -774,16 +824,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfReportsSought}
+                value={state.data.numberOfReportsSought}
                 onInput={(event) => {
-                  handleChange("numberOfReportsSought", event.target.value, "data");
+                  handleChange(
+                    "numberOfReportsSought",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
             {/* Reports Not Retrieved */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="reports-not-retrieved">Reports Not Retrieved</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="reports-not-retrieved">Reports Not Retrieved</label>
               </h4>
               <input
                 id="reports-not-retrieved"
@@ -791,16 +845,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfReportsNotRetrieved}
+                value={state.data.numberOfReportsNotRetrieved}
                 onInput={(event) => {
-                  handleChange("numberOfReportsNotRetrieved", event.target.value, "data");
+                  handleChange(
+                    "numberOfReportsNotRetrieved",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
             {/* Reports Assessed */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="reports-assessed">Reports Assessed</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="reports-assessed">Reports Assessed</label>
               </h4>
               <input
                 id="reports-assessed"
@@ -808,16 +866,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.numberOfReportsAssessed}
+                value={state.data.numberOfReportsAssessed}
                 onInput={(event) => {
-                  handleChange("numberOfReportsAssessed", event.target.value, "data");
+                  handleChange(
+                    "numberOfReportsAssessed",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
             {/* Reasons */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="number-of-reasons">Reasons</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="number-of-reasons">Reasons</label>
               </h4>
               <input
                 id="number-of-reasons"
@@ -825,28 +887,37 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="3"
                 min="0"
-                value={state().data.numberOfReasons}
+                value={state.data.numberOfReasons}
                 onInput={(event) => {
-                  handleChange("numberOfReasons", event.target.value, "data");
+                  handleChange(
+                    "numberOfReasons",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
-            {state().reasons.map((reason, index) => (
-              <span class="settings-form-reason-group">
-                <div class="settings-form-group">
-                  <label for={`reason-${index + 1}`}>{`Reason ${index + 1}`}</label>
+            {state.reasons.map((reason, index) => (
+              <span className="settings-form-reason-group">
+                <div className="settings-form-group">
+                  <label htmlFor={`reason-${index + 1}`}>{`Reason ${index + 1}`}</label>
                   <input
                     id={`reason-${index + 1}`}
                     type="text"
                     placeholder={`Reason ${index + 1}`}
                     value={reason.name}
                     onInput={(event) =>
-                      handleItemChange(index, "name", event.target.value, "reasons")
+                      handleItemChange(
+                        index,
+                        "name",
+                        (event.target as HTMLInputElement).value,
+                        "reasons"
+                      )
                     }
                   />
                 </div>
-                <div class="settings-form-group">
-                  <label for={`reason-number-${index + 1}`}>Number</label>
+                <div className="settings-form-group">
+                  <label htmlFor={`reason-number-${index + 1}`}>Number</label>
                   <input
                     id={`reason-number-${index + 1}`}
                     type="number"
@@ -854,17 +925,22 @@ export default function FlowDiagram() {
                     min="0"
                     value={reason.value}
                     onInput={(event) =>
-                      handleItemChange(index, "value", event.target.value, "reasons")
+                      handleItemChange(
+                        index,
+                        "value",
+                        (event.target as HTMLInputElement).value,
+                        "reasons"
+                      )
                     }
                   />
                 </div>
               </span>
             ))}
-            {state().visual.otherMethodsIncluded && (
+            {state.visual.otherMethodsIncluded && (
               <>
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="other-reports-sought">Other Reports Sought</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="other-reports-sought">Other Reports Sought</label>
                   </h4>
                   <input
                     id="other-reports-sought"
@@ -872,19 +948,19 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfOtherReportsSought}
+                    value={state.data.numberOfOtherReportsSought}
                     onInput={(event) => {
                       handleChange(
                         "numberOfOtherReportsSought",
-                        event.target.value,
+                        (event.target as HTMLInputElement).value,
                         "data"
                       );
                     }}
                   />
                 </div>
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="other-reports-not-retrieved">
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="other-reports-not-retrieved">
                       Other Reports Not Retrieved
                     </label>
                   </h4>
@@ -894,19 +970,19 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfOtherReportsNotRetrieved}
+                    value={state.data.numberOfOtherReportsNotRetrieved}
                     onInput={(event) => {
                       handleChange(
                         "numberOfOtherReportsNotRetrieved",
-                        event.target.value,
+                        (event.target as HTMLInputElement).value,
                         "data"
                       );
                     }}
                   />
                 </div>
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="other-reports-assessed">Other Reports Assessed</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="other-reports-assessed">Other Reports Assessed</label>
                   </h4>
                   <input
                     id="other-reports-assessed"
@@ -914,19 +990,19 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.numberOfOtherReportsAssessed}
+                    value={state.data.numberOfOtherReportsAssessed}
                     onInput={(event) => {
                       handleChange(
                         "numberOfOtherReportsAssessed",
-                        event.target.value,
+                        (event.target as HTMLInputElement).value,
                         "data"
                       );
                     }}
                   />
                 </div>
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="number-of-other-reasons">Other Reasons</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="number-of-other-reasons">Other Reasons</label>
                   </h4>
                   <input
                     id="number-of-other-reasons"
@@ -934,16 +1010,20 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="3"
                     min="0"
-                    value={state().data.numberOfOtherReasons}
+                    value={state.data.numberOfOtherReasons}
                     onInput={(event) => {
-                      handleChange("numberOfOtherReasons", event.target.value, "data");
+                      handleChange(
+                        "numberOfOtherReasons",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
-                {state().otherReasons.map((reason, index) => (
-                  <span class="settings-form-reason-group">
-                    <div class="settings-form-group">
-                      <label for={`other-reason-${index + 1}`}>{`Other Reason ${
+                {state.otherReasons.map((reason, index) => (
+                  <span className="settings-form-reason-group">
+                    <div className="settings-form-group">
+                      <label htmlFor={`other-reason-${index + 1}`}>{`Other Reason ${
                         index + 1
                       }`}</label>
                       <input
@@ -955,14 +1035,14 @@ export default function FlowDiagram() {
                           handleItemChange(
                             index,
                             "name",
-                            event.target.value,
+                            (event.target as HTMLInputElement).value,
                             "otherReasons"
                           )
                         }
                       />
                     </div>
-                    <div class="settings-form-group">
-                      <label for={`other-reason-number-${index + 1}`}>Number</label>
+                    <div className="settings-form-group">
+                      <label htmlFor={`other-reason-number-${index + 1}`}>Number</label>
                       <input
                         id={`other-reason-number-${index + 1}`}
                         type="number"
@@ -973,7 +1053,7 @@ export default function FlowDiagram() {
                           handleItemChange(
                             index,
                             "value",
-                            event.target.value,
+                            (event.target as HTMLInputElement).value,
                             "otherReasons"
                           )
                         }
@@ -983,9 +1063,9 @@ export default function FlowDiagram() {
                 ))}
               </>
             )}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="new-studies">New Studies</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="new-studies">New Studies</label>
               </h4>
               <input
                 id="new-studies"
@@ -993,15 +1073,19 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.newStudies}
+                value={state.data.newStudies}
                 onInput={(event) => {
-                  handleChange("newStudies", event.target.value, "data");
+                  handleChange(
+                    "newStudies",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="new-reports">New Reports</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="new-reports">New Reports</label>
               </h4>
               <input
                 id="new-reports"
@@ -1009,17 +1093,21 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().data.newReports}
+                value={state.data.newReports}
                 onInput={(event) => {
-                  handleChange("newReports", event.target.value, "data");
+                  handleChange(
+                    "newReports",
+                    (event.target as HTMLInputElement).value,
+                    "data"
+                  );
                 }}
               />
             </div>
-            {state().visual.previousStudiesIncluded && (
+            {state.visual.previousStudiesIncluded && (
               <>
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="total-studies">Total Studies</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="total-studies">Total Studies</label>
                   </h4>
                   <input
                     id="total-studies"
@@ -1027,15 +1115,19 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.totalStudies}
+                    value={state.data.totalStudies}
                     onInput={(event) => {
-                      handleChange("totalStudies", event.target.value, "data");
+                      handleChange(
+                        "totalStudies",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="total-reports">Total Reports</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="total-reports">Total Reports</label>
                   </h4>
                   <input
                     id="total-reports"
@@ -1043,40 +1135,52 @@ export default function FlowDiagram() {
                     type="number"
                     placeholder="0"
                     min="0"
-                    value={state().data.totalReports}
+                    value={state.data.totalReports}
                     onInput={(event) => {
-                      handleChange("totalReports", event.target.value, "data");
+                      handleChange(
+                        "totalReports",
+                        (event.target as HTMLInputElement).value,
+                        "data"
+                      );
                     }}
                   />
                 </div>
               </>
             )}
             {/* Background Color */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="background-color">Background Color</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="background-color">Background Color</label>
               </h4>
               <input
                 id="background-color"
                 name="background-color"
                 type="color"
-                value={state().visual.backgroundColor}
+                value={state.visual.backgroundColor}
                 onInput={(event) => {
-                  handleChange("backgroundColor", event.target.value, "visual");
+                  handleChange(
+                    "backgroundColor",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
             {/* Previous Studies Included */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="previous-studies-included">Previous Studies</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="previous-studies-included">Previous Studies</label>
               </h4>
               <select
                 id="previous-studies-included"
                 name="previous-studies-included"
-                value={state().visual.previousStudiesIncluded}
+                value={state.visual.previousStudiesIncluded}
                 onInput={(event) => {
-                  handleChange("previousStudiesIncluded", event.target.value, "visual");
+                  handleChange(
+                    "previousStudiesIncluded",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="true">True</option>
@@ -1084,16 +1188,20 @@ export default function FlowDiagram() {
               </select>
             </div>
             {/* Other Methods Included */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="other-methods-included">Other Methods</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="other-methods-included">Other Methods</label>
               </h4>
               <select
                 id="other-methods-included"
                 name="other-methods-included"
-                value={state().visual.otherMethodsIncluded}
+                value={state.visual.otherMethodsIncluded}
                 onInput={(event) => {
-                  handleChange("otherMethodsIncluded", event.target.value, "visual");
+                  handleChange(
+                    "otherMethodsIncluded",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="true">True</option>
@@ -1101,16 +1209,20 @@ export default function FlowDiagram() {
               </select>
             </div>
             {/* Gray Boxes Included */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="gray-boxes">Gray Boxes</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="gray-boxes">Gray Boxes</label>
               </h4>
               <select
                 id="gray-boxes"
                 name="gray-boxes"
-                value={state().visual.grayBoxesIncluded}
+                value={state.visual.grayBoxesIncluded}
                 onInput={(event) => {
-                  handleChange("grayBoxesIncluded", event.target.value, "visual");
+                  handleChange(
+                    "grayBoxesIncluded",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="true">True</option>
@@ -1118,52 +1230,64 @@ export default function FlowDiagram() {
               </select>
             </div>
             {/* Gray Boxes Color */}
-            {state().visual.grayBoxesIncluded && (
-              <div class="settings-form-group">
-                <h4 class="settings-form-heading">
-                  <label for="gray-boxes-color">Gray Boxes Color</label>
+            {state.visual.grayBoxesIncluded && (
+              <div className="settings-form-group">
+                <h4 className="settings-form-heading">
+                  <label htmlFor="gray-boxes-color">Gray Boxes Color</label>
                 </h4>
                 <input
                   id="gray-boxes-color"
                   name="gray-boxes-color"
                   type="color"
-                  value={state().visual.grayBoxesColor}
+                  value={state.visual.grayBoxesColor}
                   onInput={(event) => {
-                    handleChange("grayBoxesColor", event.target.value, "visual");
+                    handleChange(
+                      "grayBoxesColor",
+                      (event.target as HTMLInputElement).value,
+                      "visual"
+                    );
                   }}
                 />
               </div>
             )}
             {/* Top Boxes Included */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="top-boxes">Top Boxes</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="top-boxes">Top Boxes</label>
               </h4>
               <select
                 id="top-boxes"
                 name="top-boxes"
-                value={state().visual.topBoxesIncluded}
+                value={state.visual.topBoxesIncluded}
                 onInput={(event) => {
-                  handleChange("topBoxesIncluded", event.target.value, "visual");
+                  handleChange(
+                    "topBoxesIncluded",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="true">True</option>
                 <option value="false">False</option>
               </select>
             </div>
-            {state().visual.topBoxesIncluded && (
+            {state.visual.topBoxesIncluded && (
               <>
                 {/* Top Boxes Borders */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="top-boxes-border">Top Boxes Border</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="top-boxes-border">Top Boxes Border</label>
                   </h4>
                   <select
                     id="top-boxes-border"
                     name="top-boxes-border"
-                    value={state().visual.topBoxesBorders}
+                    value={state.visual.topBoxesBorders}
                     onInput={(event) => {
-                      handleChange("topBoxesBorders", event.target.value, "visual");
+                      handleChange(
+                        "topBoxesBorders",
+                        (event.target as HTMLInputElement).value,
+                        "visual"
+                      );
                     }}
                   >
                     <option value="true">True</option>
@@ -1171,52 +1295,64 @@ export default function FlowDiagram() {
                   </select>
                 </div>
                 {/* Top Boxes Color */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="top-boxes-color">Top Boxes Color</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="top-boxes-color">Top Boxes Color</label>
                   </h4>
                   <input
                     id="top-boxes-color"
                     name="top-boxes-color"
                     type="color"
-                    value={state().visual.topBoxesColor}
+                    value={state.visual.topBoxesColor}
                     onInput={(event) => {
-                      handleChange("topBoxesColor", event.target.value, "visual");
+                      handleChange(
+                        "topBoxesColor",
+                        (event.target as HTMLInputElement).value,
+                        "visual"
+                      );
                     }}
                   />
                 </div>
               </>
             )}
             {/* Side Boxes Included */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="side-boxes">Side Boxes</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="side-boxes">Side Boxes</label>
               </h4>
               <select
                 id="side-boxes"
                 name="side-boxes"
-                value={state().visual.sideBoxesIncluded}
+                value={state.visual.sideBoxesIncluded}
                 onInput={(event) => {
-                  handleChange("sideBoxesIncluded", event.target.value, "visual");
+                  handleChange(
+                    "sideBoxesIncluded",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="true">true</option>
                 <option value="false">False</option>
               </select>
             </div>
-            {state().visual.sideBoxesIncluded && (
+            {state.visual.sideBoxesIncluded && (
               <>
                 {/* Side Boxes Borders */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="side-boxes-border">Side Boxes Border</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="side-boxes-border">Side Boxes Border</label>
                   </h4>
                   <select
                     id="side-boxes-border"
                     name="Side Boxes Border"
-                    value={state().visual.sideBoxesBorders}
+                    value={state.visual.sideBoxesBorders}
                     onInput={(event) => {
-                      handleChange("sideBoxesBorders", event.target.value, "visual");
+                      handleChange(
+                        "sideBoxesBorders",
+                        (event.target as HTMLInputElement).value,
+                        "visual"
+                      );
                     }}
                   >
                     <option value="true">True</option>
@@ -1224,33 +1360,41 @@ export default function FlowDiagram() {
                   </select>
                 </div>
                 {/* Side Boxes Color */}
-                <div class="settings-form-group">
-                  <h4 class="settings-form-heading">
-                    <label for="side-boxes-color">Side Boxes Color</label>
+                <div className="settings-form-group">
+                  <h4 className="settings-form-heading">
+                    <label htmlFor="side-boxes-color">Side Boxes Color</label>
                   </h4>
                   <input
                     id="side-boxes-color"
                     name="side-boxes-color"
                     type="color"
-                    value={state().visual.sideBoxesColor}
+                    value={state.visual.sideBoxesColor}
                     onInput={(event) => {
-                      handleChange("sideBoxesColor", event.target.value, "visual");
+                      handleChange(
+                        "sideBoxesColor",
+                        (event.target as HTMLInputElement).value,
+                        "visual"
+                      );
                     }}
                   />
                 </div>
               </>
             )}
             {/* Borders */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="borders">Borders</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="borders">Borders</label>
               </h4>
               <select
                 id="borders"
                 name="borders"
-                value={state().visual.borders}
+                value={state.visual.borders}
                 onInput={(event) => {
-                  handleChange("borders", event.target.value, "visual");
+                  handleChange(
+                    "borders",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="true">True</option>
@@ -1258,16 +1402,20 @@ export default function FlowDiagram() {
               </select>
             </div>
             {/* Border Style */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="border-style">Border Style</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="border-style">Border Style</label>
               </h4>
               <select
                 id="border-style"
                 name="border-style"
-                value={state().visual.borderStyle}
+                value={state.visual.borderStyle}
                 onInput={(event) => {
-                  handleChange("borderStyle", event.target.value, "visual");
+                  handleChange(
+                    "borderStyle",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="solid">Solid</option>
@@ -1276,9 +1424,9 @@ export default function FlowDiagram() {
               </select>
             </div>
             {/* Border Width */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="border-width">Border Width</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="border-width">Border Width</label>
               </h4>
               <input
                 id="border-width"
@@ -1286,37 +1434,49 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().visual.borderWidth}
+                value={state.visual.borderWidth}
                 onInput={(event) => {
-                  handleChange("borderWidth", event.target.value, "visual");
+                  handleChange(
+                    "borderWidth",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
             {/* Border Color */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="border-color">Border Color</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="border-color">Border Color</label>
               </h4>
               <input
                 id="border-color"
                 name="border-color"
                 type="color"
-                value={state().visual.borderColor}
+                value={state.visual.borderColor}
                 onInput={(event) => {
-                  handleChange("borderColor", event.target.value, "visual");
+                  handleChange(
+                    "borderColor",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="font">Font</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="font">Font</label>
               </h4>
               <select
                 id="font"
                 name="font"
-                value={state().visual.font}
+                value={state.visual.font}
                 onInput={(event) => {
-                  handleChange("font", event.target.value, "visual");
+                  handleChange(
+                    "font",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               >
                 <option value="Arial">Arial</option>
@@ -1335,9 +1495,9 @@ export default function FlowDiagram() {
                 <option value="Verdana">Verdana</option>
               </select>
             </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="font-size">Font Size</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="font-size">Font Size</label>
               </h4>
               <input
                 id="font-size"
@@ -1345,45 +1505,57 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().visual.fontSize}
+                value={state.visual.fontSize}
                 onInput={(event) => {
-                  handleChange("fontSize", event.target.value, "visual");
+                  handleChange(
+                    "fontSize",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="font-color">Font Color</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="font-color">Font Color</label>
               </h4>
               <input
                 id="font-color"
                 name="font-color"
                 type="color"
-                value={state().visual.fontColor}
+                value={state.visual.fontColor}
                 onInput={(event) => {
-                  handleChange("fontColor", event.target.value, "visual");
+                  handleChange(
+                    "fontColor",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
             {/* Arrow Head */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="arrow-head">Arrow Head</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="arrow-head">Arrow Head</label>
               </h4>
               <input
                 id="arrow-head"
                 name="arrow-head"
                 type="text"
-                value={state().visual.arrowHead}
+                value={state.visual.arrowHead}
                 onInput={(event) => {
-                  handleChange("arrowHead", event.target.value, "visual");
+                  handleChange(
+                    "arrowHead",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
             {/* Arrow Size */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="arrow-size">Arrow Size</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="arrow-size">Arrow Size</label>
               </h4>
               <input
                 id="arrow-size"
@@ -1391,16 +1563,20 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().visual.arrowSize}
+                value={state.visual.arrowSize}
                 onInput={(event) => {
-                  handleChange("arrowSize", event.target.value, "visual");
+                  handleChange(
+                    "arrowSize",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
             {/* Arrow Width */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="arrow-width">Arrow Width</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="arrow-width">Arrow Width</label>
               </h4>
               <input
                 id="arrow-width"
@@ -1408,51 +1584,61 @@ export default function FlowDiagram() {
                 type="number"
                 placeholder="0"
                 min="0"
-                value={state().visual.arrowWidth}
+                value={state.visual.arrowWidth}
                 onInput={(event) => {
-                  handleChange("arrowWidth", event.target.value, "visual");
+                  handleChange(
+                    "arrowWidth",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
             {/* Arrow Color */}
-            <div class="settings-form-group">
-              <h4 class="settings-form-heading">
-                <label for="arrow-color">Arrow Color</label>
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="arrow-color">Arrow Color</label>
               </h4>
               <input
                 id="arrow-color"
                 name="arrow-color"
                 type="color"
-                value={state().visual.arrowColor}
+                value={state.visual.arrowColor}
                 onInput={(event) => {
-                  handleChange("arrowColor", event.target.value, "visual");
+                  handleChange(
+                    "arrowColor",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
                 }}
               />
             </div>
           </div>
         </div>
         {/* settings actions */}
-        <div class="settings-actions-buttons">
+        <div className="settings-actions-buttons">
           <button
             title="download current figure"
-            class="settings-actions-button export-button"
+            className="settings-actions-button export-button"
             onMouseDown={openModal}
           >
-            <Download class="settings-actions-button-icon export-button-icon" />
+            <Download className="settings-actions-button-icon export-button-icon" />
             Export
           </button>
           <button
             title="reset to default settings"
-            class="settings-actions-button remove-button"
+            className="settings-actions-button remove-button"
             onMouseDown={resetFlowDiagramArguments}
           >
-            <Reset class="settings-actions-button-icon remove-button-icon" />
+            <Reset className="settings-actions-button-icon remove-button-icon" />
             Reset
           </button>
         </div>
       </div>
       {/* flow diagram container */}
-      <div class="flow-diagram-container"></div>
+      <div className="flow-diagram-container"></div>
     </main>
   );
 }
+
+export default FlowDiagram;

@@ -1,0 +1,79 @@
+[data-theme="light"] {
+  --text-color-1: hsl(var(--theme-hue), 18%, 11%);
+  --text-color-2: hsl(var(--theme-hue), 18%, 14%);
+  --text-color-3: hsl(var(--theme-hue), 18%, 17%);
+  --text-color-4: hsl(var(--theme-hue), 18%, 20%);
+  --text-color-5: hsl(var(--theme-hue), 18%, 23%);
+
+  --background-color-1: hsl(var(--theme-hue), 100%, 98%);
+  --background-color-2: hsl(var(--theme-hue), 100%, 95%);
+  --background-color-3: hsl(var(--theme-hue), 100%, 92%);
+  --background-color-4: hsl(var(--theme-hue), 100%, 89%);
+  --background-color-5: hsl(var(--theme-hue), 100%, 86%);
+
+  --link-color: hsl(var(--theme-hue), 80%, 65%);
+
+  --input-placeholder-color: hsla(var(--theme-hue), 30%, 70%, 0.4);
+  --input-text-color: hsl(var(--theme-hue), 30%, 70%);
+  --input-background-color: hsl(var(--theme-hue), 100%, 99%);
+
+  --border-color: hsl(var(--theme-hue), 66%, 80%);
+  --border-color-hover: hsl(var(--theme-hue), 100%, 75%);
+  --border-color-focus: hsl(var(--theme-hue), 100%, 65%);
+  --border-box-shadow: 0 0 6px 3px hsla(var(--theme-hue), 100%, 78%, 0.3);
+
+  --box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.1);
+
+  --hover-background-color: hsla(var(--theme-hue), 100%, 75%, 0.1);
+
+  --button-background-color-1: hsl(var(--theme-hue), 100%, 68%);
+  --button-background-color-2: hsl(var(--theme-hue), 100%, 74%);
+
+  --scrollbar-color: hsla(var(--theme-hue), 100%, 68%, 0.25);
+  --scrollbar-color-hover: hsla(var(--theme-hue), 100%, 68%, 0.5);
+  --scrollbar-color-active: hsla(var(--theme-hue), 100%, 68%, 0.75);
+
+  --error-color: hsl(340, 100%, 60%);
+  --warning-color: hsl(60, 100%, 60%);
+  --success-color: hsl(135, 60%, 60%);
+}
+
+[data-theme="dark"] {
+  --text-color-1: hsl(var(--theme-hue), 100%, 98%);
+  --text-color-2: hsl(var(--theme-hue), 100%, 95%);
+  --text-color-3: hsl(var(--theme-hue), 100%, 92%);
+  --text-color-4: hsl(var(--theme-hue), 100%, 89%);
+  --text-color-5: hsl(var(--theme-hue), 100%, 86%);
+
+  --background-color-1: hsl(var(--theme-hue), 18%, 11%);
+  --background-color-2: hsl(var(--theme-hue), 18%, 14%);
+  --background-color-3: hsl(var(--theme-hue), 18%, 17%);
+  --background-color-4: hsl(var(--theme-hue), 18%, 20%);
+  --background-color-5: hsl(var(--theme-hue), 18%, 23%);
+
+  --link-color: hsl(var(--theme-hue), 100%, 83%);
+
+  --input-placeholder-color: hsla(var(--theme-hue), 15%, 40%, 0.4);
+  --input-text-color: hsl(var(--theme-hue), 15%, 40%);
+  --input-background-color: hsl(var(--theme-hue), 18%, 23%);
+
+  --border-color: hsl(var(--theme-hue), 15%, 40%);
+  --border-color-hover: hsl(var(--theme-hue), 15%, 48%);
+  --border-color-focus: hsl(var(--theme-hue), 15%, 60%);
+  --border-box-shadow: 0 0 6px 3px hsla(var(--theme-hue), 100%, 85%, 0.3);
+
+  --box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.1);
+
+  --hover-background-color: hsla(var(--theme-hue), 100%, 83%, 0.1);
+
+  --button-background-color-1: hsl(var(--theme-hue), 100%, 79%);
+  --button-background-color-2: hsl(var(--theme-hue), 100%, 85%);
+
+  --scrollbar-color: hsla(var(--theme-hue), 100%, 83%, 0.25);
+  --scrollbar-color-hover: hsla(var(--theme-hue), 100%, 83%, 0.5);
+  --scrollbar-color-active: hsla(var(--theme-hue), 100%, 83%, 0.75);
+
+  --error-color: hsl(340, 100%, 60%);
+  --warning-color: hsl(60, 100%, 70%);
+  --success-color: hsl(135, 60%, 50%);
+}
