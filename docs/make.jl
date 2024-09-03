@@ -4,10 +4,13 @@ const ASSETS::String = joinpath(dirname(@__FILE__), "src/assets")
 
 Documenter.makedocs(
     modules=[PRISMA],
-    format=Documenter.HTML(assets=[
-        joinpath(ASSETS, "bib.css"),
-        joinpath(ASSETS, "favicon.ico")
-    ]),
+    format=Documenter.HTML(
+        assets=[
+            "assets/bib.css",
+            "assets/favicon.ico",
+            "assets/logo.svg"
+        ]
+    ),
     sitename="PRISMA.jl",
     authors="Ceco Elijah Maples and Contributors",
     pages=[
