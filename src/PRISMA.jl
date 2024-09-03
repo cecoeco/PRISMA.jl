@@ -63,6 +63,7 @@ export flow_diagram
 export FlowDiagram
 export flow_diagram_save
 
+include("docstrings.jl")
 include("utils.jl")
 include("checklist.jl")
 include("flow_diagram.jl")

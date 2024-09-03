@@ -7,8 +7,7 @@ Documenter.makedocs(
     format=Documenter.HTML(
         assets=[
             "assets/bib.css",
-            "assets/favicon.ico",
-            "assets/logo.svg"
+            "assets/favicon.ico"
         ]
     ),
     sitename="PRISMA.jl",
