@@ -57,7 +57,7 @@ function flow_diagram_read(
     return read_as_dataframe(fn, sheetname=sheetname; kwargs...)
 end
 
-
+"$docstring_FlowDiagram"
 @kwdef mutable struct FlowDiagram
     dot::AbstractString
 end

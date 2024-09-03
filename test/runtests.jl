@@ -20,10 +20,10 @@ Test.@testset "checklist_df" begin
 	Test.@test PRISMA.checklist_read("checklist.json") isa DataFrame
 
 	# remove the files
-	Base.Filesystem.rm("checklist.csv")
-	Base.Filesystem.rm("checklist.xlsx")
-	Base.Filesystem.rm("checklist.html")
-	Base.Filesystem.rm("checklist.json")
+	Base.Filesystem.rm("checklist.csv", force=true)
+	Base.Filesystem.rm("checklist.xlsx", force=true)
+	Base.Filesystem.rm("checklist.html", force=true)
+	Base.Filesystem.rm("checklist.json", force=true)
 end
 
 Test.@testset "checklist" begin
@@ -52,10 +52,10 @@ Test.@testset "checklist" begin
 	Test.@test PRISMA.checklist_read("checklist.json") isa DataFrame
 
 	# remove the files
-	Base.Filesystem.rm("checklist.csv")
-	Base.Filesystem.rm("checklist.xlsx")
-	Base.Filesystem.rm("checklist.html")
-	Base.Filesystem.rm("checklist.json")
+	Base.Filesystem.rm("checklist.csv", force=true)
+	Base.Filesystem.rm("checklist.xlsx", force=true)
+	Base.Filesystem.rm("checklist.html", force=true)
+	Base.Filesystem.rm("checklist.json", force=true)
 end
 
 Test.@testset "flow_diagram_df" begin
@@ -78,10 +78,10 @@ Test.@testset "flow_diagram_df" begin
 	Test.@test PRISMA.flow_diagram_read("flow_diagram.json") isa DataFrame
 
 	# remove the files
-	Base.Filesystem.rm("flow_diagram.csv")
-	Base.Filesystem.rm("flow_diagram.xlsx")
-	Base.Filesystem.rm("flow_diagram.html")
-	Base.Filesystem.rm("flow_diagram.json")
+	Base.Filesystem.rm("flow_diagram.csv", force=true)
+	Base.Filesystem.rm("flow_diagram.xlsx", force=true)
+	Base.Filesystem.rm("flow_diagram.html", force=true)
+	Base.Filesystem.rm("flow_diagram.json", force=true)
 end
 
 Test.@testset "flow_diagram" begin
@@ -123,10 +123,10 @@ Test.@testset "flow_diagram" begin
 	Test.@test Base.Filesystem.isfile("flow_diagram.dot")
 
 	# remove the files
-	Base.Filesystem.rm("flow_diagram.svg")
-	Base.Filesystem.rm("flow_diagram.png")
-	Base.Filesystem.rm("flow_diagram.pdf")
-	Base.Filesystem.rm("flow_diagram.dot")
+	Base.Filesystem.rm("flow_diagram.svg", force=true)
+	Base.Filesystem.rm("flow_diagram.png", force=true)
+	Base.Filesystem.rm("flow_diagram.pdf", force=true)
+	Base.Filesystem.rm("flow_diagram.dot", force=true)
 end
 
 Test.@testset "plotting checklist" begin
