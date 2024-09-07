@@ -44,24 +44,13 @@ using TidierStrings: str_wrap
 using Transformers: encode, @hgf_str
 using XLSX: XLSX
 
-# reexports
-export DataFrame
-export LittleDict
-export display
-export show
-
-# new exports
-export checklist_df
-export checklist_read
-export checklist
-export Checklist
-export checklist_save
-
-export flow_diagram_df
-export flow_diagram_read
-export flow_diagram
-export FlowDiagram
-export flow_diagram_save
+export
+    # re-exports
+    DataFrame, LittleDict, display, show,
+    # checklist.jl
+    checklist_df, checklist_read, checklist, Checklist, checklist_save,
+    # flow_diagram.jl
+    flow_diagram_df, flow_diagram_read, flow_diagram, FlowDiagram, flow_diagram_save
 
 include("docstrings.jl")
 include("utils.jl")

@@ -110,18 +110,24 @@ end
 Oxygen.post("/api/checklist/generate") do request::HTTP.Request
     try
         paper::PRISMA.Checklist = PRISMA.checklist(request.body)
-
-        clist::DataFrame = paper.df
-        clist_title::String = paper.metadata["title"]
-        clist_table::String = HTMLTables.table(
-            clist, classes="checklist", css=false, editable=true, footer=false
+        title::String = paper.metadata["title"]
+        io::IO = IOBuffer()
+        HTMLTables.writetable(
+            io,
+            paper.df,
+            class="checklist",
+            css=false,
+            editable=true,
+            footer=false
         )
+        clist::String = String(Base.take!(io))
+        Base.close(io)
 
         return Oxygen.json(
             status=200,
             Dict{String,String}(
-                "title" => clist_title,
-                "checklist" => clist_table
+                "title" => title,
+                "checklist" => clist
             )
         )
     catch error
@@ -141,8 +147,10 @@ Oxygen.post("/api/checklist/export") do request::HTTP.Request
         csv_files::Dict{String,String} = Dict{String,String}()
         for checklist in checklists["checklists"]
             io::IO = IOBuffer()
-            df::DataFrame = HTMLTables.read(checklist["checklist"], DataFrame)
-            CSV.write(io, df)
+            CSV.write(
+                io, 
+                HTMLTables.readtable(checklist["checklist"], DataFrame)
+            )
             csv_files["$(checklist["title"]).csv"] = String(Base.take!(io))
             Base.close(io)
         end

@@ -79,9 +79,9 @@ end
 function Base.show(io::IO, ::MIME"text/html", cl::Checklist)::Nothing
     Base.print(io, "$(cl.metadata["title"])")
     Base.print(io, "\n\nMetadata:\n\n")
-    Base.print(io, HTMLTables.table(DataFrame(cl.metadata)))
+    Base.print(io, HTMLTables.writetable(io, (DataFrame(cl.metadata))))
     Base.print(io, "\n\n2020 PRISMA Checklist:\n\n")
-    Base.print(io, HTMLTables.table(cl.df))
+    Base.print(io, HTMLTables.writetable(io, (cl.df)))
 
     return nothing
 end

@@ -2,7 +2,7 @@
 
 julia_version = "1.10.4"
 manifest_format = "2.0"
-project_hash = "f28d1e6d74a4fe81b466c1b304b67a2892d64c68"
+project_hash = "171810f16c5dfb65cf5cb6103cbedd0443ffa2e4"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -232,17 +232,18 @@ uuid = "f0e56b4a-5159-44fe-b623-3e5288b988bb"
 version = "2.4.2"
 
 [[deps.ConstructionBase]]
-deps = ["LinearAlgebra"]
-git-tree-sha1 = "a33b7ced222c6165f624a3f2b55945fac5a598d9"
+git-tree-sha1 = "76219f1ed5771adbb096743bff43fb5fdd4c1157"
 uuid = "187b0558-2788-49d3-abe0-74a17ed4e7c9"
-version = "1.5.7"
+version = "1.5.8"
 
     [deps.ConstructionBase.extensions]
     ConstructionBaseIntervalSetsExt = "IntervalSets"
+    ConstructionBaseLinearAlgebraExt = "LinearAlgebra"
     ConstructionBaseStaticArraysExt = "StaticArrays"
 
     [deps.ConstructionBase.weakdeps]
     IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
+    LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
     StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [[deps.ContextVariablesX]]
@@ -526,9 +527,9 @@ version = "0.10.2+0"
 
 [[deps.HTMLTables]]
 deps = ["Cascadia", "ColorSchemes", "Colors", "Gumbo", "HTTP", "Tables"]
-git-tree-sha1 = "e17541e3733cbe9b39e866a08aa3915848cc59f1"
+git-tree-sha1 = "2168102f57e1b0309607f8130b11962561ff4b7a"
 uuid = "b1afcece-b80e-4563-b90e-36b4cc56d3fa"
-version = "0.4.3"
+version = "0.5.0"
 
 [[deps.HTML_Entities]]
 deps = ["StrTables"]
@@ -620,9 +621,9 @@ version = "1.0.0"
 
 [[deps.JLLWrappers]]
 deps = ["Artifacts", "Preferences"]
-git-tree-sha1 = "7e5d6779a1e09a36db2a7b6cff50942a0a7d0fca"
+git-tree-sha1 = "f389674c99bfcde17dc57454011aa44d5a260a40"
 uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
-version = "1.5.0"
+version = "1.6.0"
 
 [[deps.JSON3]]
 deps = ["Dates", "Mmap", "Parsers", "PrecompileTools", "StructTypes", "UUIDs"]
@@ -894,10 +895,10 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2023.1.10"
 
 [[deps.NNlib]]
-deps = ["Adapt", "Atomix", "ChainRulesCore", "GPUArraysCore", "KernelAbstractions", "LinearAlgebra", "Pkg", "Random", "Requires", "Statistics"]
-git-tree-sha1 = "ae52c156a63bb647f80c26319b104e99e5977e51"
+deps = ["Adapt", "Atomix", "ChainRulesCore", "GPUArraysCore", "KernelAbstractions", "LinearAlgebra", "Random", "Statistics"]
+git-tree-sha1 = "4a83c2e01027a0bfcea28589222f2df60b2e20cb"
 uuid = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
-version = "0.9.22"
+version = "0.9.23"
 
     [deps.NNlib.extensions]
     NNlibAMDGPUExt = "AMDGPU"
@@ -905,12 +906,14 @@ version = "0.9.22"
     NNlibCUDAExt = "CUDA"
     NNlibEnzymeCoreExt = "EnzymeCore"
     NNlibFFTWExt = "FFTW"
+    NNlibForwardDiffExt = "ForwardDiff"
 
     [deps.NNlib.weakdeps]
     AMDGPU = "21141c5a-9bdb-4563-92ae-f87d6854732e"
     CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
     EnzymeCore = "f151be2c-9106-41f4-ab19-57ee4f262869"
     FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+    ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
     cuDNN = "02a925ec-e4fe-4b08-9a7e-0d78e3d38ccd"
 
 [[deps.NaNMath]]
@@ -1000,9 +1003,9 @@ version = "1.4.3"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "a028ee3cb5641cccc4c24e90c36b0a4f7707bdf5"
+git-tree-sha1 = "1b35263570443fdd9e76c76b7062116e2f374ab8"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "3.0.14+0"
+version = "3.0.15+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1023,9 +1026,9 @@ version = "1.6.3"
 
 [[deps.Oxygen]]
 deps = ["DataStructures", "Dates", "HTTP", "JSON3", "MIMEs", "Reexport", "RelocatableFolders", "Requires", "Sockets", "Statistics", "StructTypes"]
-git-tree-sha1 = "965ffdb3a6f54d8b33695da1401a29344bc6cc7b"
+git-tree-sha1 = "7972aee5a01b24e1d5bdf4a5d5ffae80553634f7"
 uuid = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
-version = "1.5.12"
+version = "1.5.13"
 
 [[deps.PCRE2_jll]]
 deps = ["Artifacts", "Libdl"]
