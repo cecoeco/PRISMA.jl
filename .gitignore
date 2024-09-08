@@ -19,6 +19,7 @@ build
 *.njsproj
 *.sln
 *.sw?
+
 # julia
 *.jl.cov
 *.jl.*.cov

@@ -2,7 +2,7 @@
 
 julia_version = "1.10.4"
 manifest_format = "2.0"
-project_hash = "171810f16c5dfb65cf5cb6103cbedd0443ffa2e4"
+project_hash = "876fd82cba9ca05320bff0153ea1549e6ddd352b"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -527,9 +527,9 @@ version = "0.10.2+0"
 
 [[deps.HTMLTables]]
 deps = ["Cascadia", "ColorSchemes", "Colors", "Gumbo", "HTTP", "Tables"]
-git-tree-sha1 = "2168102f57e1b0309607f8130b11962561ff4b7a"
+git-tree-sha1 = "14ba32afc91b342ed1a9418008769ef66d333a01"
 uuid = "b1afcece-b80e-4563-b90e-36b4cc56d3fa"
-version = "0.5.0"
+version = "0.5.1"
 
 [[deps.HTML_Entities]]
 deps = ["StrTables"]
