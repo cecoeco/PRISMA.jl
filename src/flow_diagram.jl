@@ -48,22 +48,13 @@ function flow_diagram_df()::DataFrame
     return DataFrame(rows, cols)
 end
 
-"$docstring_flow_diagram_read"
-function flow_diagram_read(
-    fn::AbstractString;
-    sheetname::AbstractString="2020 PRISMA Flow Diagram",
-    kwargs...)::DataFrame
-
-    return read_as_dataframe(fn, sheetname=sheetname; kwargs...)
-end
-
 "$docstring_FlowDiagram"
 @kwdef mutable struct FlowDiagram
     dot::AbstractString
 end
 
 function wrap_text(string::AbstractString)::String
-    return replace(str_wrap(string, width=33), "\n" => "<br/>")
+    return replace(TidierStrings.str_wrap(string, width=33), "\n" => "<br/>")
 end
 
 function group_labels(df::DataFrame)::DataFrame
@@ -367,32 +358,82 @@ function flow_diagram(
     return FlowDiagram(dot_lang)
 end
 
-"$docstring_flow_diagram_save_FlowDiagram"
-function flow_diagram_save(fn::AbstractString, fd::FlowDiagram; overwrite::Bool=false)::String
-    check_overwrite(fn, overwrite)
-
-    temp_gv::String = tempname() * ".gv"
+function bytes(fd::FlowDiagram, format::AbstractString="svg")
+    temp_gv::String = Base.Filesystem.tempname() * ".gv"
     Base.Filesystem.write(temp_gv, fd.dot)
     try
-        run(`$(neato()) $temp_gv -T$(split(fn, ".")[end]) -o $fn`)
-
-        return fn
+        return Base.read(`$(neato()) $temp_gv -T$format`, String)
     catch e
-        rethrow(e)
+        Base.rethrow(e)
     finally
-        rm(temp_gv, force=true)
+        Base.Filesystem.rm(temp_gv, force=true)
     end
 end
 
-"$docstring_flow_diagram_save_DataFrame"
+function Base.show(io::IO, fd::FlowDiagram)::Nothing
+    Base.print(io, fd.dot)
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"text/vnd.graphviz", fd::FlowDiagram)::Nothing
+    Base.print(io, MIME("text/vnd.graphviz"), fd.dot)
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"image/png", fd::FlowDiagram)::Nothing
+    Base.print(io, bytes(fd, "png"))
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"image/svg+xml", fd::FlowDiagram)::Nothing
+    Base.print(io, bytes(fd, "svg"))
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"application/pdf", fd::FlowDiagram)::Nothing
+    Base.print(io, bytes(fd, "pdf"))
+
+    return nothing
+end
+
+function Base.Multimedia.display(fd::FlowDiagram)::Nothing
+    Base.Multimedia.display(
+        Base.Multimedia.MIME("image/svg+xml"),
+        bytes(fd, "svg")
+    )
+
+    return nothing
+end
+
+"$docstring_flow_diagram_read"
+function flow_diagram_read(fn::AbstractString)::DataFrame
+    return CSV.read(fn, DataFrame)
+end
+
+"$docstring_flow_diagram_template"
+function flow_diagram_template(
+    fn::AbstractString,
+    df::DataFrame=flow_diagram_df()
+)
+    return CSV.write(fn, df)
+end
+
+"$docstring_flow_diagram_save"
 function flow_diagram_save(
     fn::AbstractString,
-    df::DataFrame=flow_diagram_df();
-    sheetname::AbstractString="2020 PRISMA Flow Diagram",
-    overwrite::Bool=false,
-    kwargs...)::String
-
-    check_overwrite(fn, overwrite)
-
-    return save_dataframe(fn, df, sheetname; kwargs...)
+    fd::FlowDiagram
+)
+    temp_gv::String = Base.Filesystem.tempname() * ".gv"
+    Base.Filesystem.write(temp_gv, fd.dot)
+    try
+        Base.run(`$(Graphviz_jll.neato()) $temp_gv -T$(Base.split(fn, ".")[end]) -o $fn`)
+    catch e
+        Base.rethrow(e)
+    finally
+        Base.Filesystem.rm(temp_gv, force=true)
+    end
 end

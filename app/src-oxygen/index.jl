@@ -55,8 +55,8 @@ function serve_reactjs(; build_directory::String)::Nothing
     for path in Base.Filesystem.readdir(build_directory; join=true)
         filename::String = Base.Filesystem.basename(path)
         if filename == "index.html"
-            for page in ["/", "/checklist", "/flow_diagram"]
-                Oxygen.get(page) do
+            for page in ["", "checklist", "flow_diagram"]
+                Oxygen.get("/$page") do
                     Oxygen.file(path)
                 end
             end
@@ -82,7 +82,7 @@ end
 Oxygen.get("/api/checklist/template") do request::HTTP.Request
     try
         io::IO = IOBuffer()
-        CSV.write(io, PRISMA.checklist_df())
+        PRISMA.checklist_template(io, PRISMA.checklist_df())
         csv::String = String(Base.take!(io))
 
         return Oxygen.json(status=200, Dict("checklist_template" => csv))
@@ -141,7 +141,7 @@ Oxygen.post("/api/flow_diagram/generate") do request::HTTP.Request
         flow_diagram_arguments::JSON3.Object = Oxygen.json(request)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
-            # data
+            # flow diagram data
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
             # keyword arguments
             background_color =   "$(flow_diagram_arguments["background_color"])",
@@ -181,7 +181,7 @@ Oxygen.post("/api/flow_diagram/export") do request::HTTP.Request
         flow_diagram_arguments::JSON3.Object = Oxygen.json(request)
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
-            # data
+            # flow diagram data
             DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
             # keyword arguments
             background_color =   "$(flow_diagram_arguments["background_color"])",
