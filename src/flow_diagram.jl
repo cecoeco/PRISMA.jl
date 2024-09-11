@@ -425,8 +425,8 @@ end
 """
 $docstring_flow_diagram_template
 """
-function flow_diagram_template(fn::AbstractString, df::DataFrame=flow_diagram_df())
-    return CSV.write(fn, df)
+function flow_diagram_template(fn::AbstractString="flow_diagram.csv")
+    return CSV.write(fn, flow_diagram_df())
 end
 
 """
