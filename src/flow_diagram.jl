@@ -1,4 +1,6 @@
-"$docstring_flow_diagram_df"
+"""
+$docstring_flow_diagram_df
+"""
 function flow_diagram_df()::DataFrame
     cols::Vector{String} = ["box_num", "box_text", "result"]
     rows::Vector{Tuple{Int,String,Union{Int,Missing}}} = [
@@ -48,13 +50,15 @@ function flow_diagram_df()::DataFrame
     return DataFrame(rows, cols)
 end
 
-"$docstring_FlowDiagram"
+"""
+$docstring_FlowDiagram
+"""
 @kwdef mutable struct FlowDiagram
     dot::AbstractString
 end
 
 function wrap_text(string::AbstractString)::String
-    return replace(TidierStrings.str_wrap(string, width=33), "\n" => "<br/>")
+    # wrap using </br> for line breaks
 end
 
 function group_labels(df::DataFrame)::DataFrame
@@ -209,7 +213,9 @@ const TOP_BOXES::Vector{Number} = [1, 2, 3]
 const SIDE_BOXES::Vector{Number} = [4, 5, 6]
 const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
 
-"$docstring_flow_diagram"
+"""
+$docstring_flow_diagram
+"""
 function flow_diagram(
     data::DataFrame=flow_diagram_df();
     background_color::AbstractString="white",
@@ -409,24 +415,24 @@ function Base.Multimedia.display(fd::FlowDiagram)::Nothing
     return nothing
 end
 
-"$docstring_flow_diagram_read"
+"""
+$docstring_flow_diagram_read
+"""
 function flow_diagram_read(fn::AbstractString)::DataFrame
     return CSV.read(fn, DataFrame)
 end
 
-"$docstring_flow_diagram_template"
-function flow_diagram_template(
-    fn::AbstractString,
-    df::DataFrame=flow_diagram_df()
-)
+"""
+$docstring_flow_diagram_template
+"""
+function flow_diagram_template(fn::AbstractString, df::DataFrame=flow_diagram_df())
     return CSV.write(fn, df)
 end
 
-"$docstring_flow_diagram_save"
-function flow_diagram_save(
-    fn::AbstractString,
-    fd::FlowDiagram
-)
+"""
+$docstring_flow_diagram_save
+"""
+function flow_diagram_save(fn::AbstractString, fd::FlowDiagram)
     temp_gv::String = Base.Filesystem.tempname() * ".gv"
     Base.Filesystem.write(temp_gv, fd.dot)
     try

@@ -34,36 +34,24 @@ module PRISMA
 using CSV
 using DataFrames
 using Graphviz_jll
-using LinearAlgebra
 using Poppler_jll
-using Statistics
-using TidierStrings
-using Transformers
 
 import Base.Multimedia.display
 import Base.show
 
 export
     # re-exports
-    DataFrame,
-    display,
-    show,
+    DataFrame, display, show,
 
     # checklist.jl
-    checklist_df,
-    checklist_template,
-    checklist_read,
-    checklist,
-    Checklist,
-    checklist_save,
+    checklist_df, checklist_template,
+    checklist_read, checklist,
+    Checklist, checklist_save,
 
     # flow_diagram.jl
-    flow_diagram_df,
-    flow_diagram_template,
-    flow_diagram_read,
-    flow_diagram,
-    FlowDiagram,
-    flow_diagram_save
+    flow_diagram_df, flow_diagram_template,
+    flow_diagram_read, flow_diagram,
+    FlowDiagram, flow_diagram_save
 
 include("checklist_docstrings.jl")
 include("checklist.jl")

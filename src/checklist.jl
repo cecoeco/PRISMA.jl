@@ -1,4 +1,6 @@
-"$docstring_checklist_df"
+"""
+$docstring_checklist_df
+"""
 function checklist_df()::DataFrame
     cols::Vector{String} = [
         "Section and Topic",
@@ -16,7 +18,7 @@ function checklist_df()::DataFrame
         (
             "Title",
             "1",
-            "Identify the report as a systematic review",
+            "Identify the report as a systematic review.",
             ""
         ),
         (
@@ -291,7 +293,7 @@ function checklist_df()::DataFrame
         (
             "Competing interests",
             "26",
-            "Identify the report as a systematic review",
+            "Identify the report as a systematic review.",
             ""
         ),
         (
@@ -304,65 +306,22 @@ function checklist_df()::DataFrame
     return DataFrame(rows, cols)
 end
 
-"$docstring_Checklist"
+"""
+$docstring_Checklist
+"""
 @kwdef mutable struct Checklist
     dataframe::DataFrame = checklist_df()
     metadata::Dict = Dict()
 end
 
 function safe_match(pattern::Regex, text::AbstractString)::String
-    m::Union{Nothing,RegexMatch} = Base.match(pattern, text)
+    mtc::Union{Nothing,RegexMatch} = Base.match(pattern, text)
 
-    if Base.isnothing(m)
+    if Base.isnothing(mtc)
         return ""
     else
-        return m.captures[1]
+        return mtc.captures[1]
     end
-end
-
-function complete_dataframe(paper::AbstractString)::DataFrame
-    paper_text::String = Base.read(`$(Poppler_jll.pdftotext()) $paper -`, String)
-
-    textencoder, bert_model = Transformers.hgf"bert-base-uncased"
-    results::DataFrame = Base.deepcopy(checklist_df())
-
-    for (i, row) in Base.Iterators.enumerate(Base.eachrow(results))
-        number::String = row["Item #"]
-        recommendation::String = row["Checklist Item"]
-
-        if Base.occursin(r"^\d", number) && !isempty(recommendation)
-            encoded_text = Transformers.encode(textencoder, [[recommendation]])
-            text_embedding = Statistics.mean(bert_model(encoded_text).hidden_state, dims=2)
-
-            paragraphs::Vector{String} = Base.split(paper_text, r"\n\n")
-
-            best_similarity::Float64 = 0.0
-            best_snippet::String = ""
-
-            for paragraph in paragraphs
-                paragraph_sample = Transformers.encode(textencoder, [[paragraph]])
-                paragraph_embedding = Statistics.mean(bert_model(paragraph_sample).hidden_state, dims=2)
-
-                similarity::Float64 = LinearAlgebra.dot(text_embedding, paragraph_embedding) / (LinearAlgebra.norm(text_embedding) * LinearAlgebra.norm(paragraph_embedding))
-
-                if similarity > 0.4
-                    best_similarity = similarity
-                    best_snippet = paragraph
-                    break
-                end
-            end
-
-            if best_similarity > 0.4
-                row["Location where item is reported"] = best_snippet
-            else
-                row["Location where item is reported"] = ""
-            end
-        end
-
-        println("processed item $i of $(DataFrames.nrow(results))")
-    end
-
-    return results
 end
 
 function complete_metadata(paper::AbstractString)::Dict{String,String}
@@ -385,7 +344,55 @@ function complete_metadata(paper::AbstractString)::Dict{String,String}
     )
 end
 
-"$docstring_checklist"
+function create_prompts()::Dict{String,String}
+    prompts::Dict{String,String} = Dict{String,String}()
+
+    for row in Base.eachrow(checklist_df())
+        if Base.isempty(row["Item #"])
+            continue
+        end
+
+        if row["Checklist Item"] == "See the PRISMA 2020 for Abstracts checklist"
+            continue
+        end
+
+        checklist_item = Base.Unicode.lowercasefirst(row["Checklist Item"])
+        checklist_item = Base.replace(checklist_item, r"\.$" => "?")
+
+        prompts[row["Item #"]] = "Where does the manuscript " * checklist_item
+    end
+
+    return prompts
+end
+
+function query_chat_model(prompt::AbstractString, paper_text::AbstractString)::String
+    return prompt
+end
+
+function complete_dataframe(paper::AbstractString)::DataFrame
+    paper_text::String = Base.read(`$(Poppler_jll.pdftotext()) $paper -`, String)
+
+    checklist_results::DataFrame = checklist_df()
+    item_numbers::Vector{String} = checklist_results[!, "Item #"]
+    locations::Vector{String} = Base.fill("", Base.length(item_numbers))
+
+    for (item_number, prompt) in create_prompts()
+        if item_number in item_numbers
+            index::Union{Nothing,Int} = Base.findfirst(item_numbers .== item_number)
+            if !Base.isnothing(index)
+                locations[index] = query_chat_model(prompt, paper_text)
+            end
+        end
+    end
+
+    checklist_results[!, "Location where item is reported"] = locations
+
+    return checklist_results
+end
+
+"""
+$docstring_checklist
+"""
 function checklist(paper::AbstractString)::Checklist
     return Checklist(
         dataframe=complete_dataframe(paper),
@@ -435,17 +442,23 @@ function Base.show(io::IO, ::MIME"text/csv", cl::Checklist)::Nothing
     return nothing
 end
 
-"$docstring_checklist_read"
+"""
+$docstring_checklist_read
+"""
 function checklist_read(fn::AbstractString)::DataFrame
     return CSV.read(fn, DataFrame)
 end
 
-"$docstring_checklist_save"
+"""
+$docstring_checklist_save
+"""
 function checklist_save(fn::AbstractString, cl::Checklist)
     return CSV.write(fn, cl.dataframe)
 end
 
-"$docstring_checklist_template"
-function checklist_template(fn::AbstractString)
+"""
+$docstring_checklist_template
+"""
+function checklist_template(fn::AbstractString="checklist.csv")
     return CSV.write(fn, checklist_df())
 end

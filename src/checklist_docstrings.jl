@@ -108,14 +108,13 @@ println(df)
 
 const docstring_checklist_template::String = 
 """
-    checklist_template(fn::AbstractString, df::DataFrame=checklist_df())
+    checklist_template(fn::AbstractString="checklist.csv")
 
 saves a template checklist `DataFrame` as a CSV.
 
 ## Arguments
 
 - `fn::AbstractString`: the name of the file to save
-- `df::DataFrame=checklist_df()`: the dataframe to save
 
 """
 

@@ -110,7 +110,7 @@ Oxygen.post("/api/checklist/export") do request::HTTP.Request
     try
         checklists::JSON3.Object = Oxygen.json(request)
 
-        csv_files::Dict = Dict()
+        csv_files::Dict{String,String} = Dict{String,String}()
         for checklist in checklists["checklists"]
             io::IO = IOBuffer()
             CSV.write(io, HTMLTables.readtable(checklist["checklist"], DataFrame))

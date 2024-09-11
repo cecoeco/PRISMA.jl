@@ -6,7 +6,9 @@
 </div>
 <br>
 
-Julia package and full-stack [web application](https://prisma-jl.onrender.com) powered by [`React.js`](https://react.dev/) and [`Oxygen.jl`](https://github.com/OxygenFramework/Oxygen.jl) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
+`PRISMA.jl` is a Julia package and full-stack [web application](https://prisma-jl.onrender.com) powered by [`React.js`](https://react.dev/) and [`Oxygen.jl`](https://github.com/OxygenFramework/Oxygen.jl) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
+
+The Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) guidelines enhance the quality of reporting in systematic reviews and meta-analyses. The checklist covers protocols, search strategy, study selection, and data synthesis. The flow diagram visually represents the study selection process.
 
 **Features:**
 

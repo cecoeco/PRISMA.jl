@@ -1,4 +1,3 @@
-
 const docstring_FlowDiagram::String = """
     PRISMA.FlowDiagram
 
@@ -100,7 +99,7 @@ const docstring_flow_diagram_read::String =
 """
     flow_diagram_read(fn::AbstractString)::DataFrame
 
-reads the template data from a `CSV`, `XLSX`, `HTML`, or `JSON` file
+reads the template data from a `CSV` file
 
 ## Arguments
 
@@ -143,7 +142,7 @@ PRISMA.flow_diagram_save("flow_diagram.svg", fd)
 
 const docstring_flow_diagram_template::String =
 """
-    PRISMA.flow_diagram_template(fn::AbstractString)
+    PRISMA.flow_diagram_template(fn::AbstractString="flow_diagram.csv")
 
 saves the template data to create a flow diagram as a CSV file.
 
@@ -153,10 +152,15 @@ saves the template data to create a flow diagram as a CSV file.
 
 ## Example
 
+calling the function will create a CSV file called `flow_diagram.csv`
+
 ```julia
 using PRISMA
 
-PRISMA.flow_diagram_save("flow_diagram.csv")
+PRISMA.flow_diagram_template()
+
+println(isfile("flow_diagram.csv"))
+julia> true
 ```
 
 """

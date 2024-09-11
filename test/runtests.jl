@@ -3,14 +3,30 @@ module TestPRISMA
 using HTTP, PRISMA, Test
 
 Test.@testset "checklist_df" begin
-    PRISMA.checklist_template("checklist.csv")
+    Test.@test PRISMA.checklist_df() isa DataFrame
+
+    #TODO add more tests for checklist_df
+end
+
+Test.@testset "checklist_template" begin
+    PRISMA.checklist_template()
     Test.@test Base.Filesystem.isfile("checklist.csv")
     Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
     Base.Filesystem.rm("checklist.csv", force=true)
 end
 
 Test.@testset "checklist" begin
-    cl::PRISMA.Checklist = PRISMA.checklist("page-et-al-2021.pdf")
+    paper::String = "page-et-al-2021.pdf"
+    cl::PRISMA.Checklist = PRISMA.checklist(paper)
+    PRISMA.checklist_save("checklist.csv", cl)
+    Test.@test Base.Filesystem.isfile("checklist.csv")
+    Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
+    Base.Filesystem.rm("checklist.csv", force=true)
+end
+
+Test.@testset "checklist pdf bytes" begin
+    bytes::Vector{UInt8} = Base.read("page-et-al-2021.pdf")
+    cl::PRISMA.Checklist = PRISMA.checklist(bytes)
     PRISMA.checklist_save("checklist.csv", cl)
     Test.@test Base.Filesystem.isfile("checklist.csv")
     Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
@@ -18,7 +34,13 @@ Test.@testset "checklist" begin
 end
 
 Test.@testset "flow_diagram_df" begin
-    PRISMA.flow_diagram_template("flow_diagram.csv")
+    Test.@test PRISMA.flow_diagram_df() isa DataFrame
+
+    #TODO add more tests for flow_diagram_df
+end
+
+Test.@testset "flow_diagram_template" begin
+    PRISMA.flow_diagram_template()
     Test.@test Base.Filesystem.isfile("flow_diagram.csv")
     Test.@test PRISMA.flow_diagram_read("flow_diagram.csv") isa DataFrame
     Base.Filesystem.rm("flow_diagram.csv", force=true)
@@ -111,4 +133,4 @@ Test.@testset "plotting flow_diagram" begin
     Test.@test output_pdf[1:4] == pdf_signature
 end
 
-end
+end # test module
