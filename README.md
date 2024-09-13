@@ -23,16 +23,11 @@
 create, plot, and save a flow diagram:
 
 ```julia
-using PRISMA: FlowDiagram, flow_diagram, flow_diagram_read, flow_diagram_save
+using PRISMA
 
-fd::FlowDiagram = flow_diagram(
-    flow_diagram_read("flow_diagram.csv"),
-    grayboxes=false,
-    top_boxes_borders=true,
-    top_boxes_color="white",
-    side_boxes_borders=true,
-    side_boxes_color="white"
-)
+flow_diagram_template() # creates "flow_diagram.csv"
+
+fd::FlowDiagram = flow_diagram(flow_diagram_read("flow_diagram.csv"))
 
 display(fd)
 

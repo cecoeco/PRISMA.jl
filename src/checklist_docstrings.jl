@@ -85,6 +85,7 @@ returns a template PRISMA checklist as a `DataFrame`
 
 ```jldoctest
 julia> using PRISMA
+
 julia> println(isa(checklist_df(), DataFrame))
 true
 ```
@@ -109,7 +110,9 @@ reads the template data to a `DataFrame`
 
 ```jldoctest
 julia> using PRISMA
+
 julia> checklist_template()
+
 julia> println(isa(checklist_read("checklist.csv"), DataFrame))
 true
 ```
@@ -130,7 +133,9 @@ saves a template checklist `DataFrame` as a CSV.
 
 ```jldoctest
 julia> using PRISMA
+
 julia> checklist_template()
+
 julia> println(isfile("checklist.csv"))
 true
 ```

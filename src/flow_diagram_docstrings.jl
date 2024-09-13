@@ -101,6 +101,7 @@ returns the template that is used to create the flow diagram as a `DataFrame`.
 
 ```jldoctest
 julia> using PRISMA
+
 julia> println(isa(flow_diagram_df(), DataFrame))
 true
 ```
@@ -125,7 +126,9 @@ reads the template data from a `CSV` file
 
 ```jldoctest
 julia> using PRISMA
+
 julia> flow_diagram_template()
+
 julia> println(isa(flow_diagram_read("flow_diagram.csv"), DataFrame))
 true
 ```
@@ -177,7 +180,9 @@ calling the function will create a CSV file called `flow_diagram.csv`:
 
 ```jldoctest
 julia> using PRISMA
+
 julia> flow_diagram_template()
+
 julia> println(isfile("flow_diagram.csv"))
 true
 ```
