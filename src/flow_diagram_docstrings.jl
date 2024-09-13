@@ -102,7 +102,7 @@ returns the template that is used to create the flow diagram as a `DataFrame`.
 ```jldoctest
 julia> using PRISMA
 
-julia> flow_diagram_df()
+julia> println(flow_diagram_df())
 41×3 DataFrame
  Row │ box_num  box_text                           result  
      │ Int64    String                             Int64?  
@@ -174,7 +174,7 @@ julia> using PRISMA
 julia> flow_diagram_template()
 "flow_diagram.csv"
 
-julia> flow_diagram_read("flow_diagram.csv")
+julia> println(flow_diagram_read("flow_diagram.csv"))
 41×3 DataFrame
  Row │ box_num  box_text                           result  
      │ Int64    String                             Int64?  

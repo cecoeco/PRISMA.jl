@@ -86,7 +86,7 @@ returns a template PRISMA checklist as a `DataFrame`
 ```jldoctest
 julia> using PRISMA
 
-julia> checklist_df()
+julia> println(checklist_df())
 49×4 DataFrame
  Row │ Section and Topic                  Item #  Checklist Item                     Location where item is reported 
      │ String                             String  String                             String                          
@@ -167,7 +167,7 @@ julia> using PRISMA
 julia> checklist_template()
 "checklist.csv"
 
-julia> checklist_read("checklist.csv")
+julia> println(checklist_read("checklist.csv"))
 49×4 DataFrame
  Row │ Section and Topic                  Item #  Checklist Item                     Location where item is reported 
      │ String                             String  String                             String                          

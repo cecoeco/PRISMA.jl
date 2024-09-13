@@ -20,17 +20,12 @@
 
 **Examples:**
 
-create, plot, and save a flow diagram:
+create and save a flow diagram:
 
 ```julia
 using PRISMA
 
-flow_diagram_template() # creates "flow_diagram.csv"
-
-fd::FlowDiagram = flow_diagram(flow_diagram_read("flow_diagram.csv"))
-
-display(fd)
-
+fd::FlowDiagram = flow_diagram() 
 flow_diagram_save("flow_diagram.svg", fd)
 ```
 
