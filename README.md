@@ -6,19 +6,42 @@
 </div>
 <br>
 
-`PRISMA.jl` is a Julia package and full-stack [web application](https://prisma-jl.onrender.com) powered by [`React.js`](https://react.dev/) and [`Oxygen.jl`](https://github.com/OxygenFramework/Oxygen.jl) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
-
-The Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) guidelines enhance the quality of reporting in systematic reviews and meta-analyses. The checklist covers protocols, search strategy, study selection, and data synthesis. The flow diagram visually represents the study selection process.
+`PRISMA.jl` is a Julia package and [web application](https://prisma-jl.onrender.com) powered by [`React.js`](https://react.dev/) and [`Oxygen.jl`](https://github.com/OxygenFramework/Oxygen.jl) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
 
 **Features:**
 
-- natural language processing to generate 2020 PRISMA checklists.
-- upload study data to generate a 2020 PRISMA flow diagram.
-- Interactive web app that requires zero programming knowledge.
+- NLP to generate 2020 PRISMA checklists.
+- upload study data to generate 2020 PRISMA flow diagrams.
+- interactive web app that requires zero programming knowledge.
 
 **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
 
 **Documentation:** <a href="https://cecoeco.github.io/PRISMA.jl/stable/"><img src="https://img.shields.io/badge/docs-stable-4c9fff.svg" alt="Documentation Stable" /></a> <a href="https://cecoeco.github.io/PRISMA.jl/dev/"><img src="https://img.shields.io/badge/docs-dev-4c9fff.svg" alt="Documentation Dev"></a>
+
+**Examples:**
+
+create, plot, and save a flow diagram:
+
+```julia
+using PRISMA: FlowDiagram, flow_diagram, flow_diagram_read, flow_diagram_save
+
+fd::FlowDiagram = flow_diagram(
+    flow_diagram_read("flow_diagram.csv"),
+    grayboxes=false,
+    top_boxes_borders=true,
+    top_boxes_color="white",
+    side_boxes_borders=true,
+    side_boxes_color="white"
+)
+
+display(fd)
+
+flow_diagram_save("flow_diagram.svg", fd)
+```
+
+output:
+
+![flow diagram](docs/src/assets/flow_diagram.svg)
 
 **Citing:** please consider citing PRISMA.jl and giving the GitHub repository a star, if possible.
 

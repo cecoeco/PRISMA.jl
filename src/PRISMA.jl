@@ -25,19 +25,15 @@ Julia package for generating checklists and flow diagrams based on [the 2020 **P
 ## Reexports
 
 - `DataFrames.DataFrame`: both `flow_diagram_df` and `checklist_df` return a `DataFrame`
-- `Base.display`: `PRISMA` adds a method for displaying the `FlowDiagram` type
-- `Base.show`: `PRISMA` adds new methods for showing the `Checklist` and `FlowDiagram` types
+- `Base.display`: `PRISMA` adds a method for displaying the `FlowDiagram` in the plot panel
+- `Base.show`: `PRISMA` adds new methods for printing the `Checklist` and `FlowDiagram` types
 
 """
 module PRISMA
 
-using CSV
-using DataFrames
-using Graphviz_jll
-using Poppler_jll
+using CSV, DataFrames, Graphviz_jll, OrderedCollections, Poppler_jll, Transformers
 
-import Base.Multimedia.display
-import Base.show
+import Base.Multimedia.display, Base.show
 
 export
     # re-exports
@@ -53,9 +49,13 @@ export
     flow_diagram_read, flow_diagram,
     FlowDiagram, flow_diagram_save
 
-include("checklist_docstrings.jl")
-include("checklist.jl")
-include("flow_diagram_docstrings.jl")
-include("flow_diagram.jl")
-
+for file in [
+    "checklist_docstrings.jl",
+    "checklist.jl",
+    "flow_diagram_docstrings.jl",
+    "flow_diagram.jl",
+]
+    include(file)
 end
+
+end # module

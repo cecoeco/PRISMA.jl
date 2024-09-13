@@ -34,7 +34,7 @@ const docstring_flow_diagram::String =
         arrow_head::AbstractString="normal",
         arrow_size::Union{AbstractString,Number}=1,
         arrow_color::AbstractString="black",
-        arrow_width::Union{AbstractString,Number}=1)::PRISMA.FlowDiagram
+        arrow_width::Union{AbstractString,Number}=1)::FlowDiagram
 
 generates the flow diagram figure from the flow diagram dataframe.
 
@@ -93,6 +93,18 @@ const docstring_flow_diagram_df::String =
 
 returns the template that is used to create the flow diagram as a `DataFrame`.
 
+## Returns
+
+- `DataFrame`: the template dataframe
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+julia> println(isa(flow_diagram_df(), DataFrame))
+true
+```
+
 """
 
 const docstring_flow_diagram_read::String = 
@@ -108,6 +120,15 @@ reads the template data from a `CSV` file
 ## Returns
 
 - `DataFrame`: the template dataframe
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+julia> flow_diagram_template()
+julia> println(isa(flow_diagram_read("flow_diagram.csv"), DataFrame))
+true
+```
 
 """
 
@@ -152,15 +173,13 @@ saves the template data to create a flow diagram as a CSV file.
 
 ## Example
 
-calling the function will create a CSV file called `flow_diagram.csv`
+calling the function will create a CSV file called `flow_diagram.csv`:
 
-```julia
-using PRISMA
-
-PRISMA.flow_diagram_template()
-
-println(isfile("flow_diagram.csv"))
-julia> true
+```jldoctest
+julia> using PRISMA
+julia> flow_diagram_template()
+julia> println(isfile("flow_diagram.csv"))
+true
 ```
 
 """

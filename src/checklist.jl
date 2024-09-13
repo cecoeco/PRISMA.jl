@@ -311,7 +311,7 @@ $docstring_Checklist
 """
 @kwdef mutable struct Checklist
     dataframe::DataFrame = checklist_df()
-    metadata::Dict = Dict()
+    metadata::OrderedDict = OrderedDict()
 end
 
 function safe_match(pattern::Regex, text::AbstractString)::String
@@ -324,10 +324,10 @@ function safe_match(pattern::Regex, text::AbstractString)::String
     end
 end
 
-function complete_metadata(paper::AbstractString)::Dict{String,String}
+function complete_metadata(paper::AbstractString)::OrderedDict{String,String}
     paper_info::String = Base.read(`$(Poppler_jll.pdfinfo()) $paper`, String)
 
-    return Dict{String,String}(
+    return OrderedDict{String,String}(
         "title" =>             safe_match(r"Title:\s*(.*)",        paper_info),
         "subject" =>           safe_match(r"Subject:\s*(.*)",      paper_info),
         "author" =>            safe_match(r"Author:\s*(.*)",       paper_info),
@@ -344,8 +344,8 @@ function complete_metadata(paper::AbstractString)::Dict{String,String}
     )
 end
 
-function create_prompts()::Dict{String,String}
-    prompts::Dict{String,String} = Dict{String,String}()
+function create_questions()::OrderedDict{String,String}
+    questions::OrderedDict{String,String} = OrderedDict{String,String}()
 
     for row in Base.eachrow(checklist_df())
         if Base.isempty(row["Item #"])
@@ -356,31 +356,40 @@ function create_prompts()::Dict{String,String}
             continue
         end
 
-        checklist_item = Base.Unicode.lowercasefirst(row["Checklist Item"])
-        checklist_item = Base.replace(checklist_item, r"\.$" => "?")
-
-        prompts[row["Item #"]] = "Where does the manuscript " * checklist_item
+        questions[row["Item #"]] = "Where does the manuscript " * Base.replace(
+            Base.Unicode.lowercasefirst(row["Checklist Item"]),
+            r"\.$" => "?"
+        )
     end
 
-    return prompts
+    return questions
 end
 
-function query_chat_model(prompt::AbstractString, paper_text::AbstractString)::String
+function generate_location(prompt::AbstractString)::String
     return prompt
+end
+
+function create_prompt(question::AbstractString, paper_text::AbstractString)::String
+    return Base.string(question, "\n\n", paper_text)
 end
 
 function complete_dataframe(paper::AbstractString)::DataFrame
     paper_text::String = Base.read(`$(Poppler_jll.pdftotext()) $paper -`, String)
-
     checklist_results::DataFrame = checklist_df()
     item_numbers::Vector{String} = checklist_results[!, "Item #"]
     locations::Vector{String} = Base.fill("", Base.length(item_numbers))
-
-    for (item_number, prompt) in create_prompts()
+    for (item_number, question) in create_questions()
         if item_number in item_numbers
             index::Union{Nothing,Int} = Base.findfirst(item_numbers .== item_number)
             if !Base.isnothing(index)
-                locations[index] = query_chat_model(prompt, paper_text)
+                locations[index] = generate_location(
+                    create_prompt(question, paper_text)
+                )
+                if !Base.isempty(locations[index])
+                    Base.println("item $item_number was found")
+                else
+                    Base.println("item $item_number was not found")
+                end
             end
         end
     end
@@ -445,7 +454,7 @@ end
 """
 $docstring_checklist_read
 """
-function checklist_read(fn::AbstractString)::DataFrame
+function checklist_read(fn::AbstractString="checklist.csv")::DataFrame
     return CSV.read(fn, DataFrame)
 end
 

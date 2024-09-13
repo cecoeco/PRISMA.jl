@@ -57,8 +57,23 @@ $docstring_FlowDiagram
     dot::AbstractString
 end
 
-function wrap_text(string::AbstractString)::String
-    # wrap using </br> for line breaks
+function wrap_text(string::AbstractString; max_length::Int=35)::String
+    wrapped_lines = Vector{String}()
+    
+    current_line = ""
+    
+    for word in split(string)
+        if length(current_line) + length(word) + 1 > max_length
+            push!(wrapped_lines, current_line)
+            current_line = word
+        else
+            current_line *= isempty(current_line) ? word : " " * word
+        end
+    end
+    
+    push!(wrapped_lines, current_line)
+    
+    return join(wrapped_lines, "<br/>")
 end
 
 function group_labels(df::DataFrame)::DataFrame
@@ -418,7 +433,7 @@ end
 """
 $docstring_flow_diagram_read
 """
-function flow_diagram_read(fn::AbstractString)::DataFrame
+function flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
     return CSV.read(fn, DataFrame)
 end
 
@@ -437,8 +452,8 @@ function flow_diagram_save(fn::AbstractString, fd::FlowDiagram)
     Base.Filesystem.write(temp_gv, fd.dot)
     try
         Base.run(`$(Graphviz_jll.neato()) $temp_gv -T$(Base.split(fn, ".")[end]) -o $fn`)
-    catch e
-        Base.rethrow(e)
+    catch ex
+        Base.rethrow(ex)
     finally
         Base.Filesystem.rm(temp_gv, force=true)
     end

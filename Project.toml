@@ -7,13 +7,16 @@ version = "0.0.7"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Graphviz_jll = "3c863552-8265-54e4-a6dc-903eb78fde85"
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
 Poppler_jll = "9c32591e-4766-534b-9725-b71a8799265b"
+Transformers = "21ca0261-441d-5938-ace7-c90938fde4d4"
 
 [compat]
 CSV = "0.10"
 DataFrames = "1.6"
 Graphviz_jll = "2.50"
 HTTP = "1"
+OrderedCollections = "1.6"
 Poppler_jll = "24.6"
 julia = "1.10"
 

@@ -3,14 +3,14 @@ const docstring_Checklist::String =
     PRISMA.Checklist
 
 this types represents a PRISMA checklist in the form of a `DataFrame` and
-the metadata of the paper that was used to generate it as a `Dict`.
+the metadata of the paper that was used to generate it as a `OrderedDict`.
 
 ## Fields
 
 - `dataframe::DataFrame`: the checklist as a `DataFrame`
-- `metadata::Dict`: the metadata of the paper
+- `metadata::OrderedDict`: the metadata of the paper
 
-## Examples
+## Example
 
 ```julia
 using PRISMA
@@ -33,7 +33,7 @@ const docstring_checklist::String =
 
 Returns a completed PRISMA checklist as the type `Checklist`. The `Checklist`
 type includes a completed checklist as a `DataFrame` and the metadata of the
-paper as a `LittleDict`. The `paper` argument can be a path to a pdf file or
+paper as a `OrderedDict`. The `paper` argument can be a path to a pdf file or
 an array of bytes. This function uses the C++ library `Poppler` via `Poppler_jll`
 to parse the pdf and the natural language processing functionality in Julia via
 [`Transformers.jl`](https://github.com/chengchingwen/Transformers.jl) to 
@@ -41,7 +41,7 @@ find items from the checklist in the paper and populate the
 `Comments or location in manuscript` and `Yes/No/NA` columns in the `DataFrame` 
 from `checklist_df()`.
 
-The following metadata is parsed from the pdf file and stored in the `LittleDict` as:
+The following metadata is parsed from the pdf file and stored in the `OrderedDict` as:
 
 - `"title"`: the title of the paper
 - `"subject"`: the subject of the paper
@@ -77,6 +77,18 @@ const docstring_checklist_df::String =
 
 returns a template PRISMA checklist as a `DataFrame`
 
+## Returns
+
+- `DataFrame`: the template dataframe
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+julia> println(isa(checklist_df(), DataFrame))
+true
+```
+
 """
 
 const docstring_checklist_read::String = 
@@ -93,17 +105,15 @@ reads the template data to a `DataFrame`
 
 - `DataFrame`: the template dataframe
 
-## Examples
+## Example
 
-```julia
-using PRISMA
-
-checklist_template("checklist.csv")
-
-df::DataFrame = checklist_read("checklist.csv")
-
-println(df)
+```jldoctest
+julia> using PRISMA
+julia> checklist_template()
+julia> println(isa(checklist_read("checklist.csv"), DataFrame))
+true
 ```
+
 """
 
 const docstring_checklist_template::String = 
@@ -115,6 +125,15 @@ saves a template checklist `DataFrame` as a CSV.
 ## Arguments
 
 - `fn::AbstractString`: the name of the file to save
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+julia> checklist_template()
+julia> println(isfile("checklist.csv"))
+true
+```
 
 """
 
