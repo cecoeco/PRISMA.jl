@@ -25,8 +25,7 @@ create and save a flow diagram:
 ```julia
 using PRISMA
 
-fd::FlowDiagram = flow_diagram() 
-flow_diagram_save("flow_diagram.svg", fd)
+flow_diagram_save("flow_diagram.svg", flow_diagram())
 ```
 
 output:

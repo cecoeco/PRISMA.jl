@@ -21,7 +21,7 @@ Documenter.makedocs(
     plugins=[
         DocumenterCitations.CitationBibliography(
             joinpath(ASSETS, "references.bib"),
-            style=:authoryear
+            style=:numeric
         )
     ]
 )
