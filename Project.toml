@@ -18,6 +18,7 @@ Graphviz_jll = "2.50"
 HTTP = "1"
 OrderedCollections = "1.6"
 Poppler_jll = "24.6"
+Transformers = "0.3"
 julia = "1.10"
 
 [extras]
