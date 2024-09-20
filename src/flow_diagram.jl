@@ -57,11 +57,11 @@ $docstring_FlowDiagram
     dot::AbstractString
 end
 
-const PREVIOUS_STUDIES_BOXES::Vector{Number} = [1, 7]
-const OTHER_METHODS_BOXES::Vector{Number} = [3, 18, 19, 20, 21, 22]
-const TOP_BOXES::Vector{Number} = [1, 2, 3]
-const SIDE_BOXES::Vector{Number} = [4, 5, 6]
-const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
+const PREVIOUS_STUDIES_BOXES::Vector{Int} = [1, 7, 16]
+const OTHER_METHODS_BOXES::Vector{Int} = [3, 18, 19, 20, 21, 22]
+const TOP_BOXES::Vector{Int} = [1, 2, 3]
+const SIDE_BOXES::Vector{Int} = [4, 5, 6]
+const GRAYBOXES::Vector{Int} = [1, 3, 7, 17, 18, 19, 20, 21, 22]
 
 function wrap_text(string::AbstractString; max_length::Int=35)::String
     wrapped_lines::Vector{String} = Vector{String}()
@@ -87,7 +87,7 @@ function group_labels(df::DataFrame)::DataFrame
     grouped_labels::DataFrame = DataFrame(box_num=Int[], box_text=String[])
 
     for g in grouped
-        number::Int = first(g.box_num)
+        number::Int = Base.first(g.box_num)
         labels::Vector{String} = String[]
 
         for row in Base.eachrow(g)
@@ -97,7 +97,7 @@ function group_labels(df::DataFrame)::DataFrame
             wrapped_text::String = row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES ? text : wrap_text(text)
             wrapped_result::String = wrap_text(result)
 
-            label::String = Base.ismissing(row.result) ? wrapped_text : Base.string(wrapped_text, "<br/>", wrapped_result, "<br/>")
+            label::String = Base.ismissing(row.result) ? wrapped_text : Base.string(wrapped_text, "<br/>", wrapped_result)
 
             Base.push!(labels, label)
         end
@@ -113,7 +113,7 @@ end
 FLOW_DIAGRAM_TOP_MARGIN::Number = 1.4
 
 FLOW_DIAGRAM_ROW_01::Number = 15.5
-FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 1.2
+FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 1
 FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 - FLOW_DIAGRAM_TOP_MARGIN
 FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 - FLOW_DIAGRAM_TOP_MARGIN
 FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 - FLOW_DIAGRAM_TOP_MARGIN
@@ -160,7 +160,7 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = D
     ),
     07.5 => (
         x=FLOW_DIAGRAM_COL_02,
-        y=FLOW_DIAGRAM_ROW_06
+        y=FLOW_DIAGRAM_ROW_07
     ),
     08.0 => (
         x=FLOW_DIAGRAM_COL_03,
@@ -220,7 +220,7 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = D
     ),
     21.5 => (
         x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_07
+        y=FLOW_DIAGRAM_ROW_06
     ),
     22.0 => (
         x=FLOW_DIAGRAM_COL_06,
@@ -260,7 +260,7 @@ function flow_diagram(
 
     if !previous_studies
         data = filter(row -> !(row.box_num in PREVIOUS_STUDIES_BOXES), data)
-        push!(excluded_boxes, 1, 7, 7.5)
+        push!(excluded_boxes, 1, 7, 7.5, 16)
     end
 
     if !other_methods
@@ -344,7 +344,7 @@ function flow_diagram(
 
     arrows::Vector{Tuple{Number,Number}} = [
         (7, 7.5),
-        (7.5, 16),
+        (7.5, 17),
         (8, 9),
         (8, 10),
         (10, 11),
@@ -359,7 +359,7 @@ function flow_diagram(
         (19, 21),
         (21, 22),
         (21, 21.5),
-        (21.5, 17)
+        (21.5, 16)
     ]
 
     for (from, to) in arrows

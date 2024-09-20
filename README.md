@@ -2,15 +2,13 @@
 
 <br>
 <div align="center">
-<img src="docs/src/assets/logo.svg" width="18%">
+<img src="docs/src/assets/logo.svg" width="17%">
 </div>
 <br>
 
 `PRISMA.jl` is a Julia package and [web application](https://prisma-jl.onrender.com) powered by [`React.js`](https://react.dev/) and [`Oxygen.jl`](https://github.com/OxygenFramework/Oxygen.jl) for generating checklists and flow diagrams based on [the 2020 **P**referred **R**eporting **I**tems for **S**ystematic **R**eviews and **M**eta-**A**nalyses (PRISMA) statement (Page et al., 2021).](https://doi.org/10.1186/s13643-021-01626-4)
 
 **Features:**
-
-PRISMA.jl contains:
 
 - functions to generate 2020 PRISMA checklists using natural language processing.
 - functions to upload study data to create 2020 PRISMA flow diagrams via [Graphviz.](https://graphviz.org/)
