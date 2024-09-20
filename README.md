@@ -10,9 +10,11 @@
 
 **Features:**
 
-- NLP to generate 2020 PRISMA checklists.
-- upload study data to generate 2020 PRISMA flow diagrams.
-- interactive web app that requires zero programming knowledge.
+PRISMA.jl contains:
+
+- functions to generate 2020 PRISMA checklists using natural language processing.
+- functions to upload study data to create 2020 PRISMA flow diagrams via [Graphviz.](https://graphviz.org/)
+- an interactive web app requiring zero programming knowledge.
 
 **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
 
@@ -20,12 +22,16 @@
 
 **Examples:**
 
-create and save a flow diagram:
+create, plot, and save a flow diagram:
 
 ```julia
-using PRISMA
+using PRISMA: FlowDiagram, flow_diagram, flow_diagram_save
 
-flow_diagram_save("flow_diagram.svg", flow_diagram())
+fd::FlowDiagram = flow_diagram()
+
+display(fd)
+
+flow_diagram_save("flow_diagram.svg", fd)
 ```
 
 output:

@@ -57,48 +57,54 @@ $docstring_FlowDiagram
     dot::AbstractString
 end
 
+const PREVIOUS_STUDIES_BOXES::Vector{Number} = [1, 7]
+const OTHER_METHODS_BOXES::Vector{Number} = [3, 18, 19, 20, 21, 22]
+const TOP_BOXES::Vector{Number} = [1, 2, 3]
+const SIDE_BOXES::Vector{Number} = [4, 5, 6]
+const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
+
 function wrap_text(string::AbstractString; max_length::Int=35)::String
-    wrapped_lines = Vector{String}()
-    
-    current_line = ""
-    
-    for word in split(string)
-        if length(current_line) + length(word) + 1 > max_length
-            push!(wrapped_lines, current_line)
+    wrapped_lines::Vector{String} = Vector{String}()
+
+    current_line::String = ""
+
+    for word in Base.split(string)
+        if Base.length(current_line) + Base.length(word) + 1 > max_length
+            Base.push!(wrapped_lines, current_line)
             current_line = word
         else
-            current_line *= isempty(current_line) ? word : " " * word
+            current_line *= Base.isempty(current_line) ? word : " " * word
         end
     end
-    
-    push!(wrapped_lines, current_line)
-    
-    return join(wrapped_lines, "<br/>")
+
+    Base.push!(wrapped_lines, current_line)
+
+    return Base.join(wrapped_lines, "<br/>")
 end
 
 function group_labels(df::DataFrame)::DataFrame
-    grouped::GroupedDataFrame = groupby(df, :box_num)
+    grouped::GroupedDataFrame = DataFrames.groupby(df, :box_num)
     grouped_labels::DataFrame = DataFrame(box_num=Int[], box_text=String[])
 
     for g in grouped
         number::Int = first(g.box_num)
         labels::Vector{String} = String[]
 
-        for row in eachrow(g)
-            text::String = ismissing(row.result) ? "<b>$(row.box_text)</b>" : row.box_text
-            result::String = ismissing(row.result) ? "" : "<i>n</i>&nbsp;=&nbsp;$(row.result)"
+        for row in Base.eachrow(g)
+            text::String = row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES ? "<b>$(row.box_text)</b>" : row.box_text
+            result::String = Base.ismissing(row.result) ? "" : "(<i>n</i>&nbsp;=&nbsp;$(row.result))"
 
             wrapped_text::String = row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES ? text : wrap_text(text)
             wrapped_result::String = wrap_text(result)
 
-            label::String = ismissing(row.result) ? wrapped_text : string(wrapped_text, "<br/>", wrapped_result)
+            label::String = Base.ismissing(row.result) ? wrapped_text : Base.string(wrapped_text, "<br/>", wrapped_result, "<br/>")
 
-            push!(labels, label)
+            Base.push!(labels, label)
         end
 
-        group_label::String = join(labels, "<br/>")
+        group_label::String = Base.join(labels, "<br/>")
 
-        push!(grouped_labels, (number, group_label))
+        Base.push!(grouped_labels, (number, group_label))
     end
 
     return grouped_labels
@@ -222,12 +228,6 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = D
     )
 )
 
-const PREVIOUS_STUDIES_BOXES::Vector{Number} = [1, 7]
-const OTHER_METHODS_BOXES::Vector{Number} = [3, 18, 19, 20, 21, 22]
-const TOP_BOXES::Vector{Number} = [1, 2, 3]
-const SIDE_BOXES::Vector{Number} = [4, 5, 6]
-const GRAYBOXES::Vector{Number} = [1, 3, 7, 18, 19, 20, 21, 22]
-
 """
 $docstring_flow_diagram
 """
@@ -254,7 +254,7 @@ function flow_diagram(
     arrow_head::AbstractString="normal",
     arrow_size::Union{AbstractString,Number}=1,
     arrow_color::AbstractString="black",
-    arrow_width::Union{AbstractString,Number}=1)::PRISMA.FlowDiagram
+    arrow_width::Union{AbstractString,Number}=1)::FlowDiagram
 
     excluded_boxes::Set{Number} = Set{Number}()
 
@@ -326,6 +326,7 @@ function flow_diagram(
                 fontsize="$font_size",
                 pos="$(pos.x),$(pos.y)!",
                 width=2
+                height=0
             ];
             """
         end

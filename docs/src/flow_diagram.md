@@ -1,4 +1,5 @@
 ## Flow Diagram
+
 ```@docs
 PRISMA.flow_diagram_df
 PRISMA.flow_diagram_template
