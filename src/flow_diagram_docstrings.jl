@@ -14,6 +14,7 @@ const docstring_flow_diagram::String =
     PRISMA.flow_diagram(
         data::DataFrame=flow_diagram_df(),
         background_color::AbstractString="white",
+        boxes_color::AbstractString="white",
         grayboxes::Bool=true,
         grayboxes_color::AbstractString="#f0f0f0",
         top_boxes::Bool=true,
@@ -45,6 +46,7 @@ generates the flow diagram figure from the flow diagram dataframe.
 ## Keyword Arguments
 
 - `background_color::String`: The background color of the flow diagram. Default is `white`.
+- `boxes_color::String`: The color of the boxes. Default is `white`.
 - `grayboxes::Bool`: Whether to show gray boxes. Default is `true`.
 - `grayboxes_color::String`: The color of the gray boxes. Default is `#f0f0f0`.
 - `top_boxes::Bool`: Whether to show top boxes. Default is `true`.

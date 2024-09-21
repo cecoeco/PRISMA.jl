@@ -1,3 +1,5 @@
+include("flow_diagram_docstrings.jl")
+
 """
 $docstring_flow_diagram_df
 """
@@ -91,13 +93,29 @@ function group_labels(df::DataFrame)::DataFrame
         labels::Vector{String} = String[]
 
         for row in Base.eachrow(g)
-            text::String = row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES ? "<b>$(row.box_text)</b>" : row.box_text
+            text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
+                "<b>$(row.box_text)</b>"
+            else
+                row.box_text
+            end
+
             result::String = Base.ismissing(row.result) ? "" : "(<i>n</i>&nbsp;=&nbsp;$(row.result))"
 
-            wrapped_text::String = row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES ? text : wrap_text(text)
+            wrapped_text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
+                text
+            else
+                wrap_text(text)
+            end
+
             wrapped_result::String = wrap_text(result)
 
-            label::String = Base.ismissing(row.result) ? wrapped_text : Base.string(wrapped_text, "<br/>", wrapped_result)
+            label::String = if Base.ismissing(row.result)
+                wrapped_text
+            elseif row.box_num in [7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21]
+                Base.string(wrapped_text, "<br/>", wrapped_result)
+            else
+                Base.string(wrapped_text, "&nbsp;", wrapped_result)
+            end
 
             Base.push!(labels, label)
         end
@@ -110,20 +128,20 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
-FLOW_DIAGRAM_TOP_MARGIN::Number = 1.4
+FLOW_DIAGRAM_TOP_MARGIN::Number = 1
 
 FLOW_DIAGRAM_ROW_01::Number = 15.5
-FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 1
+FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 0.75
 FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 - FLOW_DIAGRAM_TOP_MARGIN
 FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 - FLOW_DIAGRAM_TOP_MARGIN
 FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 - FLOW_DIAGRAM_TOP_MARGIN
 FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 - FLOW_DIAGRAM_TOP_MARGIN
 FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 - FLOW_DIAGRAM_TOP_MARGIN
 
-FLOW_DIAGRAM_LEFT_MARGIN::Number = 2.65
+FLOW_DIAGRAM_LEFT_MARGIN::Number = 2.5
 
 FLOW_DIAGRAM_COL_01::Number = 01
-FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + 1.25
 FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_LEFT_MARGIN
 FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_LEFT_MARGIN
 FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_LEFT_MARGIN
@@ -234,6 +252,7 @@ $docstring_flow_diagram
 function flow_diagram(
     data::DataFrame=flow_diagram_df();
     background_color::AbstractString="white",
+    boxes_color::AbstractString="white",
     grayboxes::Bool=true,
     grayboxes_color::AbstractString="#f0f0f0",
     top_boxes::Bool=true,
@@ -250,7 +269,7 @@ function flow_diagram(
     border_color::AbstractString="black",
     font::AbstractString="Helvetica",
     font_color::AbstractString="black",
-    font_size::Union{AbstractString,Number}=10,
+    font_size::Union{AbstractString,Number}=8,
     arrow_head::AbstractString="normal",
     arrow_size::Union{AbstractString,Number}=1,
     arrow_color::AbstractString="black",
@@ -288,7 +307,7 @@ function flow_diagram(
     """
 
     for row in eachrow(group_labels(data))
-        box_color = "white"
+        box_color = boxes_color
         box_border_width = border_width
 
         if top_boxes && row.box_num in TOP_BOXES
@@ -325,8 +344,8 @@ function flow_diagram(
                 fontcolor="$font_color",
                 fontsize="$font_size",
                 pos="$(pos.x),$(pos.y)!",
-                width=2
-                height=0
+                width=$(row.box_num in SIDE_BOXES ? 1 : row.box_num in [2, 3] ? 4.5 : 2),
+                height=$(row.box_num in [4, 6] ? 1.5 : row.box_num in [5] ? 2 : 0),
             ];
             """
         end

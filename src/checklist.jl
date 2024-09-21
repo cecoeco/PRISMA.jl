@@ -1,3 +1,5 @@
+include("checklist_docstrings.jl")
+
 """
 $docstring_checklist_df
 """

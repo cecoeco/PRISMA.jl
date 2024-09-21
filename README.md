@@ -23,20 +23,16 @@
 create, plot, and save a flow diagram:
 
 ```julia
-using PRISMA: FlowDiagram, flow_diagram, flow_diagram_save
+using PRISMA: flow_diagram, flow_diagram_save
 
-fd::FlowDiagram = flow_diagram()
-
-display(fd)
-
-flow_diagram_save("flow_diagram.svg", fd)
+flow_diagram_save("example-01.svg", flow_diagram())
 ```
 
 output:
 
 ![flow diagram](docs/src/assets/flow_diagram.svg)
 
-**Citing:** please consider citing PRISMA.jl and giving the GitHub repository a star, if possible.
+**Citing:** please consider citing `PRISMA.jl` and giving the GitHub repository a star, if possible.
 
 The citation information may be found in the [`CITATION.bib`](CITATION.bib) file within the repository
 
