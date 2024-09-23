@@ -25,12 +25,35 @@ create, plot, and save a flow diagram:
 ```julia
 using PRISMA: flow_diagram, flow_diagram_save
 
-flow_diagram_save("example-01.svg", flow_diagram())
+fd = flow_diagram()
+display(fd)
+flow_diagram_save("example.svg", fd)
 ```
 
-output:
+<details>
+<summary>show output:</summary>
 
 ![flow diagram](docs/src/assets/flow_diagram.svg)
+
+</details>
+
+create, print, and save a checklist:
+
+```julia
+using PRISMA: checklist, checklist_save
+
+cl = checklist("paper.pdf")
+print(cl)
+checklist_save("checklist.csv", cl)
+```
+
+<details>
+<summary>show output:</summary>
+
+
+
+</details>
+
 
 **Citing:** please consider citing `PRISMA.jl` and giving the GitHub repository a star, if possible.
 

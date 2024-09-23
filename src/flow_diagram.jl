@@ -320,7 +320,7 @@ function bytes(fl::FlowDiagram; ext::AbstractString)::Union{String,Vector{UInt8}
     if ext == "svg"
         return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
     else
-        return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, Vector{UInt8})
+        return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`)
     end
 end
 
@@ -423,8 +423,7 @@ println(String(take!(io)))
 """
 function flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
     if ext == "" && out isa AbstractString
-        ext = Base.split(out, ".")[end]
-        out = addext(out, ext=ext)
+        out = addext(out, ext=Base.split(out, ".")[end])
     end
 
     Base.Filesystem.write(out, bytes(fl, ext=ext))
