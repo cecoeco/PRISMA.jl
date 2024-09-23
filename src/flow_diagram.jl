@@ -317,7 +317,11 @@ function bytes(fl::FlowDiagram; ext::AbstractString)::Union{String,Vector{UInt8}
         return Base.error("Invalid extension: $ext")
     end
 
-    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`)
+    if ext == "svg"
+        return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
+    else
+        return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, Vector{UInt8})
+    end
 end
 
 function svg(fl::FlowDiagram)::String

@@ -33,6 +33,38 @@ Test.@testset "checklist pdf bytes" begin
     Base.Filesystem.rm("checklist.csv", force=true)
 end
 
+Test.@testset "plotting checklist" begin
+    url::String = "https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf"
+    response::HTTP.Messages.Response = HTTP.get(url)
+    pdf::Vector{UInt8} = response.body
+    cl::PRISMA.Checklist = PRISMA.checklist(pdf)
+
+    io::IO = IOBuffer()
+    Base.show(io, cl)
+    output::String = String(Base.take!(io))
+    Test.@test Base.occursin("DataFrame", output)
+    Test.@test Base.occursin("Dict", output)
+
+    io_txt::IO = IOBuffer()
+    Base.show(io_txt, Base.Multimedia.MIME("text/plain"), cl)
+    output_txt::String = String(Base.take!(io_txt))
+    Test.@test Base.occursin("DataFrame", output_txt)
+    Test.@test Base.occursin("Dict", output_txt)
+
+    io_csv::IO = IOBuffer()
+    Base.show(io_csv, Base.Multimedia.MIME("text/csv"), cl)
+    output_csv::String = String(Base.take!(io_csv))
+
+    Test.@test Base.occursin("Section and Topic,Item #,Checklist Item,Location where item is reported", output_csv)
+    Test.@test Base.occursin("TITLE,,,", output_csv)
+    Test.@test Base.occursin("ABSTRACT,,,", output_csv)
+    Test.@test Base.occursin("INTRODUCTION,,,", output_csv)
+    Test.@test Base.occursin("METHODS,,,", output_csv)
+    Test.@test Base.occursin("RESULTS,,,", output_csv)
+    Test.@test Base.occursin("DISCUSSION,,,", output_csv)
+    Test.@test Base.occursin("OTHER INFORMATION,,,", output_csv)
+end
+
 Test.@testset "flow_diagram_df" begin
     Test.@test PRISMA.flow_diagram_df() isa DataFrame
 
@@ -90,38 +122,6 @@ Test.@testset "flow_diagram" begin
     Test.@test !Base.isempty(output_jpg)
     jpg_signature::Vector{UInt8} = UInt8[0xFF, 0xD8, 0xFF, 0xE0]
     Test.@test output_jpg[1:4] == jpg_signature
-end
-
-Test.@testset "plotting checklist" begin
-    url::String = "https://www.bmj.com/content/bmj/372/bmj.n71.full.pdf"
-    response::HTTP.Messages.Response = HTTP.get(url)
-    pdf::Vector{UInt8} = response.body
-    cl::PRISMA.Checklist = PRISMA.checklist(pdf)
-
-    io::IO = IOBuffer()
-    Base.show(io, cl)
-    output::String = String(Base.take!(io))
-    Test.@test Base.occursin("DataFrame", output)
-    Test.@test Base.occursin("Dict", output)
-
-    io_txt::IO = IOBuffer()
-    Base.show(io_txt, Base.Multimedia.MIME("text/plain"), cl)
-    output_txt::String = String(Base.take!(io_txt))
-    Test.@test Base.occursin("DataFrame", output_txt)
-    Test.@test Base.occursin("Dict", output_txt)
-
-    io_csv::IO = IOBuffer()
-    Base.show(io_csv, Base.Multimedia.MIME("text/csv"), cl)
-    output_csv::String = String(Base.take!(io_csv))
-
-    Test.@test Base.occursin("Section and Topic,Item #,Checklist Item,Location where item is reported", output_csv)
-    Test.@test Base.occursin("TITLE,,,", output_csv)
-    Test.@test Base.occursin("ABSTRACT,,,", output_csv)
-    Test.@test Base.occursin("INTRODUCTION,,,", output_csv)
-    Test.@test Base.occursin("METHODS,,,", output_csv)
-    Test.@test Base.occursin("RESULTS,,,", output_csv)
-    Test.@test Base.occursin("DISCUSSION,,,", output_csv)
-    Test.@test Base.occursin("OTHER INFORMATION,,,", output_csv)
 end
 
 Test.@testset "plotting flow_diagram" begin
