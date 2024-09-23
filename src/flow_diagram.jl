@@ -379,18 +379,14 @@ function addext(out::AbstractString; ext::AbstractString)::String
 end
 
 """
-    flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
+    flow_diagram_save(fn::AbstractString, fl::FlowDiagram)::Nothing
 
 saves a `FlowDiagram` as either a `svg`, `png`, `pdf` or `jpg` format.
 
 ## Arguments
 
-- `out`: accepts the same types as [Base.write](https://docs.julialang.org/en/v1/base/io-network/#Base.write)
+- `fn::AbstractString`: The filename to save
 - `fl::FlowDiagram`: The flow diagram as D3.js script
-
-## Keyword Argument
-
-- `ext::AbstractString`: The extension of the file to save
 
 ## Examples
 
@@ -406,8 +402,30 @@ PRISMA.flow_diagram_save("flow_diagram.png", fd)
 PRISMA.flow_diagram_save("flow_diagram.pdf", fd)
 PRISMA.flow_diagram_save("flow_diagram.jpg", fd)
 ```
+"""
+function flow_diagram_save(fn::AbstractString, fl::FlowDiagram)::Nothing
+    Base.Filesystem.write(fn, bytes(fl, ext=Base.split(fn, ".")[end]))
 
-save a flow diagram to an `IOBuffer`
+    return nothing
+end
+
+"""
+    flow_diagram_save(out::IO, fl::FlowDiagram; ext::AbstractString)::Nothing
+
+saves a `FlowDiagram` as either a `svg`, `png`, `pdf` or `jpg` format.
+
+## Arguments
+
+- `out::IO`: The output stream
+- `fl::FlowDiagram`: The flow diagram as D3.js script
+
+## Keyword Argument
+
+- `ext::AbstractString`: The format of the bytes written to `out`
+
+## example
+
+save a flow diagram to an `IOBuffer`:
 
 ```julia
 using PRISMA
@@ -421,19 +439,7 @@ PRISMA.flow_diagram_save(fd, io, ext="svg")
 println(String(take!(io)))
 ```
 """
-function flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
-    if ext == "" && out isa AbstractString
-        out = addext(out, ext=Base.split(out, ".")[end])
-    end
-
-    if ext == "" && out isa IO
-        ArgumentError("use `ext` keyword argument to specify output format when `out` is an `IO`")
-    end
-
-    if ext != "" && out isa AbstractString
-        ArgumentError("`ext` must be empty when `out` is an `AbstractString` with an extension")
-    end
-
+function flow_diagram_save(out::IO, fl::FlowDiagram; ext::AbstractString)::Nothing
     Base.Filesystem.write(out, bytes(fl, ext=ext))
 
     return nothing
