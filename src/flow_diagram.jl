@@ -426,6 +426,14 @@ function flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothin
         out = addext(out, ext=Base.split(out, ".")[end])
     end
 
+    if ext == "" && out isa IO
+        ArgumentError("use `ext` keyword argument to specify output format when `out` is an `IO`")
+    end
+
+    if ext != "" && out isa AbstractString
+        ArgumentError("`ext` must be empty when `out` is an `AbstractString` with an extension")
+    end
+
     Base.Filesystem.write(out, bytes(fl, ext=ext))
 
     return nothing
