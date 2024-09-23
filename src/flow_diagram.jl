@@ -269,12 +269,7 @@ end
 function bytes(fl::FlowDiagram; ext::AbstractString)::String
     js::String = fl.js
 
-    if ext == "html"
-        js *= """
-        const html_output = "<!DOCTYPE html>" + document.documentElement.outerHTML;
-        console.log(html_output);
-        """
-    elseif ext == "svg"
+    if ext == "svg"
         js *= """
         const svg_output = document.querySelector("svg").outerHTML;
         console.log(svg_output);
@@ -318,17 +313,11 @@ function bytes(fl::FlowDiagram; ext::AbstractString)::String
             await browser.close();
         })();
         """
-    elseif ext == "js"
-        return js
     else
         return Base.error("Invalid extension")
     end
 
     return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
-end
-
-function html(fl::FlowDiagram)::String
-    return bytes(fl, ext="html")
 end
 
 function svg(fl::FlowDiagram)::String
@@ -353,32 +342,26 @@ function Base.Multimedia.display(fd::FlowDiagram)::Nothing
     return nothing
 end
 
-function Base.show(io::IO, ::MIME"text/html", fl::FlowDiagram)::Nothing
-    Base.print(io, html(fig))
-
-    return nothing
-end
-
 function Base.show(io::IO, ::MIME"image/svg+xml", fl::FlowDiagram)::Nothing
-    Base.print(io, svg(fig))
+    Base.print(io, svg(fl))
 
     return nothing
 end
 
 function Base.show(io::IO, ::MIME"image/png", fl::FlowDiagram)::Nothing
-    Base.print(io, png(fig))
+    Base.print(io, png(fl))
 
     return nothing
 end
 
 function Base.show(io::IO, ::MIME"image/jpeg", fl::FlowDiagram)::Nothing
-    Base.print(io, jpg(fig))
+    Base.print(io, jpg(fl))
 
     return nothing
 end
 
 function Base.show(io::IO, ::MIME"application/pdf", fl::FlowDiagram)::Nothing
-    Base.print(io, pdf(fig))
+    Base.print(io, pdf(fl))
 
     return nothing
 end
@@ -394,12 +377,12 @@ end
 """
     flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
 
-Saves a `FlowDiagram` with a specified file extension
+saves a `FlowDiagram` as either a `svg`, `png`, `pdf` or `jpg` format.
 
 ## Arguments
 
 - `out`: accepts the same types as [Base.write](https://docs.julialang.org/en/v1/base/io-network/#Base.write)
-- `fl::FlowDiagram`: The figure as D3.js script
+- `fl::FlowDiagram`: The flow diagram as D3.js script
 
 ## Keyword Argument
 
@@ -417,6 +400,7 @@ fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 PRISMA.flow_diagram_save("flow_diagram.svg", fd)
 PRISMA.flow_diagram_save("flow_diagram.png", fd)
 PRISMA.flow_diagram_save("flow_diagram.pdf", fd)
+PRISMA.flow_diagram_save("flow_diagram.jpg", fd)
 ```
 
 save a flow diagram to an `IOBuffer`
@@ -428,7 +412,7 @@ io::IOBuffer = IOBuffer()
 
 fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
-PRISMA.flow_diagram_save(fd, io, ext="png")
+PRISMA.flow_diagram_save(fd, io, ext="svg")
 
 println(String(take!(io)))
 ```
@@ -436,11 +420,10 @@ println(String(take!(io)))
 function flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
     if ext == "" && Base.isa(out, AbstractString)
         ext = Base.split(out, ".")[end]
+        out = addext(out, ext=ext)
     end
-
-    out::String = addext(out, ext=ext)
-
-    if ext in ["html", "svg"]
+    
+    if ext == "svg"
         Base.Filesystem.write(out, bytes(fl, ext=ext))
     elseif ext in ["png", "jpg", "pdf"]
         Base.Filesystem.write(out, Base64.base64decode(bytes(fl, ext=ext)))

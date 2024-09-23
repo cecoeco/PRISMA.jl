@@ -90,24 +90,6 @@ Test.@testset "flow_diagram" begin
     Test.@test !Base.isempty(output_jpg)
     jpg_signature::Vector{UInt8} = UInt8[0xFF, 0xD8, 0xFF, 0xE0]
     Test.@test output_jpg[1:4] == jpg_signature
-
-    PRISMA.flow_diagram_save("flow_diagram.html", fd)
-    Test.@test Base.Filesystem.isfile("flow_diagram.html")
-    Base.Filesystem.rm("flow_diagram.html", force=true)
-
-    io_html::IOBuffer = IOBuffer()
-    PRISMA.flow_diagram_save(io_html, fd, ext="html")
-    output_html::String = String(Base.take!(io_html))
-    Test.@test Base.occursin("<html", output_html)
-
-    PRISMA.flow_diagram_save("flow_diagram.js", fd)
-    Test.@test Base.Filesystem.isfile("flow_diagram.js")
-    Base.Filesystem.rm("flow_diagram.js", force=true)
-
-    io_js::IOBuffer = IOBuffer()
-    PRISMA.flow_diagram_save(io_js, fd, ext="js")
-    output_js::String = String(Base.take!(io_js))
-    Test.@test Base.occursin("d3", output_js)
 end
 
 Test.@testset "plotting checklist" begin
@@ -170,11 +152,6 @@ Test.@testset "plotting flow_diagram" begin
     Test.@test !Base.isempty(output_jpg)
     jpg_signature::Vector{UInt8} = UInt8[0xFF, 0xD8, 0xFF, 0xE0]
     Test.@test output_jpg[1:4] == jpg_signature
-
-    io_html::IO = IOBuffer()
-    Base.show(io_html, Base.Multimedia.MIME("text/html"), fd)
-    output_html::String = String(Base.take!(io_html))
-    Test.@test Base.occursin("<html", output_html)
 end
 
 end # test module

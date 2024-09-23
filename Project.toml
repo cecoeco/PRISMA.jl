@@ -4,6 +4,7 @@ authors = ["Ceco Elijah Maples <mapleselijah9@gmail.com>", "PRISMA.jl Contributo
 version = "0.0.8"
 
 [deps]
+Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
@@ -12,6 +13,7 @@ Poppler_jll = "9c32591e-4766-534b-9725-b71a8799265b"
 Transformers = "21ca0261-441d-5938-ace7-c90938fde4d4"
 
 [compat]
+Base64 = "1.10"
 CSV = "0.10"
 DataFrames = "1.6"
 HTTP = "1"
