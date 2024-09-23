@@ -266,7 +266,7 @@ function flow_diagram(
     return FlowDiagram(javascript)
 end
 
-function bytes(fl::FlowDiagram; ext::AbstractString)::String
+function bytes(fl::FlowDiagram; ext::AbstractString)::Union{String,Vector{UInt8}}
     js::String = fl.js
 
     if ext == "svg"
@@ -283,7 +283,7 @@ function bytes(fl::FlowDiagram; ext::AbstractString)::String
             const page = await browser.newPage();
             await page.setContent(document.body.innerHTML);
             const pngBuffer = await page.screenshot({ fullPage: true });
-            console.log(pngBuffer.toString('base64'));
+            process.stdout.write(pngBuffer);
             await browser.close();
         })();
         """
@@ -296,7 +296,7 @@ function bytes(fl::FlowDiagram; ext::AbstractString)::String
             const page = await browser.newPage();
             await page.setContent(document.body.innerHTML);
             const pdfBuffer = await page.pdf({ format: 'A4' });
-            console.log(pdfBuffer.toString('base64'));
+            process.stdout.write(pdfBuffer);
             await browser.close();
         })();
         """
@@ -309,30 +309,30 @@ function bytes(fl::FlowDiagram; ext::AbstractString)::String
             const page = await browser.newPage();
             await page.setContent(document.body.innerHTML);
             const jpgBuffer = await page.screenshot({ fullPage: true, type: 'jpeg' });
-            console.log(jpgBuffer.toString('base64'));
+            process.stdout.write(jpgBuffer);
             await browser.close();
         })();
         """
     else
-        return Base.error("Invalid extension")
+        return Base.error("Invalid extension: $ext")
     end
 
-    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
+    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`)
 end
 
 function svg(fl::FlowDiagram)::String
     return bytes(fl, ext="svg")
 end
 
-function png(fl::FlowDiagram)::String
+function png(fl::FlowDiagram)::Vector{UInt8}
     return bytes(fl, ext="png")
 end
 
-function jpg(fl::FlowDiagram)::String
+function jpg(fl::FlowDiagram)::Vector{UInt8}
     return bytes(fl, ext="jpg")
 end
 
-function pdf(fl::FlowDiagram)::String
+function pdf(fl::FlowDiagram)::Vector{UInt8}
     return bytes(fl, ext="pdf")
 end
 
@@ -418,18 +418,12 @@ println(String(take!(io)))
 ```
 """
 function flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
-    if ext == "" && Base.isa(out, AbstractString)
+    if ext == "" && out isa AbstractString
         ext = Base.split(out, ".")[end]
         out = addext(out, ext=ext)
     end
-    
-    if ext == "svg"
-        Base.Filesystem.write(out, bytes(fl, ext=ext))
-    elseif ext in ["png", "jpg", "pdf"]
-        Base.Filesystem.write(out, Base64.base64decode(bytes(fl, ext=ext)))
-    else
-        return Base.error("Invalid file extension: $ext")
-    end
+
+    Base.Filesystem.write(out, bytes(fl, ext=ext))
 
     return nothing
 end
