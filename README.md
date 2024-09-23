@@ -10,9 +10,9 @@
 
 **Features:**
 
-- functions to generate 2020 PRISMA checklists using natural language processing.
-- functions to upload study data to create 2020 PRISMA flow diagrams via [Graphviz.](https://graphviz.org/)
-- an interactive web app requiring zero programming knowledge.
+- functions to generate 2020 PRISMA checklists using natural language processing
+- functions to upload study data to create 2020 PRISMA flow diagrams via [`D3.js`](https://d3js.org/)
+- an interactive web app requiring zero programming knowledge
 
 **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
 

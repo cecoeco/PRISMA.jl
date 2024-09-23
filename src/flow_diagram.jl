@@ -53,17 +53,38 @@ function flow_diagram_df()::DataFrame
 end
 
 """
-$docstring_FlowDiagram
+$docstring_flow_diagram_read
+"""
+function flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
+    return CSV.read(fn, DataFrame)
+end
+
+"""
+$docstring_flow_diagram_template
+"""
+function flow_diagram_template(fn::AbstractString="flow_diagram.csv")
+    return CSV.write(fn, flow_diagram_df())
+end
+
+"""
+    PRISMA.FlowDiagram
+
+flow diagram type for PRISMA.jl
+
+## Field
+
+- `js::AbstractString`: The D3.js code 
+
 """
 @kwdef mutable struct FlowDiagram
-    dot::AbstractString
+    js::String
 end
 
 const PREVIOUS_STUDIES_BOXES::Vector{Int} = [1, 7, 16]
 const OTHER_METHODS_BOXES::Vector{Int} = [3, 18, 19, 20, 21, 22]
 const TOP_BOXES::Vector{Int} = [1, 2, 3]
 const SIDE_BOXES::Vector{Int} = [4, 5, 6]
-const GRAYBOXES::Vector{Int} = [1, 3, 7, 17, 18, 19, 20, 21, 22]
+const GRAY_BOXES::Vector{Int} = [1, 3, 7, 17, 18, 19, 20, 21, 22]
 
 function wrap_text(string::AbstractString; max_length::Int=35)::String
     wrapped_lines::Vector{String} = Vector{String}()
@@ -99,7 +120,7 @@ function group_labels(df::DataFrame)::DataFrame
                 row.box_text
             end
 
-            result::String = Base.ismissing(row.result) ? "" : "(<i>n</i>&nbsp;=&nbsp;$(row.result))"
+            result::String = Base.ismissing(row.result) ? "" : "(<i>n</i> = $(row.result))"
 
             wrapped_text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
                 text
@@ -114,7 +135,7 @@ function group_labels(df::DataFrame)::DataFrame
             elseif row.box_num in [7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21]
                 Base.string(wrapped_text, "<br/>", wrapped_result)
             else
-                Base.string(wrapped_text, "&nbsp;", wrapped_result)
+                Base.string(wrapped_text, " ", wrapped_result)
             end
 
             Base.push!(labels, label)
@@ -128,124 +149,6 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
-FLOW_DIAGRAM_TOP_MARGIN::Number = 1
-
-FLOW_DIAGRAM_ROW_01::Number = 15.5
-FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 0.75
-FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 - FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 - FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 - FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 - FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 - FLOW_DIAGRAM_TOP_MARGIN
-
-FLOW_DIAGRAM_LEFT_MARGIN::Number = 2.5
-
-FLOW_DIAGRAM_COL_01::Number = 01
-FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + 1.25
-FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_LEFT_MARGIN
-FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_LEFT_MARGIN
-FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_LEFT_MARGIN
-FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_LEFT_MARGIN
-
-const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
-    01.0 => (
-        x=FLOW_DIAGRAM_COL_02,
-        y=FLOW_DIAGRAM_ROW_01
-    ),
-    02.0 => (
-        x=(FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_COL_04) / 2,
-        y=FLOW_DIAGRAM_ROW_01
-    ),
-    03.0 => (
-        x=(FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_COL_06) / 2,
-        y=FLOW_DIAGRAM_ROW_01
-    ),
-    04.0 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=FLOW_DIAGRAM_ROW_02
-    ),
-    05.0 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=(FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_ROW_05) / 2
-    ),
-    06.0 => (
-        x=FLOW_DIAGRAM_COL_01,
-        y=(FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_ROW_07) / 2
-    ),
-    07.0 => (
-        x=FLOW_DIAGRAM_COL_02,
-        y=FLOW_DIAGRAM_ROW_02
-    ),
-    07.5 => (
-        x=FLOW_DIAGRAM_COL_02,
-        y=FLOW_DIAGRAM_ROW_07
-    ),
-    08.0 => (
-        x=FLOW_DIAGRAM_COL_03,
-        y=FLOW_DIAGRAM_ROW_02
-    ),
-    09.0 => (
-        x=FLOW_DIAGRAM_COL_04,
-        y=FLOW_DIAGRAM_ROW_02
-    ),
-    10.0 => (
-        x=FLOW_DIAGRAM_COL_03,
-        y=FLOW_DIAGRAM_ROW_03
-    ),
-    11.0 => (
-        x=FLOW_DIAGRAM_COL_04,
-        y=FLOW_DIAGRAM_ROW_03
-    ),
-    12.0 => (
-        x=FLOW_DIAGRAM_COL_03,
-        y=FLOW_DIAGRAM_ROW_04
-    ),
-    13.0 => (
-        x=FLOW_DIAGRAM_COL_04,
-        y=FLOW_DIAGRAM_ROW_04
-    ),
-    14.0 => (
-        x=FLOW_DIAGRAM_COL_03,
-        y=FLOW_DIAGRAM_ROW_05
-    ),
-    15.0 => (
-        x=FLOW_DIAGRAM_COL_04,
-        y=FLOW_DIAGRAM_ROW_05
-    ),
-    16.0 => (
-        x=FLOW_DIAGRAM_COL_03,
-        y=FLOW_DIAGRAM_ROW_06
-    ),
-    17.0 => (
-        x=FLOW_DIAGRAM_COL_03,
-        y=FLOW_DIAGRAM_ROW_07
-    ),
-    18.0 => (
-        x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_02
-    ),
-    19.0 => (
-        x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_04
-    ),
-    20.0 => (
-        x=FLOW_DIAGRAM_COL_06,
-        y=FLOW_DIAGRAM_ROW_04
-    ),
-    21.0 => (
-        x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_05
-    ),
-    21.5 => (
-        x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_06
-    ),
-    22.0 => (
-        x=FLOW_DIAGRAM_COL_06,
-        y=FLOW_DIAGRAM_ROW_05
-    )
-)
-
 """
 $docstring_flow_diagram
 """
@@ -253,8 +156,8 @@ function flow_diagram(
     data::DataFrame=flow_diagram_df();
     background_color::AbstractString="white",
     boxes_color::AbstractString="white",
-    grayboxes::Bool=true,
-    grayboxes_color::AbstractString="#f0f0f0",
+    gray_boxes::Bool=true,
+    gray_boxes_color::AbstractString="#f0f0f0",
     top_boxes::Bool=true,
     top_boxes_borders::Bool=false,
     top_boxes_color::AbstractString="#ffc000",
@@ -264,7 +167,6 @@ function flow_diagram(
     previous_studies::Bool=true,
     other_methods::Bool=true,
     borders::Bool=true,
-    border_style::AbstractString="solid",
     border_width::Union{AbstractString,Number}=1,
     border_color::AbstractString="black",
     font::AbstractString="Helvetica",
@@ -297,16 +199,23 @@ function flow_diagram(
         push!(excluded_boxes, 4, 5, 6)
     end
 
-    dot_lang::String = """
-    digraph {
-        graph [
-            bgcolor="$background_color",
-            layout=neato,
-            splines=ortho
-        ];
+    javascript::String = """
+    import * as d3 from "d3";
+    import jsdom from "jsdom";
+
+    const document = new jsdom.JSDOM().window.document;
+
+    const svg = d3.select(document.body).append("svg")
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .attr("version", "1.1")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", "0 0 1000 1000")
+        .style("background-color", "$background_color");
     """
 
     for row in eachrow(group_labels(data))
+        box_name = "box_$(row.box_num)"
         box_color = boxes_color
         box_border_width = border_width
 
@@ -324,157 +233,220 @@ function flow_diagram(
             end
         end
 
-        if grayboxes && row.box_num in GRAYBOXES
-            box_color = grayboxes_color
+        if gray_boxes && row.box_num in GRAY_BOXES
+            box_color = gray_boxes_color
             box_border_width = 0
         end
 
-        pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
         if !(row.box_num in excluded_boxes)
-            dot_lang *= """
-            $(row.box_num) [
-                label=<$(row.box_text)>,
-                tooltip="$(row.box_text)",
-                shape=box,
-                style="filled,$border_style",
-                fillcolor="$box_color",
-                penwidth=$(borders ? box_border_width : 0),
-                color="$border_color",
-                fontname="$font",
-                fontcolor="$font_color",
-                fontsize="$font_size",
-                pos="$(pos.x),$(pos.y)!",
-                width=$(row.box_num in SIDE_BOXES ? 1 : row.box_num in [2, 3] ? 4.5 : 2),
-                height=$(row.box_num in [4, 6] ? 1.5 : row.box_num in [5] ? 2 : 0),
-            ];
+            javascript *= """
+            const $box_name = svg.append("g")
+                .attr("transform", "translate(0, 0)");
+            $box_name.append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", 100)
+                .attr("height", 100)
+                .attr("fill", "$box_color")
+                .attr("stroke", "$border_color")
+                .attr("stroke-width", $(borders ? box_border_width : 0))
+            $box_name.append("text")
+                .attr("x", 50)
+                .attr("y", 50)
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .attr("fill", "$font_color")
+                .attr("font-family", "$font")
+                .attr("font-size", $font_size)
+                .text("$(row.box_text)");
             """
         end
     end
 
-    invisible_nodes::Vector{Number} = [7.5, 21.5]
-    for node in invisible_nodes
-        if !(node in excluded_boxes)
-            pos = FLOW_DIAGRAM_POSITIONS[node]
-            dot_lang *= """
-            $node [label="", height=0, width=0, pos="$(pos.x),$(pos.y)!"];
-            """
-        end
+    return FlowDiagram(javascript)
+end
+
+function bytes(fl::FlowDiagram; ext::AbstractString)::String
+    js::String = fl.js
+
+    if ext == "html"
+        js *= """
+        const html_output = "<!DOCTYPE html>" + document.documentElement.outerHTML;
+        console.log(html_output);
+        """
+    elseif ext == "svg"
+        js *= """
+        const svg_output = document.querySelector("svg").outerHTML;
+        console.log(svg_output);
+        """
+    elseif ext == "png"
+        js *= """
+        import puppeteer from "puppeteer";
+
+        (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.setContent(document.body.innerHTML);
+            const pngBuffer = await page.screenshot({ fullPage: true });
+            console.log(pngBuffer.toString('base64'));
+            await browser.close();
+        })();
+        """
+    elseif ext == "pdf"
+        js *= """
+        import puppeteer from "puppeteer";
+
+        (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.setContent(document.body.innerHTML);
+            const pdfBuffer = await page.pdf({ format: 'A4' });
+            console.log(pdfBuffer.toString('base64'));
+            await browser.close();
+        })();
+        """
+    elseif ext == "jpg"
+        js *= """
+        import puppeteer from "puppeteer";
+
+        (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.setContent(document.body.innerHTML);
+            const jpgBuffer = await page.screenshot({ fullPage: true, type: 'jpeg' });
+            console.log(jpgBuffer.toString('base64'));
+            await browser.close();
+        })();
+        """
+    elseif ext == "js"
+        return js
+    else
+        return Base.error("Invalid extension")
     end
 
-    arrows::Vector{Tuple{Number,Number}} = [
-        (7, 7.5),
-        (7.5, 17),
-        (8, 9),
-        (8, 10),
-        (10, 11),
-        (10, 12),
-        (12, 13),
-        (12, 14),
-        (14, 15),
-        (14, 16),
-        (16, 17),
-        (18, 19),
-        (19, 20),
-        (19, 21),
-        (21, 22),
-        (21, 21.5),
-        (21.5, 16)
-    ]
-
-    for (from, to) in arrows
-        if !(from in excluded_boxes) && !(to in excluded_boxes)
-            dot_lang *= """
-            $from -> $to [
-                arrowhead=$(from in Set([7, 21]) && to != 22 ? "none" : arrow_head),
-                arrowsize="$arrow_size",
-                color="$arrow_color",
-                penwidth="$arrow_width"
-            ];
-            """
-        end
-    end
-
-    dot_lang *= "}"
-
-    return FlowDiagram(dot_lang)
+    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
 end
 
-function bytes(fd::FlowDiagram, format::AbstractString="svg")
-    temp_gv::String = Base.Filesystem.tempname() * ".gv"
-    Base.Filesystem.write(temp_gv, fd.dot)
-    try
-        return Base.read(`$(neato()) $temp_gv -T$format`, String)
-    catch e
-        Base.rethrow(e)
-    finally
-        Base.Filesystem.rm(temp_gv, force=true)
-    end
+function html(fl::FlowDiagram)::String
+    return bytes(fl, ext="html")
 end
 
-function Base.show(io::IO, fd::FlowDiagram)::Nothing
-    Base.print(io, fd.dot)
-
-    return nothing
+function svg(fl::FlowDiagram)::String
+    return bytes(fl, ext="svg")
 end
 
-function Base.show(io::IO, ::MIME"text/vnd.graphviz", fd::FlowDiagram)::Nothing
-    Base.print(io, MIME("text/vnd.graphviz"), fd.dot)
-
-    return nothing
+function png(fl::FlowDiagram)::String
+    return bytes(fl, ext="png")
 end
 
-function Base.show(io::IO, ::MIME"image/png", fd::FlowDiagram)::Nothing
-    Base.print(io, bytes(fd, "png"))
-
-    return nothing
+function jpg(fl::FlowDiagram)::String
+    return bytes(fl, ext="jpg")
 end
 
-function Base.show(io::IO, ::MIME"image/svg+xml", fd::FlowDiagram)::Nothing
-    Base.print(io, bytes(fd, "svg"))
-
-    return nothing
-end
-
-function Base.show(io::IO, ::MIME"application/pdf", fd::FlowDiagram)::Nothing
-    Base.print(io, bytes(fd, "pdf"))
-
-    return nothing
+function pdf(fl::FlowDiagram)::String
+    return bytes(fl, ext="pdf")
 end
 
 function Base.Multimedia.display(fd::FlowDiagram)::Nothing
-    Base.Multimedia.display(
-        Base.Multimedia.MIME("image/svg+xml"),
-        bytes(fd, "svg")
-    )
+    Base.Multimedia.display(Base.Multimedia.MIME("image/svg+xml"), svg(fd))
 
     return nothing
 end
 
-"""
-$docstring_flow_diagram_read
-"""
-function flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
-    return CSV.read(fn, DataFrame)
+function Base.show(io::IO, ::MIME"text/html", fl::FlowDiagram)::Nothing
+    Base.print(io, html(fig))
+
+    return nothing
 end
 
-"""
-$docstring_flow_diagram_template
-"""
-function flow_diagram_template(fn::AbstractString="flow_diagram.csv")
-    return CSV.write(fn, flow_diagram_df())
+function Base.show(io::IO, ::MIME"image/svg+xml", fl::FlowDiagram)::Nothing
+    Base.print(io, svg(fig))
+
+    return nothing
 end
 
-"""
-$docstring_flow_diagram_save
-"""
-function flow_diagram_save(fn::AbstractString, fd::FlowDiagram)
-    temp_gv::String = Base.Filesystem.tempname() * ".gv"
-    Base.Filesystem.write(temp_gv, fd.dot)
-    try
-        Base.run(`$(Graphviz_jll.neato()) $temp_gv -T$(Base.split(fn, ".")[end]) -o $fn`)
-    catch ex
-        Base.rethrow(ex)
-    finally
-        Base.Filesystem.rm(temp_gv, force=true)
+function Base.show(io::IO, ::MIME"image/png", fl::FlowDiagram)::Nothing
+    Base.print(io, png(fig))
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"image/jpeg", fl::FlowDiagram)::Nothing
+    Base.print(io, jpg(fig))
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"application/pdf", fl::FlowDiagram)::Nothing
+    Base.print(io, pdf(fig))
+
+    return nothing
+end
+
+function addext(out::AbstractString; ext::AbstractString)::String
+    if Base.endswith(out, ext)
+        return out
+    else
+        return out * "." * ext
     end
+end
+
+"""
+    flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
+
+Saves a `FlowDiagram` with a specified file extension
+
+## Arguments
+
+- `out`: accepts the same types as [Base.write](https://docs.julialang.org/en/v1/base/io-network/#Base.write)
+- `fl::FlowDiagram`: The figure as D3.js script
+
+## Keyword Argument
+
+- `ext::AbstractString`: The extension of the file to save
+
+## Examples
+
+save a flow diagram to a file:
+
+```julia
+using PRISMA
+
+fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
+
+PRISMA.flow_diagram_save("flow_diagram.svg", fd)
+PRISMA.flow_diagram_save("flow_diagram.png", fd)
+PRISMA.flow_diagram_save("flow_diagram.pdf", fd)
+```
+
+save a flow diagram to an `IOBuffer`
+
+```julia
+using PRISMA
+
+io::IOBuffer = IOBuffer()
+
+fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
+
+PRISMA.flow_diagram_save(fd, io, ext="png")
+
+println(String(take!(io)))
+```
+"""
+function flow_diagram_save(out, fl::FlowDiagram; ext::AbstractString="")::Nothing
+    if ext == "" && Base.isa(out, AbstractString)
+        ext = Base.split(out, ".")[end]
+    end
+
+    out::String = addext(out, ext=ext)
+
+    if ext in ["html", "svg"]
+        Base.Filesystem.write(out, bytes(fl, ext=ext))
+    elseif ext in ["png", "jpg", "pdf"]
+        Base.Filesystem.write(out, Base64.base64decode(bytes(fl, ext=ext)))
+    else
+        return Base.error("Invalid file extension: $ext")
+    end
+
+    return nothing
 end

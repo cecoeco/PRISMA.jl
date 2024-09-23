@@ -51,21 +51,63 @@ Test.@testset "flow_diagram" begin
 
     PRISMA.flow_diagram_save("flow_diagram.svg", fd)
     Test.@test Base.Filesystem.isfile("flow_diagram.svg")
+    Base.Filesystem.rm("flow_diagram.svg", force=true)
+
+    io_svg::IOBuffer = IOBuffer()
+    PRISMA.flow_diagram_save(io_svg, fd, ext="svg")
+    output_svg::String = String(Base.take!(io_svg))
+    Test.@test Base.occursin("<svg", output_svg)
 
     PRISMA.flow_diagram_save("flow_diagram.png", fd)
     Test.@test Base.Filesystem.isfile("flow_diagram.png")
+    Base.Filesystem.rm("flow_diagram.png", force=true)
+
+    io_png::IOBuffer = IOBuffer()
+    PRISMA.flow_diagram_save(io_png, fd, ext="png")
+    output_png::Vector{UInt8} = Base.take!(io_png)
+    Test.@test !Base.isempty(output_png)
+    png_signature::Vector{UInt8} = UInt8[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]
+    Test.@test output_png[1:8] == png_signature
 
     PRISMA.flow_diagram_save("flow_diagram.pdf", fd)
     Test.@test Base.Filesystem.isfile("flow_diagram.pdf")
-
-    PRISMA.flow_diagram_save("flow_diagram.dot", fd)
-    Test.@test Base.Filesystem.isfile("flow_diagram.dot")
-
-    # remove the files
-    Base.Filesystem.rm("flow_diagram.svg", force=true)
-    Base.Filesystem.rm("flow_diagram.png", force=true)
     Base.Filesystem.rm("flow_diagram.pdf", force=true)
-    Base.Filesystem.rm("flow_diagram.dot", force=true)
+
+    io_pdf::IOBuffer = IOBuffer()
+    PRISMA.flow_diagram_save(io_pdf, fd, ext="pdf")
+    output_pdf::Vector{UInt8} = Base.take!(io_pdf)
+    Test.@test !Base.isempty(output_pdf)
+    pdf_signature::Vector{UInt8} = UInt8[0x25, 0x50, 0x44, 0x46]
+    Test.@test output_pdf[1:4] == pdf_signature
+
+    PRISMA.flow_diagram_save("flow_diagram.jpg", fd)
+    Test.@test Base.Filesystem.isfile("flow_diagram.jpg")
+    Base.Filesystem.rm("flow_diagram.jpg", force=true)
+
+    io_jpg::IOBuffer = IOBuffer()
+    PRISMA.flow_diagram_save(io_jpg, fd, ext="jpg")
+    output_jpg::Vector{UInt8} = Base.take!(io_jpg)
+    Test.@test !Base.isempty(output_jpg)
+    jpg_signature::Vector{UInt8} = UInt8[0xFF, 0xD8, 0xFF, 0xE0]
+    Test.@test output_jpg[1:4] == jpg_signature
+
+    PRISMA.flow_diagram_save("flow_diagram.html", fd)
+    Test.@test Base.Filesystem.isfile("flow_diagram.html")
+    Base.Filesystem.rm("flow_diagram.html", force=true)
+
+    io_html::IOBuffer = IOBuffer()
+    PRISMA.flow_diagram_save(io_html, fd, ext="html")
+    output_html::String = String(Base.take!(io_html))
+    Test.@test Base.occursin("<html", output_html)
+
+    PRISMA.flow_diagram_save("flow_diagram.js", fd)
+    Test.@test Base.Filesystem.isfile("flow_diagram.js")
+    Base.Filesystem.rm("flow_diagram.js", force=true)
+
+    io_js::IOBuffer = IOBuffer()
+    PRISMA.flow_diagram_save(io_js, fd, ext="js")
+    output_js::String = String(Base.take!(io_js))
+    Test.@test Base.occursin("d3", output_js)
 end
 
 Test.@testset "plotting checklist" begin
@@ -103,16 +145,6 @@ end
 Test.@testset "plotting flow_diagram" begin
     fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
-    io::IO = IOBuffer()
-    Base.show(io, fd)
-    output::String = String(Base.take!(io))
-    Test.@test Base.occursin("digraph", output)
-
-    io_txt::IO = IOBuffer()
-    Base.show(io_txt, Base.Multimedia.MIME("text/plain"), fd)
-    output_txt::String = String(Base.take!(io_txt))
-    Test.@test Base.occursin("digraph", output_txt)
-
     io_svg::IO = IOBuffer()
     Base.show(io_svg, Base.Multimedia.MIME("image/svg+xml"), fd)
     output_svg::String = String(Base.take!(io_svg))
@@ -131,6 +163,18 @@ Test.@testset "plotting flow_diagram" begin
     Test.@test !Base.isempty(output_pdf)
     pdf_signature::Vector{UInt8} = UInt8[0x25, 0x50, 0x44, 0x46]
     Test.@test output_pdf[1:4] == pdf_signature
+
+    io_jpg::IO = IOBuffer()
+    Base.show(io_jpg, Base.Multimedia.MIME("image/jpeg"), fd)
+    output_jpg::Vector{UInt8} = Base.take!(io_jpg)
+    Test.@test !Base.isempty(output_jpg)
+    jpg_signature::Vector{UInt8} = UInt8[0xFF, 0xD8, 0xFF, 0xE0]
+    Test.@test output_jpg[1:4] == jpg_signature
+
+    io_html::IO = IOBuffer()
+    Base.show(io_html, Base.Multimedia.MIME("text/html"), fd)
+    output_html::String = String(Base.take!(io_html))
+    Test.@test Base.occursin("<html", output_html)
 end
 
 end # test module

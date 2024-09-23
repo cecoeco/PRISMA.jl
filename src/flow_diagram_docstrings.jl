@@ -1,14 +1,3 @@
-const docstring_FlowDiagram::String = """
-    PRISMA.FlowDiagram
-
-flow diagram type for PRISMA.jl
-
-## Field
-
-- `dot::AbstractString`: The flow diagram written in Graphviz's DOT language
-
-"""
-
 const docstring_flow_diagram::String = 
 """
     PRISMA.flow_diagram(
@@ -26,7 +15,6 @@ const docstring_flow_diagram::String =
         previous_studies::Bool=true,
         other_methods::Bool=true,
         borders::Bool=true,
-        border_style::AbstractString="solid",
         border_width::Union{AbstractString,Number}=1,
         border_color::AbstractString="black",
         font::AbstractString="Helvetica",

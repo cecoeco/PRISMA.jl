@@ -32,7 +32,7 @@ For working with PRISMA flow diagrams:
 """
 module PRISMA
 
-using CSV, DataFrames, Graphviz_jll, OrderedCollections, Poppler_jll, Transformers
+using Base64, CSV, DataFrames, NodeJS, OrderedCollections, Poppler_jll, Transformers
 
 import Base.Multimedia.display, Base.show
 
@@ -47,4 +47,4 @@ export
 include("checklist.jl")
 include("flow_diagram.jl")
 
-end # module
+end
