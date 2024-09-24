@@ -3,7 +3,6 @@
   "type": "module",
   "dependencies": {
     "d3": "^7.9.0",
-    "jsdom": "^25.0.1",
-    "puppeteer": "^23.4.0"
+    "jsdom": "^25.0.1"
   }
 }

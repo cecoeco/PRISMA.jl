@@ -149,6 +149,124 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
+FLOW_DIAGRAM_TOP_MARGIN::Number = 120
+
+FLOW_DIAGRAM_ROW_01::Number = 0
+FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 + FLOW_DIAGRAM_TOP_MARGIN / 2
+FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 + FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 + FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 + FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_TOP_MARGIN
+
+FLOW_DIAGRAM_LEFT_MARGIN::Number = 220
+
+FLOW_DIAGRAM_COL_01::Number = 0
+FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + FLOW_DIAGRAM_LEFT_MARGIN / 6
+FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_LEFT_MARGIN
+
+const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
+    01.0 => (
+        x=FLOW_DIAGRAM_COL_02,
+        y=FLOW_DIAGRAM_ROW_01
+    ),
+    02.0 => (
+        x=(FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_COL_04) / 2,
+        y=FLOW_DIAGRAM_ROW_01
+    ),
+    03.0 => (
+        x=(FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_COL_06) / 2,
+        y=FLOW_DIAGRAM_ROW_01
+    ),
+    04.0 => (
+        x=FLOW_DIAGRAM_COL_01,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    05.0 => (
+        x=FLOW_DIAGRAM_COL_01,
+        y=(FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_ROW_05) / 2
+    ),
+    06.0 => (
+        x=FLOW_DIAGRAM_COL_01,
+        y=(FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_ROW_07) / 2
+    ),
+    07.0 => (
+        x=FLOW_DIAGRAM_COL_02,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    07.5 => (
+        x=FLOW_DIAGRAM_COL_02,
+        y=FLOW_DIAGRAM_ROW_06
+    ),
+    08.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    09.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    10.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_03
+    ),
+    11.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_03
+    ),
+    12.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    13.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    14.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_05
+    ),
+    15.0 => (
+        x=FLOW_DIAGRAM_COL_04,
+        y=FLOW_DIAGRAM_ROW_05
+    ),
+    16.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_06
+    ),
+    17.0 => (
+        x=FLOW_DIAGRAM_COL_03,
+        y=FLOW_DIAGRAM_ROW_07
+    ),
+    18.0 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_02
+    ),
+    19.0 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    20.0 => (
+        x=FLOW_DIAGRAM_COL_06,
+        y=FLOW_DIAGRAM_ROW_04
+    ),
+    21.0 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_05
+    ),
+    21.5 => (
+        x=FLOW_DIAGRAM_COL_05,
+        y=FLOW_DIAGRAM_ROW_07
+    ),
+    22.0 => (
+        x=FLOW_DIAGRAM_COL_06,
+        y=FLOW_DIAGRAM_ROW_05
+    )
+)
+
 """
 $docstring_flow_diagram
 """
@@ -210,7 +328,7 @@ function flow_diagram(
         .attr("version", "1.1")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("viewBox", "0 0 1000 1000")
+        .attr("viewBox", "0 0 1200 800")
         .style("background-color", "$background_color");
     """
 
@@ -238,21 +356,22 @@ function flow_diagram(
             box_border_width = 0
         end
 
+        pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
         if !(row.box_num in excluded_boxes)
             javascript *= """
             const $box_name = svg.append("g")
                 .attr("transform", "translate(0, 0)");
             $box_name.append("rect")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("width", 100)
-                .attr("height", 100)
+                .attr("x", $(pos.x))
+                .attr("y", $(pos.y))
+                .attr("width", $(row.box_num in SIDE_BOXES ? 25 : 200))
+                .attr("height", $(row.box_num in TOP_BOXES ? 25 : 100))
                 .attr("fill", "$box_color")
                 .attr("stroke", "$border_color")
                 .attr("stroke-width", $(borders ? box_border_width : 0))
             $box_name.append("text")
-                .attr("x", 50)
-                .attr("y", 50)
+                .attr("x", $(pos.x))
+                .attr("y", $(pos.y))
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "central")
                 .attr("fill", "$font_color")
@@ -266,78 +385,15 @@ function flow_diagram(
     return FlowDiagram(javascript)
 end
 
-function bytes(fl::FlowDiagram; ext::AbstractString)::Union{String,Vector{UInt8}}
+function svg(fl::FlowDiagram)::String
     js::String = fl.js
 
-    if ext == "svg"
-        js *= """
-        const svg_output = document.querySelector("svg").outerHTML;
-        console.log(svg_output);
-        """
-    elseif ext == "png"
-        js *= """
-        import puppeteer from "puppeteer";
+    js *= """
+    const svg_output = document.querySelector("svg").outerHTML;
+    console.log(svg_output);
+    """
 
-        (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            await page.setContent(document.body.innerHTML);
-            const pngBuffer = await page.screenshot({ fullPage: true });
-            process.stdout.write(pngBuffer);
-            await browser.close();
-        })();
-        """
-    elseif ext == "pdf"
-        js *= """
-        import puppeteer from "puppeteer";
-
-        (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            await page.setContent(document.body.innerHTML);
-            const pdfBuffer = await page.pdf({ format: 'A4' });
-            process.stdout.write(pdfBuffer);
-            await browser.close();
-        })();
-        """
-    elseif ext == "jpg"
-        js *= """
-        import puppeteer from "puppeteer";
-
-        (async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            await page.setContent(document.body.innerHTML);
-            const jpgBuffer = await page.screenshot({ fullPage: true, type: 'jpeg' });
-            process.stdout.write(jpgBuffer);
-            await browser.close();
-        })();
-        """
-    else
-        return Base.error("Invalid extension: $ext")
-    end
-
-    if ext == "svg"
-        return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
-    else
-        return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`)
-    end
-end
-
-function svg(fl::FlowDiagram)::String
-    return bytes(fl, ext="svg")
-end
-
-function png(fl::FlowDiagram)::Vector{UInt8}
-    return bytes(fl, ext="png")
-end
-
-function jpg(fl::FlowDiagram)::Vector{UInt8}
-    return bytes(fl, ext="jpg")
-end
-
-function pdf(fl::FlowDiagram)::Vector{UInt8}
-    return bytes(fl, ext="pdf")
+    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
 end
 
 function Base.Multimedia.display(fd::FlowDiagram)::Nothing
@@ -352,41 +408,15 @@ function Base.show(io::IO, ::MIME"image/svg+xml", fl::FlowDiagram)::Nothing
     return nothing
 end
 
-function Base.show(io::IO, ::MIME"image/png", fl::FlowDiagram)::Nothing
-    Base.print(io, png(fl))
-
-    return nothing
-end
-
-function Base.show(io::IO, ::MIME"image/jpeg", fl::FlowDiagram)::Nothing
-    Base.print(io, jpg(fl))
-
-    return nothing
-end
-
-function Base.show(io::IO, ::MIME"application/pdf", fl::FlowDiagram)::Nothing
-    Base.print(io, pdf(fl))
-
-    return nothing
-end
-
-function addext(out::AbstractString; ext::AbstractString)::String
-    if Base.endswith(out, ext)
-        return out
-    else
-        return out * "." * ext
-    end
-end
-
 """
-    flow_diagram_save(fn::AbstractString, fl::FlowDiagram)::Nothing
+    flow_diagram_save(out, fd::FlowDiagram)::Nothing
 
-saves a `FlowDiagram` as either a `svg`, `png`, `pdf` or `jpg` format.
+saves a `FlowDiagram` as a `svg` format.
 
 ## Arguments
 
-- `fn::AbstractString`: The filename to save
-- `fl::FlowDiagram`: The flow diagram as D3.js script
+- `out`: Accepts the same types as [`Base.write`](https://docs.julialang.org/en/v1/base/io-network/#Base.write).
+- `fd::FlowDiagram`: The flow diagram as D3.js script
 
 ## Examples
 
@@ -398,32 +428,7 @@ using PRISMA
 fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
 PRISMA.flow_diagram_save("flow_diagram.svg", fd)
-PRISMA.flow_diagram_save("flow_diagram.png", fd)
-PRISMA.flow_diagram_save("flow_diagram.pdf", fd)
-PRISMA.flow_diagram_save("flow_diagram.jpg", fd)
 ```
-"""
-function flow_diagram_save(fn::AbstractString, fl::FlowDiagram)::Nothing
-    Base.Filesystem.write(fn, bytes(fl, ext=Base.split(fn, ".")[end]))
-
-    return nothing
-end
-
-"""
-    flow_diagram_save(out::IO, fl::FlowDiagram; ext::AbstractString)::Nothing
-
-saves a `FlowDiagram` as either a `svg`, `png`, `pdf` or `jpg` format.
-
-## Arguments
-
-- `out::IO`: The output stream
-- `fl::FlowDiagram`: The flow diagram as D3.js script
-
-## Keyword Argument
-
-- `ext::AbstractString`: The format of the bytes written to `out`
-
-## example
 
 save a flow diagram to an `IOBuffer`:
 
@@ -434,13 +439,13 @@ io::IOBuffer = IOBuffer()
 
 fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
-PRISMA.flow_diagram_save(fd, io, ext="svg")
+PRISMA.flow_diagram_save(fd, io)
 
 println(String(take!(io)))
 ```
 """
-function flow_diagram_save(out::IO, fl::FlowDiagram; ext::AbstractString)::Nothing
-    Base.Filesystem.write(out, bytes(fl, ext=ext))
+function flow_diagram_save(out, fd::FlowDiagram)::Nothing
+    Base.Filesystem.write(out, svg(fd))
 
     return nothing
 end

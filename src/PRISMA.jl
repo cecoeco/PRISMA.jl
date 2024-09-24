@@ -20,8 +20,8 @@ For working with PRISMA flow diagrams:
 - `flow_diagram_template` - returns the template PRISMA flow diagram data as comma-separated values
 - `flow_diagram_read` - reads the flow diagram data as a `DataFrame` from comma-separated values
 - `flow_diagram` - returns a PRISMA flow diagram as the type `FlowDiagram`
-- `flow_diagram_save` - saves a `FlowDiagram` to file formats supported by `Graphviz`
-- `FlowDiagram` - the PRISMA flow diagram represented as Graphviz's DOT language
+- `flow_diagram_save` - saves a `FlowDiagram` as a SVG
+- `FlowDiagram` - the PRISMA flow diagram type that can be displayed in the plot panel or saved as a SVG
 
 ## Reexports
 
@@ -32,7 +32,7 @@ For working with PRISMA flow diagrams:
 """
 module PRISMA
 
-using Base64, CSV, DataFrames, NodeJS, OrderedCollections, Poppler_jll, Transformers
+using CSV, DataFrames, NodeJS, OrderedCollections, Poppler_jll
 
 import Base.Multimedia.display, Base.show
 

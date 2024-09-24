@@ -31,7 +31,7 @@ flow_diagram_save("example.svg", flow_diagram())
 <details>
 <summary>show output:</summary>
 
-![flow diagram](docs/src/assets/flow_diagram.svg)
+![flow diagram](docs/src/assets/example.svg)
 
 </details>
 
