@@ -317,6 +317,9 @@ function flow_diagram(
         push!(excluded_boxes, 4, 5, 6)
     end
 
+    min_x, min_y = Inf, Inf
+    max_x, max_y = -Inf, -Inf
+
     javascript::String = """
     import * as d3 from "d3";
     import jsdom from "jsdom";
@@ -328,7 +331,6 @@ function flow_diagram(
         .attr("version", "1.1")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("viewBox", "0 0 1200 800")
         .style("background-color", "$background_color");
     """
 
@@ -358,22 +360,30 @@ function flow_diagram(
 
         pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
         if !(row.box_num in excluded_boxes)
+            box_width = row.box_num in SIDE_BOXES ? 25 : 200
+            box_height = row.box_num in TOP_BOXES ? 25 : 100
+
+            min_x = min(min_x, pos.x)
+            min_y = min(min_y, pos.y)
+            max_x = max(max_x, pos.x + box_width)
+            max_y = max(max_y, pos.y + box_height)
+
             javascript *= """
             const $box_name = svg.append("g")
                 .attr("transform", "translate(0, 0)");
             $box_name.append("rect")
                 .attr("x", $(pos.x))
                 .attr("y", $(pos.y))
-                .attr("width", $(row.box_num in SIDE_BOXES ? 25 : 200))
-                .attr("height", $(row.box_num in TOP_BOXES ? 25 : 100))
+                .attr("width", $box_width)
+                .attr("height", $box_height)
                 .attr("fill", "$box_color")
                 .attr("stroke", "$border_color")
-                .attr("stroke-width", $(borders ? box_border_width : 0))
+                .attr("stroke-width", $(borders ? box_border_width : 0));
             $box_name.append("text")
-                .attr("x", $(pos.x))
-                .attr("y", $(pos.y))
+                .attr("x", $(pos.x + box_width / 2))
+                .attr("y", $(pos.y + box_height / 2))
                 .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "central")
+                .attr("dominant-baseline", "middle")
                 .attr("fill", "$font_color")
                 .attr("font-family", "$font")
                 .attr("font-size", $font_size)
@@ -381,6 +391,14 @@ function flow_diagram(
             """
         end
     end
+
+    svg_width = max_x - min_x
+    svg_height = max_y - min_y
+    javascript *= """
+    svg.attr("viewBox", "$min_x $min_y $svg_width $svg_height")
+        .attr("width", $svg_width)
+        .attr("height", $svg_height);
+    """
 
     return FlowDiagram(javascript)
 end
