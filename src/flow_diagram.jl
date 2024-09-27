@@ -80,7 +80,7 @@ flow diagram type for PRISMA.jl
     js::String
 end
 
-const PREVIOUS_STUDIES_BOXES::Vector{Int} = [1, 7, 16]
+const PREVIOUS_STUDIES_BOXES::Vector{Int} = [1, 7, 17]
 const OTHER_METHODS_BOXES::Vector{Int} = [3, 18, 19, 20, 21, 22]
 const TOP_BOXES::Vector{Int} = [1, 2, 3]
 const SIDE_BOXES::Vector{Int} = [4, 5, 6]
@@ -466,7 +466,7 @@ function flow_diagram(
 
     if !previous_studies
         data = filter(row -> !(row.box_num in PREVIOUS_STUDIES_BOXES), data)
-        push!(excluded_boxes, 1, 7, 7.5, 16)
+        push!(excluded_boxes, 1, 7, 7.5, 17)
     end
 
     if !other_methods
@@ -577,24 +577,36 @@ function flow_diagram(
         end
     end
 
-    for (key, pos) in ARROW_POSITIONS
-        start = pos[:start]
-        stop = pos[:stop]
+    excluded_arrows::Set{String} = Set{String}()
 
-        javascript *= """
-            svg.append("path")
-                .attr("d", "M$(start[:x]),$(start[:y]) $(stop[:x]), $(stop[:y])")
-                .attr("fill", "none")
-                .attr("stroke", "$arrow_color")
-                .attr("stroke-width", $arrow_width)
-                $(
-                    if key in ["07 to __", "21 to __"]
-                        ";"
-                    else
-                        ".attr(\"marker-end\", \"url(#arrowhead)\");"
-                    end
-                )
-        """
+    if !previous_studies
+        push!(excluded_arrows, "07 to __", "__ to 17", "16 to 17")
+    end
+
+    if !other_methods
+        push!(excluded_arrows, "19 to 20", "19 to 21", "21 to 22", "21 to __", "__ to 16")
+    end
+
+    for (key, pos) in ARROW_POSITIONS
+        if !(key in excluded_arrows)
+            start = pos[:start]
+            stop = pos[:stop]
+
+            javascript *= """
+                svg.append("path")
+                    .attr("d", "M$(start[:x]),$(start[:y]) $(stop[:x]), $(stop[:y])")
+                    .attr("fill", "none")
+                    .attr("stroke", "$arrow_color")
+                    .attr("stroke-width", $arrow_width)
+                    $(
+                        if key in ["07 to __", "21 to __"]
+                            ";"
+                        else
+                            ".attr(\"marker-end\", \"url(#arrowhead)\");"
+                        end
+                    )
+            """
+        end
     end
 
     javascript *= """
