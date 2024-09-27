@@ -309,7 +309,30 @@ function checklist_df()::DataFrame
 end
 
 """
-$docstring_Checklist
+    PRISMA.Checklist
+
+this types represents a PRISMA checklist in the form of a `DataFrame` and
+the metadata of the paper that was used to generate it as a `OrderedDict`.
+
+## Fields
+
+- `dataframe::DataFrame`: the checklist as a `DataFrame`
+- `metadata::OrderedDict`: the metadata of the paper
+
+## Example
+
+```julia
+using PRISMA
+
+cl::Checklist = checklist("paper.pdf")
+
+title = cl.metadata["title"]
+println(title)
+
+pages = cl.metadata["pages"]
+println(pages)
+```
+
 """
 @kwdef mutable struct Checklist
     dataframe::DataFrame = checklist_df()

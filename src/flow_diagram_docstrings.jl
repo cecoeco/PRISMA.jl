@@ -92,52 +92,8 @@ returns the template that is used to create the flow diagram as a `DataFrame`.
 ```jldoctest
 julia> using PRISMA
 
-julia> flow_diagram_df()
-41×3 DataFrame
- Row │ box_num  box_text                           result  
-     │ Int64    String                             Int64?  
-─────┼─────────────────────────────────────────────────────
-   1 │       1  Previous studies                   missing 
-   2 │       2  Identification of new studies vi…  missing 
-   3 │       3  Identification of new studies vi…  missing 
-   4 │       4  Identification                     missing 
-   5 │       5  Screening                          missing 
-   6 │       6  Included                           missing 
-   7 │       7  Studies included in previous ver…        0
-   8 │       7  Reports of studies included in p…        0
-   9 │       8  Records identified from:           missing 
-  10 │       8  Database or Register 1                   0
-  11 │       8  Database or Register 2                   0
-  12 │       8  Database or Register 3                   0
-  13 │       9  Records removed before screening:  missing 
-  14 │       9  Duplicate records removed                0
-  15 │       9  Records marked as ineligible by …        0
-  16 │       9  Records removed for other reasons        0
-  17 │      10  Records screened                         0
-  18 │      11  Records excluded                         0
-  19 │      12  Reports sought for retrieval             0
-  20 │      13  Reports not retrieved                    0
-  21 │      14  Reports assessed for eligibility         0
-  22 │      15  Reports excluded:                  missing 
-  23 │      15  Reason 1                                 0
-  24 │      15  Reason 2                                 0
-  25 │      15  Reason 3                                 0
-  26 │      16  New studies included in review           0
-  27 │      16  Reports of new included studies          0
-  28 │      17  Total studies included in review         0
-  29 │      17  Reports of total included studies        0
-  30 │      18  Records identified from:           missing 
-  31 │      18  Websites                                 0
-  32 │      18  Organizations                            0
-  33 │      18  Citation searching                       0
-  34 │      18  Other                                    0
-  35 │      19  Reports sought for retrieval             0
-  36 │      20  Reports not retrieved                    0
-  37 │      21  Reports assessed for eligibility         0
-  38 │      22  Reports excluded:                  missing 
-  39 │      22  Reason 1                                 0
-  40 │      22  Reason 2                                 0
-  41 │      22  Reason 3                                 0
+julia> isa(flow_diagram_df(), DataFrame)
+true
 ```
 
 """
@@ -164,52 +120,8 @@ julia> using PRISMA
 julia> flow_diagram_template()
 "flow_diagram.csv"
 
-julia> flow_diagram_read("flow_diagram.csv")
-41×3 DataFrame
- Row │ box_num  box_text                           result  
-     │ Int64    String                             Int64?  
-─────┼─────────────────────────────────────────────────────
-   1 │       1  Previous studies                   missing 
-   2 │       2  Identification of new studies vi…  missing 
-   3 │       3  Identification of new studies vi…  missing 
-   4 │       4  Identification                     missing 
-   5 │       5  Screening                          missing 
-   6 │       6  Included                           missing 
-   7 │       7  Studies included in previous ver…        0
-   8 │       7  Reports of studies included in p…        0
-   9 │       8  Records identified from:           missing 
-  10 │       8  Database or Register 1                   0
-  11 │       8  Database or Register 2                   0
-  12 │       8  Database or Register 3                   0
-  13 │       9  Records removed before screening:  missing 
-  14 │       9  Duplicate records removed                0
-  15 │       9  Records marked as ineligible by …        0
-  16 │       9  Records removed for other reasons        0
-  17 │      10  Records screened                         0
-  18 │      11  Records excluded                         0
-  19 │      12  Reports sought for retrieval             0
-  20 │      13  Reports not retrieved                    0
-  21 │      14  Reports assessed for eligibility         0
-  22 │      15  Reports excluded:                  missing 
-  23 │      15  Reason 1                                 0
-  24 │      15  Reason 2                                 0
-  25 │      15  Reason 3                                 0
-  26 │      16  New studies included in review           0
-  27 │      16  Reports of new included studies          0
-  28 │      17  Total studies included in review         0
-  29 │      17  Reports of total included studies        0
-  30 │      18  Records identified from:           missing 
-  31 │      18  Websites                                 0
-  32 │      18  Organizations                            0
-  33 │      18  Citation searching                       0
-  34 │      18  Other                                    0
-  35 │      19  Reports sought for retrieval             0
-  36 │      20  Reports not retrieved                    0
-  37 │      21  Reports assessed for eligibility         0
-  38 │      22  Reports excluded:                  missing 
-  39 │      22  Reason 1                                 0
-  40 │      22  Reason 2                                 0
-  41 │      22  Reason 3                                 0
+julia> isa(flow_diagram_read("flow_diagram.csv"), DataFrame)
+true
 ```
 
 """

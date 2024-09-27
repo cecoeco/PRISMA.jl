@@ -164,7 +164,7 @@ FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_BOX_WIDTH + FLO
 FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
 FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
 
-const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
+const FLOW_DIAGRAM_BOX_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
     01.0 => (
         x=FLOW_DIAGRAM_COL_02,
         y=FLOW_DIAGRAM_ROW_01
@@ -263,175 +263,175 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = D
     )
 )
 
-const ARROW_POSITIONS::Dict = Dict(
+const FLOW_DIAGRAM_ARROW_POSITIONS::Dict{String,LittleDict{Symbol,LittleDict}} = Dict(
     "07 to __" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[07.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[07.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "__ to 17" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[17.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[17.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         )
     ),
     "08 to 09" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[08.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[08.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[08.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[08.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[09.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[09.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[09.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[09.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "08 to 10" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[08.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[08.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[08.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[08.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[10.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[10.0].y
         ),
     ),
     "10 to 11" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[10.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[10.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[11.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[11.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[11.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[11.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "10 to 12" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[10.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[10.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[12.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[12.0].y
         ),
     ),
     "12 to 13" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[12.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[12.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[13.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[13.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[13.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[13.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "12 to 14" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[12.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[12.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[14.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[14.0].y
         ),
     ),
     "14 to 15" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[14.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[14.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[15.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[15.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[15.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[15.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "14 to 16" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[14.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[14.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[16.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y
         ),
     ),
     "16 to 17" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[17.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[17.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[17.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y
         ),
     ),
     "18 to 19" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[18.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[18.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[18.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[18.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[19.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[19.0].y
         ),
     ),
     "19 to 20" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[19.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[19.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[20.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[20.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[20.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[20.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "19 to 21" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[19.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[19.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[21.0].y
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[21.0].y
         ),
     ),
     "21 to 22" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[21.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[21.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[22.0].x,
-            :y => FLOW_DIAGRAM_POSITIONS[22.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[22.0].x,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[22.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "21 to __" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[21.0].y + FLOW_DIAGRAM_BOX_HEIGHT
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[21.0].y + FLOW_DIAGRAM_BOX_HEIGHT
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
     "__ to 16" => LittleDict(
         :start => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
         :stop => LittleDict(
-            :x => FLOW_DIAGRAM_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
+            :x => FLOW_DIAGRAM_BOX_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH,
+            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
         ),
     ),
 )
@@ -465,35 +465,36 @@ function flow_diagram(
     excluded_boxes::Set{Number} = Set{Number}()
 
     if !previous_studies
-        data = filter(row -> !(row.box_num in PREVIOUS_STUDIES_BOXES), data)
-        push!(excluded_boxes, 1, 7, 7.5, 17)
+        data = Base.filter(row -> !(row.box_num in PREVIOUS_STUDIES_BOXES), data)
+        Base.push!(excluded_boxes, 1, 7, 7.5, 17)
     end
 
     if !other_methods
-        data = filter(row -> !(row.box_num in OTHER_METHODS_BOXES), data)
-        push!(excluded_boxes, 3, 18, 19, 20, 21, 21.5, 22)
+        data = Base.filter(row -> !(row.box_num in OTHER_METHODS_BOXES), data)
+        Base.push!(excluded_boxes, 3, 18, 19, 20, 21, 21.5, 22)
     end
 
     if !top_boxes
-        data = filter(row -> !(row.box_num in TOP_BOXES), data)
-        push!(excluded_boxes, 1, 2, 3)
+        data = Base.filter(row -> !(row.box_num in TOP_BOXES), data)
+        Base.push!(excluded_boxes, 1, 2, 3)
     end
 
     if !side_boxes
-        data = filter(row -> !(row.box_num in SIDE_BOXES), data)
-        push!(excluded_boxes, 4, 5, 6)
+        data = Base.filter(row -> !(row.box_num in SIDE_BOXES), data)
+        Base.push!(excluded_boxes, 4, 5, 6)
     end
 
     min_x, min_y = Inf, Inf
     max_x, max_y = -Inf, -Inf
 
-    javascript::String = """
+    js::String = """
     import * as d3 from "d3";
     import jsdom from "jsdom";
 
     const document = new jsdom.JSDOM().window.document;
 
-    const svg = d3.select(document.body).append("svg")
+    const svg = d3
+        .select(document.body).append("svg")
         .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("version", "1.1")
         .attr("width", "100%")
@@ -525,7 +526,7 @@ function flow_diagram(
             box_border_width = 0
         end
 
-        pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
+        pos = FLOW_DIAGRAM_BOX_POSITIONS[row.box_num]
         if !(row.box_num in excluded_boxes)
             if row.box_num in TOP_BOXES
                 box_height = FLOW_DIAGRAM_BOX_HEIGHT / 4
@@ -544,10 +545,12 @@ function flow_diagram(
             max_x = Base.max(max_x, pos.x + box_width)
             max_y = Base.max(max_y, pos.y + box_height)
 
-            javascript *= """
-            const $box_name = svg.append("g")
+            js *= """
+            const $box_name = svg
+                .append("g")
                 .attr("transform", "translate(0, 0)");
-            $box_name.append("rect")
+            $box_name
+                .append("rect")
                 .attr("x", $(pos.x))
                 .attr("y", $(pos.y))
                 .attr("width", $box_width)
@@ -555,7 +558,8 @@ function flow_diagram(
                 .attr("fill", "$box_color")
                 .attr("stroke", "$border_color")
                 .attr("stroke-width", $(borders ? box_border_width : 0));
-            $box_name.append("text")
+            $box_name
+                .append("text")
                 .attr("x", $(pos.x + box_width / 2))
                 .attr("y", $(pos.y + box_height / 2))
                 .attr("text-anchor", "middle")
@@ -564,15 +568,13 @@ function flow_diagram(
                 .attr("font-family", "$font")
                 .attr("font-size", $font_size)
                 .text("$(row.box_text)")
-                $(
-                    if row.box_num in SIDE_BOXES
-                        """
-                        .attr("transform", "rotate(-90, $(pos.x + box_width / 2), $(pos.y + box_height / 2))");
-                        """
-                    else
-                        ""
-                    end
-                )
+                $(if row.box_num in SIDE_BOXES
+                    """
+                    .attr("transform", "rotate(-90, $(pos.x + box_width / 2), $(pos.y + box_height / 2))");
+                    """
+                else
+                    ""
+                end)
             """
         end
     end
@@ -580,69 +582,68 @@ function flow_diagram(
     excluded_arrows::Set{String} = Set{String}()
 
     if !previous_studies
-        push!(excluded_arrows, "07 to __", "__ to 17", "16 to 17")
+        Base.push!(excluded_arrows, "07 to __", "__ to 17", "16 to 17")
     end
 
     if !other_methods
-        push!(excluded_arrows, "19 to 20", "19 to 21", "21 to 22", "21 to __", "__ to 16")
+        Base.push!(excluded_arrows, "19 to 20", "19 to 21", "21 to 22", "21 to __", "__ to 16")
     end
 
-    for (key, pos) in ARROW_POSITIONS
+    for (key, pos) in FLOW_DIAGRAM_ARROW_POSITIONS
         if !(key in excluded_arrows)
-            start = pos[:start]
-            stop = pos[:stop]
+            start::LittleDict = pos[:start]
+            stop::LittleDict = pos[:stop]
 
-            javascript *= """
-                svg.append("path")
-                    .attr("d", "M$(start[:x]),$(start[:y]) $(stop[:x]), $(stop[:y])")
-                    .attr("fill", "none")
-                    .attr("stroke", "$arrow_color")
-                    .attr("stroke-width", $arrow_width)
-                    $(
-                        if key in ["07 to __", "21 to __"]
-                            ";"
-                        else
-                            ".attr(\"marker-end\", \"url(#arrowhead)\");"
-                        end
-                    )
+            js *= """
+            svg
+                .append("path")
+                .attr("d", "M$(start[:x]),$(start[:y]) $(stop[:x]), $(stop[:y])")
+                .attr("fill", "none")
+                .attr("stroke", "$arrow_color")
+                .attr("stroke-width", $arrow_width)
+                $(if key in ["07 to __", "21 to __"]
+                    ";"
+                else
+                    ".attr(\"marker-end\", \"url(#arrowhead)\");"
+                end)
             """
         end
     end
 
-    javascript *= """
-        svg.append("defs").append("marker")
-            .attr("id", "arrowhead")
-            .attr("markerWidth", 8)
-            .attr("markerHeight", 8)
-            .attr("refX", 8)
-            .attr("refY", 4)
-            .attr("orient", "auto")
+    js *= """
+    svg
+        .append("defs").append("marker")
+        .attr("id", "arrowhead")
+        .attr("markerWidth", 8)
+        .attr("markerHeight", 8)
+        .attr("refX", 7)
+        .attr("refY", 4)
+        .attr("orient", "auto")
         .append("polygon")
-            .attr("points", "0,0 8,4 0,8")
-            .attr("fill", "$arrow_color");
+        .attr("points", "0,0 8,4 0,8")
+        .attr("fill", "$arrow_color");
     """
 
-    svg_width = max_x - min_x
-    svg_height = max_y - min_y
+    svg_width::Number = max_x - min_x
+    svg_height::Number = max_y - min_y
 
-    javascript *= """
-    svg.attr("viewBox", "$min_x $min_y $svg_width $svg_height")
+    js *= """
+    svg
+        .attr("viewBox", "$min_x $min_y $svg_width $svg_height")
         .attr("width", $svg_width)
         .attr("height", $svg_height);
     """
 
-    return FlowDiagram(javascript)
+    return FlowDiagram(js=js)
 end
 
 function svg(fl::FlowDiagram)::String
-    js::String = fl.js
-
-    js *= """
+    fl.js *= """
     const svg_output = document.querySelector("svg").outerHTML;
     console.log(svg_output);
     """
 
-    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$js" --input-type=module`, String)
+    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$(fl.js)" --input-type=module`, String)
 end
 
 function Base.Multimedia.display(fd::FlowDiagram)::Nothing
