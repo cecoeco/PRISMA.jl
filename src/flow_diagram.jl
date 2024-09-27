@@ -149,24 +149,24 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
-FLOW_DIAGRAM_TOP_MARGIN::Number = 120
+FLOW_DIAGRAM_BOX_MARGIN::Number = 50
+FLOW_DIAGRAM_BOX_HEIGHT::Number = 100
+FLOW_DIAGRAM_BOX_WIDTH::Number = 250
 
 FLOW_DIAGRAM_ROW_01::Number = 0
-FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 + FLOW_DIAGRAM_TOP_MARGIN / 2
-FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 + FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 + FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 + FLOW_DIAGRAM_TOP_MARGIN
-FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_TOP_MARGIN
-
-FLOW_DIAGRAM_LEFT_MARGIN::Number = 220
+FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 + (FLOW_DIAGRAM_BOX_HEIGHT / 4) + FLOW_DIAGRAM_BOX_MARGIN / 2
+FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
 
 FLOW_DIAGRAM_COL_01::Number = 0
-FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + FLOW_DIAGRAM_LEFT_MARGIN / 6
-FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_LEFT_MARGIN
-FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_LEFT_MARGIN
-FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_LEFT_MARGIN
-FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + (FLOW_DIAGRAM_BOX_WIDTH / 8) + FLOW_DIAGRAM_BOX_MARGIN / 2
+FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
 
 const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
     01.0 => (
@@ -334,7 +334,7 @@ function flow_diagram(
         .style("background-color", "$background_color");
     """
 
-    for row in eachrow(group_labels(data))
+    for row in Base.eachrow(group_labels(data))
         box_name = "box_$(row.box_num)"
         box_color = boxes_color
         box_border_width = border_width
@@ -360,13 +360,22 @@ function flow_diagram(
 
         pos = FLOW_DIAGRAM_POSITIONS[row.box_num]
         if !(row.box_num in excluded_boxes)
-            box_width = row.box_num in SIDE_BOXES ? 25 : 200
-            box_height = row.box_num in TOP_BOXES ? 25 : 100
+            if row.box_num in TOP_BOXES
+                box_height = FLOW_DIAGRAM_BOX_HEIGHT / 4
+            else
+                box_height = FLOW_DIAGRAM_BOX_HEIGHT
+            end
 
-            min_x = min(min_x, pos.x)
-            min_y = min(min_y, pos.y)
-            max_x = max(max_x, pos.x + box_width)
-            max_y = max(max_y, pos.y + box_height)
+            if row.box_num in SIDE_BOXES
+                box_width = FLOW_DIAGRAM_BOX_WIDTH / 8
+            else
+                box_width = FLOW_DIAGRAM_BOX_WIDTH
+            end
+
+            min_x = Base.min(min_x, pos.x)
+            min_y = Base.min(min_y, pos.y)
+            max_x = Base.max(max_x, pos.x + box_width)
+            max_y = Base.max(max_y, pos.y + box_height)
 
             javascript *= """
             const $box_name = svg.append("g")
@@ -457,7 +466,7 @@ io::IOBuffer = IOBuffer()
 
 fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
 
-PRISMA.flow_diagram_save(fd, io)
+PRISMA.flow_diagram_save(io, fd)
 
 println(String(take!(io)))
 ```
