@@ -47,4 +47,4 @@ export
 include("checklist.jl")
 include("flow_diagram.jl")
 
-end
+end # module

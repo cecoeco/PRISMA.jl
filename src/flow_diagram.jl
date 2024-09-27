@@ -632,28 +632,26 @@ function flow_diagram(
         .attr("viewBox", "$min_x $min_y $svg_width $svg_height")
         .attr("width", $svg_width)
         .attr("height", $svg_height);
+
+    const svg_output = document.querySelector("svg").outerHTML;
+    console.log(svg_output);
     """
 
     return FlowDiagram(js=js)
 end
 
-function svg(fl::FlowDiagram)::String
-    fl.js *= """
-    const svg_output = document.querySelector("svg").outerHTML;
-    console.log(svg_output);
-    """
-
+function flow_diagram_svg(fl::FlowDiagram)::String
     return Base.read(`$(NodeJS.nodejs_cmd()) -e "$(fl.js)" --input-type=module`, String)
 end
 
 function Base.Multimedia.display(fd::FlowDiagram)::Nothing
-    Base.Multimedia.display(Base.Multimedia.MIME("image/svg+xml"), svg(fd))
+    Base.Multimedia.display(Base.Multimedia.MIME("image/svg+xml"), flow_diagram_svg(fd))
 
     return nothing
 end
 
 function Base.show(io::IO, ::MIME"image/svg+xml", fl::FlowDiagram)::Nothing
-    Base.print(io, svg(fl))
+    Base.print(io, flow_diagram_svg(fl))
 
     return nothing
 end
@@ -695,7 +693,7 @@ println(String(take!(io)))
 ```
 """
 function flow_diagram_save(out, fd::FlowDiagram)::Nothing
-    Base.Filesystem.write(out, svg(fd))
+    Base.Filesystem.write(out, flow_diagram_svg(fd))
 
     return nothing
 end

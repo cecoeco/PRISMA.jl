@@ -98,4 +98,4 @@ Test.@testset "flow_diagram" begin
     Base.close(io_svg_02)
 end
 
-end # test module
+end # module
