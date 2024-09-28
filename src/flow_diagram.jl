@@ -73,11 +73,11 @@ flow diagram type for PRISMA.jl
 
 ## Field
 
-- `js::AbstractString`: The D3.js code 
+- `svg::AbstractString`: The SVG code for the flow diagram
 
 """
 @kwdef mutable struct FlowDiagram
-    js::String
+    svg::String
 end
 
 const PREVIOUS_STUDIES_BOXES::Vector{Int} = [1, 7, 17]
@@ -454,7 +454,7 @@ function flow_diagram(
     previous_studies::Bool=true,
     other_methods::Bool=true,
     borders::Bool=true,
-    border_width::Number=1,
+    border_width::Number=2,
     border_color::AbstractString="black",
     font::AbstractString="Helvetica",
     font_color::AbstractString="black",
@@ -487,7 +487,7 @@ function flow_diagram(
     min_x, min_y = Inf, Inf
     max_x, max_y = -Inf, -Inf
 
-    js::String = """
+    d3_js::String = """
     import * as d3 from "d3";
     import jsdom from "jsdom";
 
@@ -545,7 +545,7 @@ function flow_diagram(
             max_x = Base.max(max_x, pos.x + box_width)
             max_y = Base.max(max_y, pos.y + box_height)
 
-            js *= """
+            d3_js *= """
             const $box_name = svg
                 .append("g")
                 .attr("transform", "translate(0, 0)");
@@ -594,7 +594,7 @@ function flow_diagram(
             start::LittleDict = pos[:start]
             stop::LittleDict = pos[:stop]
 
-            js *= """
+            d3_js *= """
             svg
                 .append("path")
                 .attr("d", "M$(start[:x]),$(start[:y]) $(stop[:x]), $(stop[:y])")
@@ -610,7 +610,7 @@ function flow_diagram(
         end
     end
 
-    js *= """
+    d3_js *= """
     svg
         .append("defs").append("marker")
         .attr("id", "arrowhead")
@@ -627,7 +627,7 @@ function flow_diagram(
     svg_width::Number = max_x - min_x
     svg_height::Number = max_y - min_y
 
-    js *= """
+    d3_js *= """
     svg
         .attr("viewBox", "$min_x $min_y $svg_width $svg_height")
         .attr("width", $svg_width)
@@ -637,21 +637,17 @@ function flow_diagram(
     console.log(svg_output);
     """
 
-    return FlowDiagram(js=js)
-end
-
-function flow_diagram_svg(fl::FlowDiagram)::String
-    return Base.read(`$(NodeJS.nodejs_cmd()) -e "$(fl.js)" --input-type=module`, String)
+    return FlowDiagram(svg=Base.read(`$(NodeJS.nodejs_cmd()) -e "$d3_js" --input-type=module`, String))
 end
 
 function Base.Multimedia.display(fd::FlowDiagram)::Nothing
-    Base.Multimedia.display(Base.Multimedia.MIME("image/svg+xml"), flow_diagram_svg(fd))
+    Base.Multimedia.display(Base.Multimedia.MIME("image/svg+xml"), fd)
 
     return nothing
 end
 
-function Base.show(io::IO, ::MIME"image/svg+xml", fl::FlowDiagram)::Nothing
-    Base.print(io, flow_diagram_svg(fl))
+function Base.show(io::IO, ::MIME"image/svg+xml", fd::FlowDiagram)::Nothing
+    Base.print(io, fd)
 
     return nothing
 end
@@ -663,8 +659,8 @@ saves a `FlowDiagram` as a `svg` format.
 
 ## Arguments
 
-- `out`: Accepts the same types as [`Base.write`](https://docs.julialang.org/en/v1/base/io-network/#Base.write).
-- `fd::FlowDiagram`: The flow diagram as D3.js script
+- `out::Any`: Accepts the same types as [`Base.write`](https://docs.julialang.org/en/v1/base/io-network/#Base.write)
+- `fd::FlowDiagram`: The flow diagram as a `FlowDiagram`
 
 ## Examples
 
@@ -692,8 +688,8 @@ PRISMA.flow_diagram_save(io, fd)
 println(String(take!(io)))
 ```
 """
-function flow_diagram_save(out, fd::FlowDiagram)::Nothing
-    Base.Filesystem.write(out, flow_diagram_svg(fd))
+function flow_diagram_save(out::Any, fd::FlowDiagram)::Nothing
+    Base.Filesystem.write(out, fd.svg)
 
     return nothing
 end
