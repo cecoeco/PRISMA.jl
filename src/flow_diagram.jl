@@ -1,7 +1,21 @@
-include("flow_diagram_docstrings.jl")
-
 """
-$docstring_flow_diagram_df
+    flow_diagram_df()::DataFrame
+
+returns the template that is used to create the flow diagram as a `DataFrame`.
+
+## Returns
+
+- `DataFrame`: the template dataframe
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+
+julia> isa(flow_diagram_df(), DataFrame)
+true
+```
+
 """
 function flow_diagram_df()::DataFrame
     cols::Vector{String} = ["box_num", "box_text", "result"]
@@ -53,17 +67,58 @@ function flow_diagram_df()::DataFrame
 end
 
 """
-$docstring_flow_diagram_read
+    flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
+
+reads the template data from a `CSV` file
+
+## Arguments
+
+- `fn::AbstractString`: the name of the file to read
+
+## Returns
+
+- `DataFrame`: the template dataframe
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+
+julia> flow_diagram_template()
+"flow_diagram.csv"
+
+julia> isa(flow_diagram_read("flow_diagram.csv"), DataFrame)
+true
+```
+
 """
 function flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
     return CSV.read(fn, DataFrame)
 end
 
 """
-$docstring_flow_diagram_template
+    PRISMA.flow_diagram_template(out::Any="flow_diagram.csv")
+
+saves the template data to create a flow diagram as a CSV file.
+
+## Arguments
+
+- `out::Any`: Accepts the same types as [`CSV.write`](https://csv.juliadata.org/stable/writing.html#CSV.write)
+
+## Example
+
+calling the function will create a CSV file called `flow_diagram.csv`:
+
+```jldoctest
+julia> using PRISMA
+
+julia> flow_diagram_template()
+"flow_diagram.csv"
+```
+
 """
-function flow_diagram_template(fn::AbstractString="flow_diagram.csv")
-    return CSV.write(fn, flow_diagram_df())
+function flow_diagram_template(out::Any="flow_diagram.csv")
+    return CSV.write(out, flow_diagram_df())
 end
 
 """
@@ -437,7 +492,81 @@ const FLOW_DIAGRAM_ARROW_POSITIONS::Dict{String,LittleDict{Symbol,LittleDict}} =
 )
 
 """
-$docstring_flow_diagram
+    flow_diagram(
+        data::DataFrame=flow_diagram_df(),
+        background_color::AbstractString="white",
+        boxes_color::AbstractString="white",
+        grayboxes::Bool=true,
+        grayboxes_color::AbstractString="#f0f0f0",
+        top_boxes::Bool=true,
+        top_boxes_borders::Bool=false,
+        top_boxes_color::AbstractString="#ffc000",
+        side_boxes::Bool=true,
+        side_boxes_borders::Bool=false,
+        side_boxes_color::AbstractString="#95cbff",
+        previous_studies::Bool=true,
+        other_methods::Bool=true,
+        borders::Bool=true,
+        border_width::Union{AbstractString,Number}=1,
+        border_color::AbstractString="black",
+        font::AbstractString="Helvetica",
+        font_color::AbstractString="black",
+        font_size::Union{AbstractString,Number}=1,
+        arrow_head::AbstractString="normal",
+        arrow_size::Union{AbstractString,Number}=1,
+        arrow_color::AbstractString="black",
+        arrow_width::Union{AbstractString,Number}=1)::FlowDiagram
+
+generates the flow diagram figure from the flow diagram dataframe.
+
+## Argument
+
+- `data::DataFrame`: The flow diagram dataframe. Use the data from `flow_diagram_df()` if no data is provided.
+
+## Keyword Arguments
+
+- `background_color::String`: The background color of the flow diagram.
+- `boxes_color::String`: The color of the boxes.
+- `grayboxes::Bool`: Whether to show gray boxes.
+- `grayboxes_color::String`: The color of the gray boxes.
+- `top_boxes::Bool`: Whether to show top boxes.
+- `top_boxes_border::Bool`: Whether to show top boxes border.
+- `top_boxes_color::String`: The color of the top boxes.
+- `side_boxes::Bool`: Whether to show side boxes.
+- `side_boxes_border::Bool`: Whether to show side boxes border.
+- `side_boxes_color::String`: The color of the side boxes.
+- `previous_studies::Bool`: Whether to show previous studies.
+- `other_methods::Bool`: Whether to show other methods.
+- `box_border_width::Number`: The border width of the boxes.
+- `box_border_color::String`: The border color of the boxes.
+- `font::String`: The font of the text.
+- `font_color::String`: The color of the text.
+- `font_size::Number`: The font size of the text.
+- `arrow_color::String`: The color of the arrows.
+- `arrow_width::Number`: The width of the arrows.
+
+## Returns
+
+- `PRISMA.FlowDiagram`: The flow diagram figure.
+
+## Example
+
+```julia
+using PRISMA
+
+# create a template to edit the data in a csv
+PRISMA.flow_diagram_template("flow_diagram.csv")
+
+# create a `DataFrame` from the csv
+df::DataFrame = PRISMA.flow_diagram_read("flow_diagram.csv")
+
+# generate the flow diagram with the `DataFrame`
+fd::PRISMA.FlowDiagram = PRISMA.flow_diagram(df)
+
+# save the flow diagram
+PRISMA.flow_diagram_save("flow_diagram.svg", fd)
+```
+
 """
 function flow_diagram(
     data::DataFrame=flow_diagram_df();
