@@ -348,7 +348,7 @@ fd = flow_diagram(df)
 display(fd)
 
 # save the flow diagram
-flow_diagram_save("flow_diagram.png", fd)
+flow_diagram_save("flow_diagram.svg", fd)
 ```
 """
 function flow_diagram(
@@ -435,7 +435,7 @@ function flow_diagram(
         if !(row.box_num in excluded_boxes)
             dot *= """
             $(row.box_num) [
-                $(row.box_num in SIDE_BOXES ? "label=\"$(row.box_num)\"," : "label=<$(row.box_text)>,")
+                label=<$(row.box_text)>,
                 shape=box,
                 style="filled,$border_style",
                 fillcolor="$box_color",
