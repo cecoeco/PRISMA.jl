@@ -11,7 +11,7 @@
 **Features:**
 
 - functions to generate 2020 PRISMA checklists using natural language processing
-- functions to upload study data to create 2020 PRISMA flow diagrams via [`D3.js`](https://d3js.org/)
+- functions to upload study data to create 2020 PRISMA flow diagrams via [`Graphviz`](https://graphviz.org/)
 - an interactive web app requiring zero programming knowledge
 
 **Installation:** use this command in the Julia REPL: `using Pkg; Pkg.add("PRISMA")`
@@ -25,7 +25,7 @@ create and save a flow diagram:
 ```julia
 using PRISMA: flow_diagram, flow_diagram_save
 
-flow_diagram_save("example.svg", flow_diagram())
+flow_diagram_save("example.svg", flow_diagram(side_boxes=false))
 ```
 
 <details>

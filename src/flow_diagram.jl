@@ -15,7 +15,6 @@ julia> using PRISMA
 julia> isa(flow_diagram_df(), DataFrame)
 true
 ```
-
 """
 function flow_diagram_df()::DataFrame
     cols::Vector{String} = ["box_num", "box_text", "result"]
@@ -67,72 +66,17 @@ function flow_diagram_df()::DataFrame
 end
 
 """
-    flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
+    FlowDiagram(dot::AbstractString="")
 
-reads the template data from a `CSV` file
-
-## Arguments
-
-- `fn::AbstractString`: the name of the file to read
-
-## Returns
-
-- `DataFrame`: the template dataframe
-
-## Example
-
-```jldoctest
-julia> using PRISMA
-
-julia> flow_diagram_template()
-"flow_diagram.csv"
-
-julia> isa(flow_diagram_read("flow_diagram.csv"), DataFrame)
-true
-```
-
-"""
-function flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
-    return CSV.read(fn, DataFrame)
-end
-
-"""
-    PRISMA.flow_diagram_template(out::Any="flow_diagram.csv")
-
-saves the template data to create a flow diagram as a CSV file.
-
-## Arguments
-
-- `out::Any`: Accepts the same types as [`CSV.write`](https://csv.juliadata.org/stable/writing.html#CSV.write)
-
-## Example
-
-calling the function will create a CSV file called `flow_diagram.csv`:
-
-```jldoctest
-julia> using PRISMA
-
-julia> flow_diagram_template()
-"flow_diagram.csv"
-```
-
-"""
-function flow_diagram_template(out::Any="flow_diagram.csv")
-    return CSV.write(out, flow_diagram_df())
-end
-
-"""
-    PRISMA.FlowDiagram
-
-flow diagram type for PRISMA.jl
+The type for the flow diagram that can be plotted or saved as an image.
 
 ## Field
 
-- `svg::AbstractString`: The SVG code for the flow diagram
+- `dot::AbstractString`: The flow diagram written in Graphviz's DOT language
 
 """
 @kwdef mutable struct FlowDiagram
-    svg::String
+    dot::AbstractString = ""
 end
 
 const PREVIOUS_STUDIES_BOXES::Vector{Int} = [1, 7, 17]
@@ -169,9 +113,13 @@ function group_labels(df::DataFrame)::DataFrame
         labels::Vector{String} = String[]
 
         for row in Base.eachrow(g)
-            text::String = row.box_text
+            text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
+                "<b>$(row.box_text)</b>"
+            else
+                row.box_text
+            end
 
-            result::String = Base.ismissing(row.result) ? "" : "(<i>n</i> = $(row.result))"
+            result::String = Base.ismissing(row.result) ? "" : "(<i>n</i>&nbsp;=&nbsp;$(row.result))"
 
             wrapped_text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
                 text
@@ -186,7 +134,7 @@ function group_labels(df::DataFrame)::DataFrame
             elseif row.box_num in [7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21]
                 Base.string(wrapped_text, "<br/>", wrapped_result)
             else
-                Base.string(wrapped_text, " ", wrapped_result)
+                Base.string(wrapped_text, "&nbsp;", wrapped_result)
             end
 
             Base.push!(labels, label)
@@ -200,26 +148,26 @@ function group_labels(df::DataFrame)::DataFrame
     return grouped_labels
 end
 
-FLOW_DIAGRAM_BOX_MARGIN::Number = 50
-FLOW_DIAGRAM_BOX_HEIGHT::Number = 100
-FLOW_DIAGRAM_BOX_WIDTH::Number = 250
+FLOW_DIAGRAM_TOP_MARGIN::Number = 1
 
-FLOW_DIAGRAM_ROW_01::Number = 0
-FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 + (FLOW_DIAGRAM_BOX_HEIGHT / 4) + FLOW_DIAGRAM_BOX_MARGIN / 2
-FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 + FLOW_DIAGRAM_BOX_HEIGHT + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_ROW_01::Number = 15.5
+FLOW_DIAGRAM_ROW_02::Number = FLOW_DIAGRAM_ROW_01 - 0.75
+FLOW_DIAGRAM_ROW_03::Number = FLOW_DIAGRAM_ROW_02 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_04::Number = FLOW_DIAGRAM_ROW_03 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_05::Number = FLOW_DIAGRAM_ROW_04 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_06::Number = FLOW_DIAGRAM_ROW_05 - FLOW_DIAGRAM_TOP_MARGIN
+FLOW_DIAGRAM_ROW_07::Number = FLOW_DIAGRAM_ROW_06 - FLOW_DIAGRAM_TOP_MARGIN
 
-FLOW_DIAGRAM_COL_01::Number = 0
-FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + (FLOW_DIAGRAM_BOX_WIDTH / 8) + FLOW_DIAGRAM_BOX_MARGIN / 2
-FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
-FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_BOX_WIDTH + FLOW_DIAGRAM_BOX_MARGIN
+FLOW_DIAGRAM_LEFT_MARGIN::Number = 2.5
 
-const FLOW_DIAGRAM_BOX_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
+FLOW_DIAGRAM_COL_01::Number = 01
+FLOW_DIAGRAM_COL_02::Number = FLOW_DIAGRAM_COL_01 + 1.25
+FLOW_DIAGRAM_COL_03::Number = FLOW_DIAGRAM_COL_02 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_04::Number = FLOW_DIAGRAM_COL_03 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_05::Number = FLOW_DIAGRAM_COL_04 + FLOW_DIAGRAM_LEFT_MARGIN
+FLOW_DIAGRAM_COL_06::Number = FLOW_DIAGRAM_COL_05 + FLOW_DIAGRAM_LEFT_MARGIN
+
+const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = Dict(
     01.0 => (
         x=FLOW_DIAGRAM_COL_02,
         y=FLOW_DIAGRAM_ROW_01
@@ -250,7 +198,7 @@ const FLOW_DIAGRAM_BOX_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}}
     ),
     07.5 => (
         x=FLOW_DIAGRAM_COL_02,
-        y=FLOW_DIAGRAM_ROW_06
+        y=FLOW_DIAGRAM_ROW_07
     ),
     08.0 => (
         x=FLOW_DIAGRAM_COL_03,
@@ -310,7 +258,7 @@ const FLOW_DIAGRAM_BOX_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}}
     ),
     21.5 => (
         x=FLOW_DIAGRAM_COL_05,
-        y=FLOW_DIAGRAM_ROW_07
+        y=FLOW_DIAGRAM_ROW_06
     ),
     22.0 => (
         x=FLOW_DIAGRAM_COL_06,
@@ -318,186 +266,13 @@ const FLOW_DIAGRAM_BOX_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}}
     )
 )
 
-const FLOW_DIAGRAM_ARROW_POSITIONS::Dict{String,LittleDict{Symbol,LittleDict}} = Dict(
-    "07 to __" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[07.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "__ to 17" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[07.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[17.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        )
-    ),
-    "08 to 09" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[08.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[08.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[09.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[09.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "08 to 10" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[08.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[08.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[10.0].y
-        ),
-    ),
-    "10 to 11" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[10.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[11.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[11.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "10 to 12" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[10.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[10.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[12.0].y
-        ),
-    ),
-    "12 to 13" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[12.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[13.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[13.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "12 to 14" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[12.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[12.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[14.0].y
-        ),
-    ),
-    "14 to 15" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[14.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[15.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[15.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "14 to 16" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[14.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[14.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y
-        ),
-    ),
-    "16 to 17" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[17.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[17.0].y
-        ),
-    ),
-    "18 to 19" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[18.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[18.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[19.0].y
-        ),
-    ),
-    "19 to 20" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[19.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[20.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[20.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "19 to 21" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[19.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[19.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[21.0].y
-        ),
-    ),
-    "21 to 22" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[21.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[22.0].x,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[22.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "21 to __" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[21.0].y + FLOW_DIAGRAM_BOX_HEIGHT
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-    "__ to 16" => LittleDict(
-        :start => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[21.0].x + FLOW_DIAGRAM_BOX_WIDTH / 2,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-        :stop => LittleDict(
-            :x => FLOW_DIAGRAM_BOX_POSITIONS[16.0].x + FLOW_DIAGRAM_BOX_WIDTH,
-            :y => FLOW_DIAGRAM_BOX_POSITIONS[16.0].y + FLOW_DIAGRAM_BOX_HEIGHT / 2
-        ),
-    ),
-)
-
 """
     flow_diagram(
-        data::DataFrame=flow_diagram_df(),
+        data::DataFrame=flow_diagram_df();
         background_color::AbstractString="white",
         boxes_color::AbstractString="white",
-        grayboxes::Bool=true,
-        grayboxes_color::AbstractString="#f0f0f0",
+        gray_boxes::Bool=true,
+        gray_boxes_color::AbstractString="#f0f0f0",
         top_boxes::Bool=true,
         top_boxes_borders::Bool=false,
         top_boxes_color::AbstractString="#ffc000",
@@ -507,47 +282,53 @@ const FLOW_DIAGRAM_ARROW_POSITIONS::Dict{String,LittleDict{Symbol,LittleDict}} =
         previous_studies::Bool=true,
         other_methods::Bool=true,
         borders::Bool=true,
-        border_width::Union{AbstractString,Number}=1,
+        border_style::AbstractString="solid",
+        border_width::Number=1,
         border_color::AbstractString="black",
         font::AbstractString="Helvetica",
         font_color::AbstractString="black",
-        font_size::Union{AbstractString,Number}=1,
+        font_size::Number=8,
         arrow_head::AbstractString="normal",
-        arrow_size::Union{AbstractString,Number}=1,
+        arrow_size::Number=1,
         arrow_color::AbstractString="black",
-        arrow_width::Union{AbstractString,Number}=1)::FlowDiagram
+        arrow_width::Number=1)::FlowDiagram
 
 generates the flow diagram figure from the flow diagram dataframe.
 
 ## Argument
 
-- `data::DataFrame`: The flow diagram dataframe. Use the data from `flow_diagram_df()` if no data is provided.
+- `data::DataFrame`: The data used to generate the flow diagram. 
+This function will use the `DataFrame` returned by `flow_diagram_df`, if no data is provided.
 
 ## Keyword Arguments
 
-- `background_color::String`: The background color of the flow diagram.
-- `boxes_color::String`: The color of the boxes.
-- `grayboxes::Bool`: Whether to show gray boxes.
-- `grayboxes_color::String`: The color of the gray boxes.
-- `top_boxes::Bool`: Whether to show top boxes.
-- `top_boxes_border::Bool`: Whether to show top boxes border.
-- `top_boxes_color::String`: The color of the top boxes.
-- `side_boxes::Bool`: Whether to show side boxes.
-- `side_boxes_border::Bool`: Whether to show side boxes border.
-- `side_boxes_color::String`: The color of the side boxes.
-- `previous_studies::Bool`: Whether to show previous studies.
-- `other_methods::Bool`: Whether to show other methods.
-- `box_border_width::Number`: The border width of the boxes.
-- `box_border_color::String`: The border color of the boxes.
-- `font::String`: The font of the text.
-- `font_color::String`: The color of the text.
-- `font_size::Number`: The font size of the text.
-- `arrow_color::String`: The color of the arrows.
-- `arrow_width::Number`: The width of the arrows.
+- `background_color::String`: the background color of the flow diagram.
+- `boxes_color::String`: the color of the boxes.
+- `gray_boxes::Bool`: whether to show gray boxes.
+- `gray_boxes_color::String`: the color of the gray boxes.
+- `top_boxes::Bool`: whether to show top boxes.
+- `top_boxes_border::Bool`: whether to show top boxes border.
+- `top_boxes_color::String`: the color of the top boxes.
+- `side_boxes::Bool`: whether to show side boxes.
+- `side_boxes_border::Bool`: whether to show side boxes border.
+- `side_boxes_color::String`: the color of the side boxes.
+- `previous_studies::Bool`: whether to show previous studies.
+- `other_methods::Bool`: whether to show other methods.
+- `borders::Bool=true`: whether to show borders.
+- `border_style::String="solid"`: the border style of the boxes.
+- `border_width::Number=1`: the border width of the boxes.
+- `border_color::String="black"`: the border color of the boxes.
+- `font::String="Helvetica"`: the font of the text.
+- `font_color::String="black"`: the color of the text.
+- `font_size::Number=8`: the font size of the text.
+- `arrow_head::String="normal"`: the arrow head of the arrows.
+- `arrow_size::Number=1`: the arrow size of the arrows.
+- `arrow_color::String="black"`: the arrow color of the arrows.
+- `arrow_width::Number=1`: the arrow width of the arrows.
 
 ## Returns
 
-- `PRISMA.FlowDiagram`: The flow diagram figure.
+- `FlowDiagram`: The flow diagram figure.
 
 ## Example
 
@@ -555,18 +336,20 @@ generates the flow diagram figure from the flow diagram dataframe.
 using PRISMA
 
 # create a template to edit the data in a csv
-PRISMA.flow_diagram_template("flow_diagram.csv")
+flow_diagram_template("flow_diagram.csv")
 
 # create a `DataFrame` from the csv
-df::DataFrame = PRISMA.flow_diagram_read("flow_diagram.csv")
+df = flow_diagram_read("flow_diagram.csv")
 
 # generate the flow diagram with the `DataFrame`
-fd::PRISMA.FlowDiagram = PRISMA.flow_diagram(df)
+fd = flow_diagram(df)
+
+# plot the flow diagram in the plot panel with `display`
+display(fd)
 
 # save the flow diagram
-PRISMA.flow_diagram_save("flow_diagram.svg", fd)
+flow_diagram_save("flow_diagram.png", fd)
 ```
-
 """
 function flow_diagram(
     data::DataFrame=flow_diagram_df();
@@ -583,13 +366,16 @@ function flow_diagram(
     previous_studies::Bool=true,
     other_methods::Bool=true,
     borders::Bool=true,
-    border_width::Number=2,
+    border_style::AbstractString="solid",
+    border_width::Number=1,
     border_color::AbstractString="black",
     font::AbstractString="Helvetica",
     font_color::AbstractString="black",
-    font_size::Number=14,
+    font_size::Number=8,
+    arrow_head::AbstractString="normal",
+    arrow_size::Number=1,
     arrow_color::AbstractString="black",
-    arrow_width::Number=2)::FlowDiagram
+    arrow_width::Number=1)::FlowDiagram
 
     excluded_boxes::Set{Number} = Set{Number}()
 
@@ -613,26 +399,16 @@ function flow_diagram(
         Base.push!(excluded_boxes, 4, 5, 6)
     end
 
-    min_x, min_y = Inf, Inf
-    max_x, max_y = -Inf, -Inf
-
-    d3_js::String = """
-    import * as d3 from "d3";
-    import jsdom from "jsdom";
-
-    const document = new jsdom.JSDOM().window.document;
-
-    const svg = d3
-        .select(document.body).append("svg")
-        .attr("xmlns", "http://www.w3.org/2000/svg")
-        .attr("version", "1.1")
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .style("background-color", "$background_color");
+    dot::String = """
+    digraph {
+        graph [
+            bgcolor="$background_color",
+            layout=neato,
+            splines=ortho
+        ];
     """
 
     for row in Base.eachrow(group_labels(data))
-        box_name = "box_$(row.box_num)"
         box_color = boxes_color
         box_border_width = border_width
 
@@ -655,170 +431,215 @@ function flow_diagram(
             box_border_width = 0
         end
 
-        pos = FLOW_DIAGRAM_BOX_POSITIONS[row.box_num]
+        box_pos::NamedTuple = FLOW_DIAGRAM_POSITIONS[row.box_num]
         if !(row.box_num in excluded_boxes)
-            if row.box_num in TOP_BOXES
-                box_height = FLOW_DIAGRAM_BOX_HEIGHT / 4
-            else
-                box_height = FLOW_DIAGRAM_BOX_HEIGHT
-            end
-
-            if row.box_num in SIDE_BOXES
-                box_width = FLOW_DIAGRAM_BOX_WIDTH / 8
-            else
-                box_width = FLOW_DIAGRAM_BOX_WIDTH
-            end
-
-            min_x = Base.min(min_x, pos.x)
-            min_y = Base.min(min_y, pos.y)
-            max_x = Base.max(max_x, pos.x + box_width)
-            max_y = Base.max(max_y, pos.y + box_height)
-
-            d3_js *= """
-            const $box_name = svg
-                .append("g")
-                .attr("transform", "translate(0, 0)");
-            $box_name
-                .append("rect")
-                .attr("x", $(pos.x))
-                .attr("y", $(pos.y))
-                .attr("width", $box_width)
-                .attr("height", $box_height)
-                .attr("fill", "$box_color")
-                .attr("stroke", "$border_color")
-                .attr("stroke-width", $(borders ? box_border_width : 0));
-            $box_name
-                .append("text")
-                .attr("x", $(pos.x + box_width / 2))
-                .attr("y", $(pos.y + box_height / 2))
-                .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "middle")
-                .attr("fill", "$font_color")
-                .attr("font-family", "$font")
-                .attr("font-size", $font_size)
-                .text("$(row.box_text)")
-                $(if row.box_num in SIDE_BOXES
-                    """
-                    .attr("transform", "rotate(-90, $(pos.x + box_width / 2), $(pos.y + box_height / 2))");
-                    """
-                else
-                    ""
-                end)
+            dot *= """
+            $(row.box_num) [
+                $(row.box_num in SIDE_BOXES ? "label=\"$(row.box_num)\"," : "label=<$(row.box_text)>,")
+                shape=box,
+                style="filled,$border_style",
+                fillcolor="$box_color",
+                penwidth=$(borders ? box_border_width : 0),
+                color="$border_color",
+                fontname="$font",
+                fontcolor="$font_color",
+                fontsize="$font_size",
+                pos="$(box_pos.x),$(box_pos.y)!",
+                width=$(row.box_num in SIDE_BOXES ? 0 : row.box_num in [2, 3] ? 4.5 : 2),
+                height=$(row.box_num in TOP_BOXES ? 0 : row.box_num in [4, 6] ? 1.5 : row.box_num in [5] ? 2 : 0),
+            ];
             """
         end
     end
 
-    excluded_arrows::Set{String} = Set{String}()
-
-    if !previous_studies
-        Base.push!(excluded_arrows, "07 to __", "__ to 17", "16 to 17")
-    end
-
-    if !other_methods
-        Base.push!(excluded_arrows, "19 to 20", "19 to 21", "21 to 22", "21 to __", "__ to 16")
-    end
-
-    for (key, pos) in FLOW_DIAGRAM_ARROW_POSITIONS
-        if !(key in excluded_arrows)
-            start::LittleDict = pos[:start]
-            stop::LittleDict = pos[:stop]
-
-            d3_js *= """
-            svg
-                .append("path")
-                .attr("d", "M$(start[:x]),$(start[:y]) $(stop[:x]), $(stop[:y])")
-                .attr("fill", "none")
-                .attr("stroke", "$arrow_color")
-                .attr("stroke-width", $arrow_width)
-                $(if key in ["07 to __", "21 to __"]
-                    ";"
-                else
-                    ".attr(\"marker-end\", \"url(#arrowhead)\");"
-                end)
+    invisible_nodes::Vector{Number} = [7.5, 21.5]
+    for node in invisible_nodes
+        if !(node in excluded_boxes)
+            box_pos::NamedTuple = FLOW_DIAGRAM_POSITIONS[node]
+            dot *= """
+            $node [label="", height=0, width=0, pos="$(box_pos.x),$(box_pos.y)!"];
             """
         end
     end
 
-    d3_js *= """
-    svg
-        .append("defs").append("marker")
-        .attr("id", "arrowhead")
-        .attr("markerWidth", 8)
-        .attr("markerHeight", 8)
-        .attr("refX", 7)
-        .attr("refY", 4)
-        .attr("orient", "auto")
-        .append("polygon")
-        .attr("points", "0,0 8,4 0,8")
-        .attr("fill", "$arrow_color");
-    """
+    arrows::Vector{Tuple{Number,Number}} = [
+        (7, 7.5),
+        (7.5, 17),
+        (8, 9),
+        (8, 10),
+        (10, 11),
+        (10, 12),
+        (12, 13),
+        (12, 14),
+        (14, 15),
+        (14, 16),
+        (16, 17),
+        (18, 19),
+        (19, 20),
+        (19, 21),
+        (21, 22),
+        (21, 21.5),
+        (21.5, 16)
+    ]
 
-    svg_width::Number = max_x - min_x
-    svg_height::Number = max_y - min_y
+    for (from, to) in arrows
+        if !(from in excluded_boxes) && !(to in excluded_boxes)
+            dot *= """
+            $from -> $to [
+                arrowhead=$(from in Set([7, 21]) && to != 22 ? "none" : arrow_head),
+                arrowsize="$arrow_size",
+                color="$arrow_color",
+                penwidth="$arrow_width"
+            ];
+            """
+        end
+    end
 
-    d3_js *= """
-    svg
-        .attr("viewBox", "$min_x $min_y $svg_width $svg_height")
-        .attr("width", $svg_width)
-        .attr("height", $svg_height);
+    dot *= "}"
 
-    const svg_output = document.querySelector("svg").outerHTML;
-    console.log(svg_output);
-    """
-
-    return FlowDiagram(svg=Base.read(`$(NodeJS.nodejs_cmd()) -e "$d3_js" --input-type=module`, String))
+    return FlowDiagram(dot=dot)
 end
 
-function Base.Multimedia.display(fd::FlowDiagram)::Nothing
-    Base.Multimedia.display(Base.Multimedia.MIME("image/svg+xml"), fd)
+function bytes(fd::FlowDiagram, format::AbstractString="svg")
+    temp_gv::String = Base.Filesystem.tempname() * ".gv"
+    Base.Filesystem.write(temp_gv, fd.dot)
+    try
+        return Base.read(`$(Graphviz_jll.neato()) $temp_gv -T$format`, String)
+    catch ex
+        Base.rethrow(ex)
+    finally
+        Base.Filesystem.rm(temp_gv, force=true)
+    end
+end
+
+function Base.show(io::IO, fd::FlowDiagram)::Nothing
+    Base.print(io, fd.dot)
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"text/vnd.graphviz", fd::FlowDiagram)::Nothing
+    Base.print(io, MIME("text/vnd.graphviz"), fd.dot)
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"image/png", fd::FlowDiagram)::Nothing
+    Base.print(io, bytes(fd, "png"))
 
     return nothing
 end
 
 function Base.show(io::IO, ::MIME"image/svg+xml", fd::FlowDiagram)::Nothing
-    Base.print(io, fd)
+    Base.print(io, bytes(fd, "svg"))
+
+    return nothing
+end
+
+function Base.show(io::IO, ::MIME"application/pdf", fd::FlowDiagram)::Nothing
+    Base.print(io, bytes(fd, "pdf"))
+
+    return nothing
+end
+
+function Base.Multimedia.display(fd::FlowDiagram)::Nothing
+    Base.Multimedia.display(
+        Base.Multimedia.MIME("image/svg+xml"),
+        bytes(fd, "svg")
+    )
 
     return nothing
 end
 
 """
-    flow_diagram_save(out, fd::FlowDiagram)::Nothing
+    flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
 
-saves a `FlowDiagram` as a `svg` format.
+reads the template data from a `CSV` file
 
 ## Arguments
 
-- `out::Any`: Accepts the same types as [`Base.write`](https://docs.julialang.org/en/v1/base/io-network/#Base.write)
-- `fd::FlowDiagram`: The flow diagram as a `FlowDiagram`
+- `fn::AbstractString`: the name of the file to read
+
+## Returns
+
+- `DataFrame`: the template dataframe
+
+## Example
+
+```jldoctest
+julia> using PRISMA
+
+julia> flow_diagram_template()
+"flow_diagram.csv"
+
+julia> isa(flow_diagram_read("flow_diagram.csv"), DataFrame)
+true
+```
+
+"""
+function flow_diagram_read(fn::AbstractString="flow_diagram.csv")::DataFrame
+    return CSV.read(fn, DataFrame)
+end
+
+"""
+    flow_diagram_template(out::Any="flow_diagram.csv")
+
+saves the template data to create a flow diagram as a CSV file.
+
+## Arguments
+
+- `out::Any`: Accepts the same types as [`CSV.write`](https://csv.juliadata.org/stable/writing.html#CSV.write)
+
+## Example
+
+calling the function will create a CSV file called `flow_diagram.csv`:
+
+```jldoctest
+julia> using PRISMA
+
+julia> flow_diagram_template()
+"flow_diagram.csv"
+```
+
+"""
+function flow_diagram_template(out::Any="flow_diagram.csv")
+    return CSV.write(out, flow_diagram_df())
+end
+
+"""
+    flow_diagram_save(fn::AbstractString, fd::FlowDiagram)
+
+writes a `FlowDiagram` as either a file (i.e., any Graphviz supported format)
+
+## Arguments
+
+- `fn::AbstractString`: The name of the file to be saved.
+- `fd::FlowDiagram`: The flow diagram to be saved.
+
+## Returns
+
+- `String`: The path to the saved file.
 
 ## Examples
 
-save a flow diagram to a file:
-
 ```julia
 using PRISMA
 
-fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
+fd = flow_diagram()
 
-PRISMA.flow_diagram_save("flow_diagram.svg", fd)
-```
-
-save a flow diagram to an `IOBuffer`:
-
-```julia
-using PRISMA
-
-io::IOBuffer = IOBuffer()
-
-fd::PRISMA.FlowDiagram = PRISMA.flow_diagram()
-
-PRISMA.flow_diagram_save(io, fd)
-
-println(String(take!(io)))
+flow_diagram_save("flow_diagram.pdf", fd)
+flow_diagram_save("flow_diagram.png", fd)
+flow_diagram_save("flow_diagram.svg", fd)
 ```
 """
-function flow_diagram_save(out::Any, fd::FlowDiagram)::Nothing
-    Base.Filesystem.write(out, fd.svg)
-
-    return nothing
+function flow_diagram_save(fn::AbstractString, fd::FlowDiagram)
+    temp_gv::String = Base.Filesystem.tempname() * ".gv"
+    Base.Filesystem.write(temp_gv, fd.dot)
+    try
+        Base.run(`$(Graphviz_jll.neato()) $temp_gv -T$(Base.split(fn, ".")[end]) -o $fn`)
+    catch ex
+        Base.rethrow(ex)
+    finally
+        Base.Filesystem.rm(temp_gv, force=true)
+    end
 end
