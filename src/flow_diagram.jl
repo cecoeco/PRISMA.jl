@@ -113,28 +113,26 @@ function group_labels(df::DataFrame)::DataFrame
         labels::Vector{String} = String[]
 
         for row in Base.eachrow(g)
-            text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
+            text::String = if row.box_num in Base.vcat(TOP_BOXES, SIDE_BOXES)
                 "<b>$(row.box_text)</b>"
             else
                 row.box_text
             end
 
-            result::String = Base.ismissing(row.result) ? "" : "(<i>n</i>&nbsp;=&nbsp;$(row.result))"
-
-            wrapped_text::String = if row.box_num in TOP_BOXES || row.box_num in SIDE_BOXES
+            wrapped_text::String = if row.box_num in Base.vcat(TOP_BOXES, SIDE_BOXES)
                 text
             else
                 wrap_text(text)
             end
 
-            wrapped_result::String = wrap_text(result)
+            result::String = Base.ismissing(row.result) ? "" : "(n&nbsp;=&nbsp;$(row.result))"
 
             label::String = if Base.ismissing(row.result)
                 wrapped_text
             elseif row.box_num in [7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21]
-                Base.string(wrapped_text, "<br/>", wrapped_result)
+                Base.string(wrapped_text, "<br/>", result)
             else
-                Base.string(wrapped_text, "&nbsp;", wrapped_result)
+                Base.string(wrapped_text, "&nbsp;", result)
             end
 
             Base.push!(labels, label)

@@ -70,11 +70,11 @@ function serve_reactjs(; build_directory::String)::Nothing
     return nothing
 end
 
-function start_app(; build::Bool=true)::Nothing
+function start_app()::Nothing
     build_reactjs(; build_directory=BUILD_DIRECTORY)
     serve_reactjs(; build_directory=BUILD_DIRECTORY)
 
-    Oxygen.serve(; host="0.0.0.0", port=5050)
+    Oxygen.serve(; host="0.0.0.0", port=5050, async=true)
 
     return nothing
 end
