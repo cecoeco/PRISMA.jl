@@ -1,6 +1,4 @@
 [deps]
-CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 HTMLTables = "b1afcece-b80e-4563-b90e-36b4cc56d3fa"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
@@ -10,13 +8,11 @@ Oxygen = "df9a0d86-3283-4920-82dc-4555fc0d1d8b"
 PRISMA = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
 
 [compat]
-CSV = "0.10"
-DataFrames = "1"
 HTMLTables = "0.5"
 HTTP = "1"
 JSON3 = "1"
 JSONTables = "1"
 NodeJS = "2"
 Oxygen = "1"
-PRISMA = "0.0.7"
+PRISMA = "0.0.8"
 julia = "1"

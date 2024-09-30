@@ -35,6 +35,7 @@ const initialData = {
 
 const initialVisual = {
   backgroundColor: "#ffffff",
+  boxesColor: "#ffffff",
   previousStudiesIncluded: "true",
   otherMethodsIncluded: "true",
   grayBoxesIncluded: "true",
@@ -51,7 +52,7 @@ const initialVisual = {
   borderColor: "#000000",
   font: "Arial",
   fontColor: "#000000",
-  fontSize: 12,
+  fontSize: 8,
   arrowHead: "normal",
   arrowSize: 1,
   arrowColor: "#000000",
@@ -337,8 +338,9 @@ const FlowDiagram: React.FC = () => {
     return {
       data: flowDiagramData(),
       background_color: state.visual.backgroundColor,
-      grayboxes: state.visual.grayBoxesIncluded == "true",
-      grayboxes_color: state.visual.grayBoxesColor,
+      boxes_color: state.visual.boxesColor,
+      gray_boxes: state.visual.grayBoxesIncluded == "true",
+      gray_boxes_color: state.visual.grayBoxesColor,
       top_boxes: state.visual.topBoxesIncluded == "true",
       top_boxes_borders: state.visual.topBoxesBorders == "true",
       top_boxes_color: state.visual.topBoxesColor,
@@ -349,15 +351,15 @@ const FlowDiagram: React.FC = () => {
       other_methods: state.visual.otherMethodsIncluded == "true",
       borders: state.visual.borders == "true",
       border_style: state.visual.borderStyle,
-      border_width: state.visual.borderWidth,
+      border_width: parseInt(state.visual.borderWidth.toString()),
       border_color: state.visual.borderColor,
       font: state.visual.font,
       font_color: state.visual.fontColor,
-      font_size: state.visual.fontSize,
+      font_size: parseInt(state.visual.fontSize.toString()),
       arrow_head: state.visual.arrowHead,
-      arrow_size: state.visual.arrowSize,
+      arrow_size: parseFloat(state.visual.arrowSize.toString()),
       arrow_color: state.visual.arrowColor,
-      arrow_width: state.visual.arrowWidth,
+      arrow_width: parseFloat(state.visual.arrowWidth.toString()),
       format: saveFormat,
     };
   }
@@ -1166,6 +1168,25 @@ const FlowDiagram: React.FC = () => {
                 }}
               />
             </div>
+            {/* Boxes Color */}
+            <div className="settings-form-group">
+              <h4 className="settings-form-heading">
+                <label htmlFor="boxes-color">Boxes Color</label>
+              </h4>
+              <input
+                id="boxes-color"
+                name="boxes-color"
+                type="color"
+                value={state.visual.boxesColor}
+                onInput={(event) => {
+                  handleChange(
+                    "boxesColor",
+                    (event.target as HTMLInputElement).value,
+                    "visual"
+                  );
+                }}
+              />
+            </div>
             {/* Previous Studies Included */}
             <div className="settings-form-group">
               <h4 className="settings-form-heading">
@@ -1639,6 +1660,6 @@ const FlowDiagram: React.FC = () => {
       <div className="flow-diagram-container"></div>
     </main>
   );
-}
+};
 
 export default FlowDiagram;
