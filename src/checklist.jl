@@ -421,9 +421,7 @@ function complete_dataframe(paper::AbstractString)::DataFrame
         if item_number in item_numbers
             index::Union{Nothing,Int} = Base.findfirst(item_numbers .== item_number)
             if !Base.isnothing(index)
-                locations[index] = generate_location(
-                    create_prompt(question, paper_text)
-                )
+                locations[index] = generate_location(create_prompt(question, paper_text))
                 if !Base.isempty(locations[index])
                     Base.println("item $item_number was found")
                 else
