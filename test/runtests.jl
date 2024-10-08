@@ -12,7 +12,6 @@ Test.@testset "checklist_template" begin
     PRISMA.checklist_template()
     Test.@test Base.Filesystem.isfile("checklist.csv")
     Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
-    Base.Filesystem.rm("checklist.csv", force=true)
 end
 
 Test.@testset "checklist" begin
@@ -21,7 +20,6 @@ Test.@testset "checklist" begin
     PRISMA.checklist_save("checklist.csv", cl)
     Test.@test Base.Filesystem.isfile("checklist.csv")
     Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
-    Base.Filesystem.rm("checklist.csv", force=true)
 end
 
 Test.@testset "checklist pdf bytes" begin
@@ -30,7 +28,6 @@ Test.@testset "checklist pdf bytes" begin
     PRISMA.checklist_save("checklist.csv", cl)
     Test.@test Base.Filesystem.isfile("checklist.csv")
     Test.@test PRISMA.checklist_read("checklist.csv") isa DataFrame
-    Base.Filesystem.rm("checklist.csv", force=true)
 end
 
 Test.@testset "flow_diagram_dataframe" begin
@@ -43,7 +40,6 @@ Test.@testset "flow_diagram_template" begin
     PRISMA.flow_diagram_template()
     Test.@test Base.Filesystem.isfile("flow_diagram.csv")
     Test.@test PRISMA.flow_diagram_read("flow_diagram.csv") isa DataFrame
-    Base.Filesystem.rm("flow_diagram.csv", force=true)
 end
 
 Test.@testset "flow_diagram" begin
@@ -60,12 +56,6 @@ Test.@testset "flow_diagram" begin
 
     PRISMA.flow_diagram_save("flow_diagram.dot", fd)
     Test.@test Base.Filesystem.isfile("flow_diagram.dot")
-
-    # remove the files
-    Base.Filesystem.rm("flow_diagram.svg", force=true)
-    Base.Filesystem.rm("flow_diagram.png", force=true)
-    Base.Filesystem.rm("flow_diagram.pdf", force=true)
-    Base.Filesystem.rm("flow_diagram.dot", force=true)
 end
 
 Test.@testset "plotting checklist" begin
