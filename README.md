@@ -45,9 +45,9 @@ flow_diagram_save("example.svg", flow_diagram(side_boxes=false))
 view empty checklist data:
 
 ```julia
-using PRISMA: checklist_df
+using PRISMA: checklist_dataframe
 
-println(checklist_df())
+println(checklist_dataframe())
 ```
 
 <details>
