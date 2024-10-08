@@ -2,10 +2,10 @@ module TestPRISMA
 
 using HTTP, PRISMA, Test
 
-Test.@testset "checklist_df" begin
-    Test.@test PRISMA.checklist_df() isa DataFrame
+Test.@testset "checklist_dataframe" begin
+    Test.@test PRISMA.checklist_dataframe() isa DataFrame
 
-    #TODO add more tests for checklist_df
+    #TODO add more tests for checklist_dataframe
 end
 
 Test.@testset "checklist_template" begin
@@ -33,10 +33,10 @@ Test.@testset "checklist pdf bytes" begin
     Base.Filesystem.rm("checklist.csv", force=true)
 end
 
-Test.@testset "flow_diagram_df" begin
-    Test.@test PRISMA.flow_diagram_df() isa DataFrame
+Test.@testset "flow_diagram_dataframe" begin
+    Test.@test PRISMA.flow_diagram_dataframe() isa DataFrame
 
-    #TODO add more tests for flow_diagram_df
+    #TODO add more tests for flow_diagram_dataframe
 end
 
 Test.@testset "flow_diagram_template" begin
