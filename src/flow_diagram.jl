@@ -1,5 +1,5 @@
 """
-    flow_diagram_df()::DataFrame
+    flow_diagram_dataframe()::DataFrame
 
 returns the template that is used to create the flow diagram as a `DataFrame`.
 
@@ -12,11 +12,11 @@ returns the template that is used to create the flow diagram as a `DataFrame`.
 ```jldoctest
 julia> using PRISMA
 
-julia> isa(flow_diagram_df(), DataFrame)
+julia> isa(flow_diagram_dataframe(), DataFrame)
 true
 ```
 """
-function flow_diagram_df()::DataFrame
+function flow_diagram_dataframe()::DataFrame
     cols::Vector{String} = ["box_num", "box_text", "result"]
     rows::Vector{Tuple{Int,String,Union{Int,Missing}}} = [
         (01, "Previous studies", missing),
@@ -266,7 +266,7 @@ const FLOW_DIAGRAM_POSITIONS::Dict{Number,@NamedTuple{x::Number, y::Number}} = D
 
 """
     flow_diagram(
-        data::DataFrame=flow_diagram_df();
+        data::DataFrame=flow_diagram_dataframe();
         background_color::AbstractString="white",
         boxes_color::AbstractString="white",
         gray_boxes::Bool=true,
@@ -296,7 +296,7 @@ generates the flow diagram figure from the flow diagram dataframe.
 ## Argument
 
 - `data::DataFrame`: The data used to generate the flow diagram. 
-This function will use the `DataFrame` returned by `flow_diagram_df`, if no data is provided.
+This function will use the `DataFrame` returned by `flow_diagram_dataframe`, if no data is provided.
 
 ## Keyword Arguments
 
@@ -350,7 +350,7 @@ flow_diagram_save("flow_diagram.svg", fd)
 ```
 """
 function flow_diagram(
-    data::DataFrame=flow_diagram_df();
+    data::DataFrame=flow_diagram_dataframe();
     background_color::AbstractString="white",
     boxes_color::AbstractString="white",
     gray_boxes::Bool=true,
@@ -601,7 +601,7 @@ julia> flow_diagram_template()
 
 """
 function flow_diagram_template(out::Any="flow_diagram.csv")
-    return CSV.write(out, flow_diagram_df())
+    return CSV.write(out, flow_diagram_dataframe())
 end
 
 """

@@ -7,7 +7,7 @@ Julia package for generating checklists and flow diagrams based on [the 2020 **P
 
 For working with PRISMA checklists:
 
-- `checklist_df` - returns an empty PRISMA checklist as the type `DataFrame`
+- `checklist_dataframe` - returns an empty PRISMA checklist as the type `DataFrame`
 - `checklist_template` - returns an empty PRISMA checklist as comma-separated values
 - `checklist_read` - reads the checklist data as a `DataFrame` from comma-separated values
 - `checklist` - takes a PDF and returns a completed PRISMA checklist as the type `Checklist`
@@ -16,7 +16,7 @@ For working with PRISMA checklists:
 
 For working with PRISMA flow diagrams:
 
-- `flow_diagram_df` - returns the template PRISMA flow diagram data as a `DataFrame`
+- `flow_diagram_dataframe` - returns the template PRISMA flow diagram data as a `DataFrame`
 - `flow_diagram_template` - returns the template PRISMA flow diagram data as comma-separated values
 - `flow_diagram_read` - reads the flow diagram data as a `DataFrame` from comma-separated values
 - `flow_diagram` - returns a PRISMA flow diagram as the type `FlowDiagram`
@@ -25,7 +25,7 @@ For working with PRISMA flow diagrams:
 
 ## Reexports
 
-- `DataFrames.DataFrame` - both `flow_diagram_df` and `checklist_df` return a `DataFrame`
+- `DataFrames.DataFrame` - both `flow_diagram_dataframe` and `checklist_dataframe` return a `DataFrame`
 - `Base.display` - `PRISMA` adds a method for displaying the `FlowDiagram` in the plot panel
 - `Base.show` - `PRISMA` adds new methods for printing the `Checklist` and `FlowDiagram` types
 
@@ -40,9 +40,9 @@ export
     # re-exports
     DataFrame, display, show,
     # checklist.jl
-    checklist_df, checklist_template, checklist_read, checklist, Checklist, checklist_save,
+    checklist_dataframe, checklist_template, checklist_read, checklist, Checklist, checklist_save,
     # flow_diagram.jl
-    flow_diagram_df, flow_diagram_template, flow_diagram_read, flow_diagram, FlowDiagram, flow_diagram_save
+    flow_diagram_dataframe, flow_diagram_template, flow_diagram_read, flow_diagram, FlowDiagram, flow_diagram_save
 
 include("checklist.jl")
 include("flow_diagram.jl")

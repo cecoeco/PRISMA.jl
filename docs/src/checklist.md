@@ -1,7 +1,7 @@
 ## Checklist
 
 ```@docs
-PRISMA.checklist_df
+PRISMA.checklist_dataframe
 PRISMA.checklist_template
 PRISMA.checklist_read
 PRISMA.checklist

@@ -1,5 +1,5 @@
 """
-    PRISMA.checklist_df()::DataFrame
+    PRISMA.checklist_dataframe()::DataFrame
 
 returns a template PRISMA checklist as a `DataFrame`
 
@@ -12,12 +12,12 @@ returns a template PRISMA checklist as a `DataFrame`
 ```jldoctest
 julia> using PRISMA
 
-julia> isa(checklist_df(), DataFrame)
+julia> isa(checklist_dataframe(), DataFrame)
 true
 ```
 
 """
-function checklist_df()::DataFrame
+function checklist_dataframe()::DataFrame
     cols::Vector{String} = [
         "Section and Topic",
         "Item #",
@@ -349,7 +349,7 @@ println(pages)
 
 """
 @kwdef mutable struct Checklist
-    dataframe::DataFrame = checklist_df()
+    dataframe::DataFrame = checklist_dataframe()
     metadata::OrderedDict = OrderedDict()
 end
 
@@ -386,7 +386,7 @@ end
 function create_questions()::OrderedDict{String,String}
     questions::OrderedDict{String,String} = OrderedDict{String,String}()
 
-    for row in Base.eachrow(checklist_df())
+    for row in Base.eachrow(checklist_dataframe())
         if Base.isempty(row["Item #"])
             continue
         end
@@ -414,7 +414,7 @@ end
 
 function complete_dataframe(paper::AbstractString)::DataFrame
     paper_text::String = Base.read(`$(Poppler_jll.pdftotext()) $paper -`, String)
-    checklist_results::DataFrame = checklist_df()
+    checklist_results::DataFrame = checklist_dataframe()
     item_numbers::Vector{String} = checklist_results[!, "Item #"]
     locations::Vector{String} = Base.fill("", Base.length(item_numbers))
     for (item_number, question) in create_questions()
@@ -448,7 +448,7 @@ to parse the pdf and the natural language processing functionality in Julia via
 [`Transformers.jl`](https://github.com/chengchingwen/Transformers.jl) to 
 find items from the checklist in the paper and populate the 
 `Comments or location in manuscript` and `Yes/No/NA` columns in the `DataFrame` 
-from `checklist_df()`.
+from `checklist_dataframe()`.
 
 The following metadata is parsed from the pdf file and stored in the `OrderedDict` as:
 
@@ -599,5 +599,5 @@ julia> checklist_template()
 
 """
 function checklist_template(out::Any="checklist.csv")
-    return CSV.write(out, checklist_df())
+    return CSV.write(out, checklist_dataframe())
 end

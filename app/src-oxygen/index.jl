@@ -1,6 +1,6 @@
 module AppPRISMA
 
-using HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
+using DataFrame, HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
 
 const DIRECTORY::String = Base.Filesystem.dirname(Base.@__DIR__)
 
