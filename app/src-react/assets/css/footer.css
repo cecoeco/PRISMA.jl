@@ -9,9 +9,9 @@ footer {
   padding: 0 1%;
   font-size: .8rem;
   /*border-top: 1px solid var(--border-color);*/
-  color: var(--text-color-1);
+  color: var(--input-text-color);
 }
 
 footer a {
-  color: var(--text-color-1);
+  color: var(--input-text-color);
 }

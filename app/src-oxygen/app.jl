@@ -1,6 +1,6 @@
 module AppPRISMA
 
-using DataFrame, HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
+using DataFrames, HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
 
 const DIRECTORY::String = Base.Filesystem.dirname(Base.@__DIR__)
 
@@ -21,8 +21,6 @@ function build_reactjs(; build_directory::String)::Nothing
 
     Base.run(`$(NodeJS.npm_cmd()) install`)
     Base.run(`$(NodeJS.npm_cmd()) run build`)
-
-    Base.CoreLogging.@info "Finished building frontend"
 
     return nothing
 end
@@ -55,13 +53,13 @@ function serve_reactjs(; build_directory::String)::Nothing
     for path in Base.Filesystem.readdir(build_directory; join=true)
         filename::String = Base.Filesystem.basename(path)
         if filename == "index.html"
-            for page in ["", "checklist", "flow_diagram"]
-                Oxygen.get("/$page") do
+            for page in ["", "checklist", "flow_diagram", "*"]
+                Oxygen.get(page) do
                     Oxygen.file(path)
                 end
             end
         else
-            Oxygen.get("/$filename") do
+            Oxygen.get(filename) do
                 Oxygen.file(path)
             end
         end

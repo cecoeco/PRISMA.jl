@@ -1,7 +1,7 @@
 name = "PRISMA"
 uuid = "7b67a8d2-c4f5-4933-b91c-0fc427024db5"
 authors = ["Ceco Elijah Maples <mapleselijah9@gmail.com>", "PRISMA.jl Contributors"]
-version = "0.0.8"
+version = "0.0.9"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
