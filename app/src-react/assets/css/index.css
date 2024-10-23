@@ -95,7 +95,18 @@ button:active {
 }
 
 button:disabled {
-  display: none;
+  opacity: 0.55;
+  box-shadow: none;
+  background: var(--button-background-color-2);
+  pointer-events: none;
+}
+
+button:disabled:hover {
+  background: var(--button-background-color-2);
+}
+
+button:disabled:active {
+  background: var(--button-background-color-2);
 }
 
 #root ::-webkit-scrollbar {

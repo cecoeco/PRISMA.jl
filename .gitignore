@@ -34,4 +34,3 @@ docs/site/
 Manifest.toml
 !app/Manifest.toml
 .DS_Store
-draft
