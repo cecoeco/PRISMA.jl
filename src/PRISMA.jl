@@ -41,7 +41,6 @@ using Poppler_jll
 using StatsBase
 using TextEncodeBase
 using Transformers
-using Transformers.HuggingFace
 
 import Base.Multimedia.display
 import Base.show
