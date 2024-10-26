@@ -32,17 +32,39 @@ For working with PRISMA flow diagrams:
 """
 module PRISMA
 
-using CSV, DataFrames, Graphviz_jll, OrderedCollections, Poppler_jll
+using CSV
+using DataFrames
+using Flux
+using Graphviz_jll
+using OrderedCollections
+using Poppler_jll
+using StatsBase
+using TextEncodeBase
+using Transformers
+using Transformers.HuggingFace
 
-import Base.Multimedia.display, Base.show
+import Base.Multimedia.display
+import Base.show
 
 export
     # re-exports
-    DataFrame, display, show,
+    DataFrame,
+    display,
+    show,
     # checklist.jl
-    checklist_dataframe, checklist_template, checklist_read, checklist, Checklist, checklist_save,
+    checklist_dataframe,
+    checklist_template,
+    checklist_read,
+    checklist,
+    Checklist,
+    checklist_save,
     # flow_diagram.jl
-    flow_diagram_dataframe, flow_diagram_template, flow_diagram_read, flow_diagram, FlowDiagram, flow_diagram_save
+    flow_diagram_dataframe,
+    flow_diagram_template,
+    flow_diagram_read,
+    flow_diagram,
+    FlowDiagram,
+    flow_diagram_save
 
 include("checklist.jl")
 include("flow_diagram.jl")

@@ -1,5 +1,5 @@
 """
-    PRISMA.checklist_dataframe()::DataFrame
+    checklist_dataframe()::DataFrame
 
 returns a template PRISMA checklist as a `DataFrame`
 
@@ -323,7 +323,7 @@ function checklist_dataframe()::DataFrame
 end
 
 """
-    PRISMA.Checklist
+    Checklist(dataframe::DataFrame=checklist_dataframe(), metadata::OrderedDict=OrderedDict())
 
 this types represents a PRISMA checklist in the form of a `DataFrame` and
 the metadata of the paper that was used to generate it as a `OrderedDict`.
@@ -404,12 +404,44 @@ function create_questions()::OrderedDict{String,String}
     return questions
 end
 
-function generate_location(prompt::AbstractString)::String
-    return prompt
+const TEXT_ENCODER = Transformers.HuggingFace.hgf"gpt2:tokenizer"
+const MODEL = Transformers.HuggingFace.hgf"gpt2:lmheadmodel"
+
+function temp_softmax(logits; temperature=1.2)::Vector{Float32}
+    return Flux.softmax(logits ./ temperature)
+end
+
+function top_k_sample(probs; k=10)::Vector{Int64}
+    sorted::Vector{Float32} = OrderedCollections.sort(probs, rev=true)
+    indexes::Vector{Int64} = Base.Sort.partialsortperm(probs, 1:k, rev=true)
+    index::Vector{Int64} = StatsBase.sample(indexes, StatsBase.ProbabilityWeights(sorted[1:k]), 1)
+
+    return index
+end
+
+function generate_text(context; max_length=50)
+    encoded = TextEncodeBase.encode(TEXT_ENCODER, context).token
+    ids = encoded.onehots
+    ends_id = TextEncodeBase.lookup(TEXT_ENCODER.vocab, TEXT_ENCODER.endsym)
+    for _ in 1:max_length
+        input = (; token=encoded)
+        outputs = MODEL(input)
+        logits = Base.@view outputs.logit[:, end, 1]
+        probs::Vector{Float32} = temp_softmax(logits)
+        new_id::Vector{Int64} = top_k_sample(probs)[1]
+        Base.push!(ids, new_id)
+        new_id == ends_id && break
+    end
+
+    return TextEncodeBase.decode(TEXT_ENCODER, encoded)
+end
+
+function generate_location(prompt)::String
+    return Base.join(generate_text(prompt))
 end
 
 function create_prompt(question::AbstractString, paper_text::AbstractString)::String
-    return Base.string(question, "\n\n", paper_text)
+    return Base.string(question, "\n\n")
 end
 
 function complete_dataframe(paper::AbstractString)::DataFrame
@@ -437,18 +469,18 @@ function complete_dataframe(paper::AbstractString)::DataFrame
 end
 
 """
-    PRISMA.checklist(paper::AbstractString)::Checklist
-    PRISMA.checklist(bytes::Vector{UInt8})::Checklist
+    checklist(paper::AbstractString)::Checklist
+    checklist(bytes::Vector{UInt8})::Checklist
 
-Returns a completed PRISMA checklist as the type `Checklist`. The `Checklist`
-type includes a completed checklist as a `DataFrame` and the metadata of the
-paper as a `OrderedDict`. The `paper` argument can be a path to a pdf file or
-an array of bytes. This function uses the C++ library `Poppler` via `Poppler_jll`
-to parse the pdf and the natural language processing functionality in Julia via
-[`Transformers.jl`](https://github.com/chengchingwen/Transformers.jl) to 
-find items from the checklist in the paper and populate the 
+This function returns a completed PRISMA checklist as the type `Checklist`. 
+The `Checklist` type includes a completed checklist as a `DataFrame` and the 
+metadata of the paper as a `OrderedDict`. The `paper` argument can be a path 
+to a pdf file or an array of bytes. This function uses the C++ library `Poppler` 
+via `Poppler_jll` to parse the pdf and the natural language processing functionality 
+in Julia via [`Transformers.jl`](https://github.com/chengchingwen/Transformers.jl) 
+to find items from the checklist in the paper and populate the 
 `Comments or location in manuscript` and `Yes/No/NA` columns in the `DataFrame` 
-from `checklist_dataframe()`.
+from `checklist_dataframe`.
 
 The following metadata is parsed from the pdf file and stored in the `OrderedDict` as:
 
