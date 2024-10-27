@@ -404,44 +404,12 @@ function create_questions()::OrderedDict{String,String}
     return questions
 end
 
-const TEXT_ENCODER = Transformers.HuggingFace.hgf"gpt2:tokenizer"
-const MODEL = Transformers.HuggingFace.hgf"gpt2:lmheadmodel"
-
-function temp_softmax(logits; temperature=1.2)::Vector{Float32}
-    return Flux.softmax(logits ./ temperature)
-end
-
-function top_k_sample(probs; k=10)::Vector{Int64}
-    sorted::Vector{Float32} = OrderedCollections.sort(probs, rev=true)
-    indexes::Vector{Int64} = Base.Sort.partialsortperm(probs, 1:k, rev=true)
-    index::Vector{Int64} = StatsBase.sample(indexes, StatsBase.ProbabilityWeights(sorted[1:k]), 1)
-
-    return index
-end
-
-function generate_text(prompt; max_length=25)::Vector{String}
-    encoded::OneHotArray = TextEncodeBase.encode(TEXT_ENCODER, prompt).token
-    ids::Vector = encoded.onehots
-    ends_id::Int64 = TextEncodeBase.lookup(TEXT_ENCODER.vocab, TEXT_ENCODER.endsym)
-    for _ in 1:max_length
-        input::NamedTuple = (; token=encoded)
-        outputs::NamedTuple = MODEL(input)
-        logits::SubArray = Base.@view outputs.logit[:, end, 1]
-        probs::Vector{Float32} = temp_softmax(logits)
-        new_id::Int64 = top_k_sample(probs)[1]
-        Base.push!(ids, new_id)
-        new_id == ends_id && break
-    end
-
-    return TextEncodeBase.decode(TEXT_ENCODER, encoded)
+function create_prompt(question::AbstractString, paper_text::AbstractString)::String
+    return Base.string(question, "\n\n", paper_text)
 end
 
 function generate_location(prompt)::String
-    return Base.join(generate_text(prompt))
-end
-
-function create_prompt(question::AbstractString, paper_text::AbstractString)::String
-    return Base.string(question, "\n\n")
+    return prompt
 end
 
 function complete_dataframe(paper::AbstractString)::DataFrame

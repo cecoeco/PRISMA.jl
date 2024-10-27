@@ -34,13 +34,9 @@ module PRISMA
 
 using CSV
 using DataFrames
-using Flux
 using Graphviz_jll
 using OrderedCollections
 using Poppler_jll
-using StatsBase
-using TextEncodeBase
-using Transformers
 
 import Base.Multimedia.display
 import Base.show
