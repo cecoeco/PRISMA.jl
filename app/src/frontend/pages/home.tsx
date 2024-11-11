@@ -1,4 +1,4 @@
-import "../assets/css/home.css";
+import "../assets/scss/home.scss";
 
 const Home: React.FC = () => {
   async function downloadChecklistTemplate() {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import "../assets/css/flow_diagram.css";
+import "../assets/scss/flow_diagram.scss";
 
 import Download from "../assets/svgs/download.svg?react";
 import Reset from "../assets/svgs/reset.svg?react";

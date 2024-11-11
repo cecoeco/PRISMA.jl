@@ -1,6 +1,6 @@
 import React, { ChangeEvent, DragEvent, useRef, useState } from "react";
 
-import "../assets/css/checklist.css";
+import "../assets/scss/checklist.scss";
 
 import Cloud from "../assets/svgs/cloud.svg?react";
 import CircleX from "../assets/svgs/circle-x.svg?react";
