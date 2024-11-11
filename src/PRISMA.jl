@@ -25,6 +25,7 @@ For working with PRISMA flow diagrams:
 
 ## Reexports
 
+- `OrderedCollections.OrderedDict` - `Checklist.metadata` returns an `OrderedDict`
 - `DataFrames.DataFrame` - both `flow_diagram_dataframe` and `checklist_dataframe` return a `DataFrame`
 - `Base.display` - `PRISMA` adds a method for displaying the `FlowDiagram` in the plot panel
 - `Base.show` - `PRISMA` adds new methods for printing the `Checklist` and `FlowDiagram` types
@@ -43,6 +44,7 @@ import Base.show
 
 export
     # re-exports
+    OrderedDict,
     DataFrame,
     display,
     show,

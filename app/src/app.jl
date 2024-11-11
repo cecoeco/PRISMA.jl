@@ -1,6 +1,6 @@
 module AppPRISMA
 
-using DataFrames, HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
+using HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
 
 const DIRECTORY::String = Base.Filesystem.dirname(Base.@__DIR__)
 
@@ -16,8 +16,6 @@ function build_reactjs(; build_directory::String)::Nothing
         Base.CoreLogging.@info "Removing existing build directory..."
         Base.Filesystem.rm(build_directory; force=true, recursive=true)
     end
-
-    Base.CoreLogging.@info "Building frontend..."
 
     Base.run(`$(NodeJS.npm_cmd()) install`)
     Base.run(`$(NodeJS.npm_cmd()) run build`)
@@ -180,7 +178,7 @@ Oxygen.post("/api/flow_diagram/export") do request::HTTP.Request
 
         flow_diagram_dot::PRISMA.FlowDiagram = PRISMA.flow_diagram(
             # flow diagram data
-            DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
+            PRISMA.DataFrame(JSONTables.jsontable(flow_diagram_arguments["data"])),
             # keyword arguments
             background_color =   "$(flow_diagram_arguments["background_color"])",
             boxes_color =        "$(flow_diagram_arguments["boxes_color"])",

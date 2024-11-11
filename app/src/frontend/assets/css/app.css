@@ -1,11 +1,10 @@
-@import "themes.css";
-@import "fonts.css";
-
 :root {
   --theme-hue: 210;
-  font-family: "Roboto Slab", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
-  font-feature-settings: "liga" 1, "calt" 1;
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1;
   font-size: 16px;
   line-height: normal;
   font-weight: 400;
@@ -45,6 +44,15 @@ body,
   outline: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto Serif", serif;
+}
+
 a {
   color: var(--link-color);
   background-color: transparent;
@@ -56,7 +64,9 @@ textarea {
   color: var(--text-color-1);
   border: 1px solid var(--border-color);
   background-color: var(--background-color-3);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 ::placeholder {
@@ -73,6 +83,7 @@ button {
   color: var(--text-color-1);
   font-size: 1rem;
   font-weight: bold;
+  font-family: "Roboto", sans-serif;
   border: none;
   text-transform: none;
   border-radius: 5px;

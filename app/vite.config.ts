@@ -8,7 +8,7 @@ export default defineConfig({
     outDir: "build",
     emptyOutDir: true,
     rollupOptions: {
-      input: "./src-react/index.tsx",
+      input: "./src/frontend/index.tsx",
       output: {
         entryFileNames: "[name].js",
         chunkFileNames: "[name].js",
