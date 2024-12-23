@@ -1,0 +1,20 @@
+input,
+textarea {
+  font-size: 1rem;
+  color: var(--text-color-1);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color-3);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--border-color-focus);
+  box-shadow: var(--border-box-shadow);
+}

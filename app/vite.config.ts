@@ -5,7 +5,6 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   plugins: [react(), svgr()],
   build: {
-    outDir: "build",
     emptyOutDir: true,
     rollupOptions: {
       input: "./src/frontend/index.tsx",

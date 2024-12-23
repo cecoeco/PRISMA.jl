@@ -1,0 +1,16 @@
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color-1);
+  min-height: 50px;
+  max-height: 50px;
+  width: 100%;
+  padding: 0 20px;
+  font-size: .8rem;
+  color: var(--input-text-color);
+}
+
+footer a {
+  color: var(--input-text-color);
+}

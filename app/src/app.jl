@@ -1,27 +1,10 @@
 module AppPRISMA
 
-using HTMLTables, HTTP, JSON3, JSONTables, NodeJS, Oxygen, PRISMA
+using HTMLTables, HTTP, JSON3, JSONTables, Oxygen, PRISMA
 
 const DIRECTORY::String = Base.Filesystem.dirname(Base.@__DIR__)
 
-const BUILD_DIRECTORY::String = Base.Filesystem.joinpath(DIRECTORY, "build")
-
-function build_reactjs(; build_directory::String)::Nothing
-    if Base.Filesystem.basename(Base.Filesystem.pwd()) != "app"
-        Base.CoreLogging.@info "Changing app directory..."
-        Base.Filesystem.cd("app")
-    end
-
-    if Base.Filesystem.isdir(build_directory)
-        Base.CoreLogging.@info "Removing existing build directory..."
-        Base.Filesystem.rm(build_directory; force=true, recursive=true)
-    end
-
-    Base.run(`$(NodeJS.npm_cmd()) install`)
-    Base.run(`$(NodeJS.npm_cmd()) run build`)
-
-    return nothing
-end
+const BUILD_DIRECTORY::String = Base.Filesystem.joinpath(DIRECTORY, "dist")
 
 function serve_reactjs(; build_directory::String)::Nothing
     Base.Filesystem.write(
@@ -48,17 +31,15 @@ function serve_reactjs(; build_directory::String)::Nothing
         """
     )
 
-    for path in Base.Filesystem.readdir(build_directory; join=true)
-        filename::String = Base.Filesystem.basename(path)
+    for filepath in Base.Filesystem.readdir(build_directory; join=true)
+        filename::String = Base.Filesystem.basename(filepath)
         if filename == "index.html"
-            for page in ["/", "*"]
-                Oxygen.get(page) do
-                    Oxygen.file(path)
-                end
+            Oxygen.get("/") do
+                Oxygen.file(filepath)
             end
         else
-            Oxygen.get(filename) do
-                Oxygen.file(path)
+            Oxygen.get("/$filename") do
+                Oxygen.file(filepath)
             end
         end
     end
@@ -67,24 +48,11 @@ function serve_reactjs(; build_directory::String)::Nothing
 end
 
 function start_app()::Nothing
-    build_reactjs(; build_directory=BUILD_DIRECTORY)
     serve_reactjs(; build_directory=BUILD_DIRECTORY)
 
     Oxygen.serve(; host="0.0.0.0", port=5050)
 
     return nothing
-end
-
-Oxygen.get("/api/checklist/template") do request::HTTP.Request
-    try
-        io::IO = IOBuffer()
-        PRISMA.checklist_template(io)
-        csv::String = String(Base.take!(io))
-
-        return Oxygen.json(status=200, Dict("checklist_template" => csv))
-    catch error
-        return Oxygen.json(status=500, Dict("error" => "$error"))
-    end
 end
 
 Oxygen.post("/api/checklist/generate") do request::HTTP.Request

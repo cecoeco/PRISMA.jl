@@ -1,0 +1,73 @@
+:root {
+  font-family: "Roboto", serif;
+  font-optical-sizing: auto;
+  font-feature-settings: "liga" 1, "calt" 1;
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  color: var(--text-color-1);
+  background-color: var(--background-color-1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html,
+body,
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+[draggable="false"] {
+  pointer-events: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto Slab", sans-serif;
+  font-weight: 400;
+}
+
+a {
+  color: var(--link-color);
+  background-color: transparent;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+}
+
+.scroll-offset {
+  padding: 30px 0;
+}
